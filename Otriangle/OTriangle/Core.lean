@@ -128,28 +128,27 @@ namespace LocalGaloisGroup
 noncomputable def toProfiniteGrp (G : LocalGaloisGroup.{u}) : ProfiniteGrp.{u} :=
   InfiniteGalois.profiniteGalGrp G.presentation G.presentation.algebraicClosure
 
-/-- A morphism is an open embedding of the underlying profinite groups. -/
+/-- A morphism is an isomorphism of the underlying profinite groups, as in the étale-like
+isomorphisms of Hoshi's Theorem 7.6. -/
 @[ext]
 structure Hom (G H : LocalGaloisGroup.{u}) where
-  /-- The underlying continuous group homomorphism. -/
-  hom : G.toProfiniteGrp ⟶ H.toProfiniteGrp
-  /-- The underlying map is an open embedding. -/
-  isOpenEmbedding : Topology.IsOpenEmbedding (hom : G.toProfiniteGrp → H.toProfiniteGrp)
+  /-- The underlying continuous group isomorphism. -/
+  equiv : G.toProfiniteGrp ≃ₜ* H.toProfiniteGrp
 
 instance : Category LocalGaloisGroup.{u} where
   Hom := Hom
-  id G := ⟨𝟙 G.toProfiniteGrp, Topology.IsOpenEmbedding.id⟩
-  comp f g := ⟨f.hom ≫ g.hom, g.isOpenEmbedding.comp f.isOpenEmbedding⟩
-  id_comp f := by ext; simp
-  comp_id f := by ext; simp
-  assoc f g h := by ext; simp
+  id G := ⟨ContinuousMulEquiv.refl G.toProfiniteGrp⟩
+  comp f g := ⟨f.equiv.trans g.equiv⟩
+  id_comp f := by ext x; rfl
+  comp_id f := by ext x; rfl
+  assoc f g h := by ext x; rfl
 
-/-- Forget the local-field presentation and the open-embedding condition. -/
+/-- Forget the local-field presentation and retain the profinite-group isomorphism. -/
 noncomputable def forget : LocalGaloisGroup.{u} ⥤ ProfiniteGrp.{u} where
   obj G := G.toProfiniteGrp
-  map f := f.hom
-  map_id _ := rfl
-  map_comp _ _ := rfl
+  map f := (ProfiniteGrp.ContinuousMulEquiv.toProfiniteGrpIso f.equiv).hom
+  map_id _ := by ext; rfl
+  map_comp _ _ := by ext; rfl
 
 end LocalGaloisGroup
 
@@ -192,17 +191,17 @@ noncomputable def galoisAct (X : LocalGaloisMonoid.{u})
     (σ : X.toProfiniteGrp) (x : X.integerMonoid) : X.integerMonoid :=
   (galoisAction X).smul σ x
 
-/-- A morphism consists of an open embedding of absolute Galois groups and an equivariant
-isomorphism of the monoids `𝒪_{K̄}^▹`. -/
+/-- A morphism consists of an isomorphism of absolute Galois groups and an equivariant isomorphism
+of the monoids `𝒪_{K̄}^▹`.  This is an isomorphism of integral MLF-pairs in Hoshi's sense. -/
 @[ext]
 structure Hom (X Y : LocalGaloisMonoid.{u}) where
-  /-- The open embedding of the underlying profinite Galois groups. -/
+  /-- The isomorphism of the underlying profinite Galois groups. -/
   groupHom : X.toLocalGaloisGroup ⟶ Y.toLocalGaloisGroup
   /-- The isomorphism between the monoids of nonzero algebraic integers. -/
   monoidIso : X.integerMonoid ≃* Y.integerMonoid
   /-- Equivariance of `monoidIso` with respect to `groupHom`. -/
   action_compatible : ∀ (σ : X.toProfiniteGrp) (x : X.integerMonoid),
-    monoidIso (X.galoisAct σ x) = Y.galoisAct (groupHom.hom σ) (monoidIso x)
+    monoidIso (X.galoisAct σ x) = Y.galoisAct (groupHom.equiv σ) (monoidIso x)
 
 instance : Category LocalGaloisMonoid.{u} where
   Hom := Hom
@@ -211,8 +210,7 @@ instance : Category LocalGaloisMonoid.{u} where
       monoidIso := MulEquiv.refl X.integerMonoid
       action_compatible := by
         intro σ x
-        change X.galoisAct σ x = X.galoisAct ((𝟙 X.toProfiniteGrp) σ) x
-        rw [ProfiniteGrp.id_apply] }
+        rfl }
   comp f g :=
     { groupHom := f.groupHom ≫ g.groupHom
       monoidIso := f.monoidIso.trans g.monoidIso
@@ -224,7 +222,7 @@ instance : Category LocalGaloisMonoid.{u} where
   comp_id f := by ext <;> simp
   assoc f g h := by ext <;> simp
 
-/-- Forget the equivariant monoid and retain the absolute Galois group with its open embeddings. -/
+/-- Forget the equivariant monoid and retain the absolute Galois group isomorphism. -/
 noncomputable def forgetGaloisGroup : LocalGaloisMonoid.{u} ⥤ LocalGaloisGroup.{u} where
   obj X := X.toLocalGaloisGroup
   map f := f.groupHom

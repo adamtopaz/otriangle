@@ -4,6 +4,7 @@ import VersoBlueprint
 import VersoBlueprint.Commands.Graph
 import VersoBlueprint.Commands.Summary
 import Otriangle.Chapters.Paper
+import Otriangle.Chapters.MonoAnabelian
 
 open Verso.Genre
 open Verso.Genre.Manual
@@ -15,6 +16,7 @@ This is the formalization Blueprint for Yuichiro Hoshi's *Introduction to
 Mono-anabelian Geometry*.
 
 {include 0 Otriangle.Chapters.Paper}
+{include 0 Otriangle.Chapters.MonoAnabelian}
 
 {blueprint_graph}
 {blueprint_summary}
