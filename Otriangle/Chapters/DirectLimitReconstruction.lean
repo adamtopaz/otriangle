@@ -3,6 +3,7 @@ import VersoManual
 import VersoBlueprint
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.OneField
+import Otriangle.MonoAnabelian.TransferSystem
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -46,7 +47,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural")
 %%%
 source := {
   document := "hoshi"

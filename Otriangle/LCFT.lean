@@ -337,6 +337,8 @@ canonical and is specified separately below. -/
 structure FiniteExtension (K L : PointedMixedCharLocalField.{u}) where
   [algebra : Algebra K L]
   [finiteDimensional : FiniteDimensional K L]
+  /-- The algebra map respects the canonical local-field valuations. -/
+  [valuativeExtension : ValuativeExtension K L]
 
 /-- A continuous homomorphism of topological groups descends to their topological
 abelianizations. -/
