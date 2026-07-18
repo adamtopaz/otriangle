@@ -6,6 +6,7 @@ import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
+import Otriangle.MonoAnabelian.OpenSubgroups
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -49,7 +50,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv")
 %%%
 source := {
   document := "hoshi"

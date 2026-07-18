@@ -5,6 +5,7 @@ import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
+import Otriangle.MonoAnabelian.OpenSubgroups
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport
 import Otriangle.MonoAnabelian.Package
