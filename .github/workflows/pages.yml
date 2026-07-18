@@ -1,0 +1,19 @@
+name: Blueprint Pages
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  pages:
+    uses: ./.github/workflows/blueprint-pages.yml
+    secrets: inherit

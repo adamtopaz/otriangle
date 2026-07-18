@@ -1,14 +1,23 @@
-name = "otriangle"
+name = "Otriangle"
 version = "0.1.0"
 keywords = ["math"]
 defaultTargets = ["Otriangle"]
+precompileModules = false
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
 maxSynthPendingDepth = 3
+experimental.module = true
 
+[[require]]
+name = "VersoBlueprint"
+git = "https://github.com/leanprover/verso-blueprint"
+rev = "v4.32.0"
+
+# Keep Mathlib last so its dependency revisions take precedence when Lake
+# reconciles packages shared with Verso Blueprint (notably ProofWidgets).
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"

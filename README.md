@@ -1,13 +1,31 @@
-# otriangle
+# Otriangle
 
-## GitHub configuration
+Lean formalization project with a
+[Verso Blueprint](https://github.com/leanprover/verso-blueprint) for Yuichiro
+Hoshi's *Introduction to Mono-anabelian Geometry*.
 
-To set up your new GitHub repository, follow these steps:
+The source PDF, layout-preserving text extraction, and page images are kept in
+`source/`. See `source/README.md` for the extraction commands.
 
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
+## Build
 
-After following the steps above, you can remove this section from the README file.
+Update dependencies once after cloning:
+
+```bash
+lake update
+```
+
+Build the Lean project and render the Blueprint site:
+
+```bash
+./scripts/ci-pages.sh
+```
+
+The rendered site is written to `_out/site/html-multi/`. For a local preview,
+run `lake exe vbp build --serve`.
+
+## GitHub Pages
+
+The included Pages workflow builds the Blueprint on pull requests and deploys
+it from pushes to `main` or `master`. In the repository settings, select
+**GitHub Actions** as the Pages source.

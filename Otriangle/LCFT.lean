@@ -1,4 +1,4 @@
-import Otriangle.OTriangle
+import Otriangle.OTriangle.Core
 import Mathlib.RingTheory.Norm.Basic
 
 /-!

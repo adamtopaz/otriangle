@@ -1,0 +1,2266 @@
+Publications mathématiques de Besançon
+                                             Algèbre et théorie des nombres
+
+
+
+
+ Yuichiro Hoshi
+ Introduction to Mono-anabelian Geometry
+ 2021, p. 5-44.
+ https://doi.org/10.5802/pmb.42
+
+
+
+
+    © Les auteurs, 2021.
+
+                   Cet article est mis à disposition selon les termes de la licence
+    Creative Commons Attribution 4.0 International.
+    https://creativecommons.org/licenses/by/4.0/deed.fr
+
+    L’accès aux articles de la revue « Publications mathématiques de Besançon »
+    (http://pmb.centre-mersenne.org/) implique l’accord avec les conditions générales
+    d’utilisation (http://pmb.centre-mersenne.org/legal/).
+
+
+
+
+                        Publication éditée par le laboratoire de mathématiques
+                                 de Besançon, UMR 6623 CNRS/UFC
+
+
+
+
+                                                     CENTRE
+                                                     MERSENNE
+                        Les Publications mathématiques de Besançon sont membres du
+                             Centre Mersenne pour l’édition scientifique ouverte
+                                      http://www.centre-mersenne.org/
+Publications mathématiques de Besançon – 2021, 5-44
+
+
+
+
+          INTRODUCTION TO MONO-ANABELIAN GEOMETRY
+
+                                                     by
+
+                                             Yuichiro Hoshi
+
+
+
+
+  Abstract. — The present article is based on the four hours mini-courses “Introduction to Mono-anabelian
+  Geometry” which the author gave at the conference “Fundamental Groups in Arithmetic Geometry”
+  (Paris, 2016). The purpose of the present article is to introduce mono-anabelian geometry by focusing on
+  mono-anabelian geometry for mixed-characteristic local fields, which provides elementary but nontrivial
+  examples of typical arguments in the study of mono-anabelian geometry.
+
+  Résumé. — (Introduction à la géométrie mono-anabélienne) Cet article est basé sur les 4 heures de
+  mini-cours « Introduction to Mono-anabelian Geometry » que l’auteur a données lors de la conférence
+  « Fundamental Groups in Arithmetic Geometry » (Paris, 2016). L’objectif est de présenter la géométrie
+  mono-anabélienne en se concentrant sur les corps locaux de caractéristique mixte ce qui permet de fournir
+  des exemples élémentaires mais non-triviaux du type d’arguments présents dans l’étude de géométrie
+  mono-anabélienne.
+
+
+
+
+                                             Introduction
+The present article is based on the four hours mini-courses “Introduction to Mono-anabelian
+Geometry” which the author gave at the conference “Fundamental Groups in Arithmetic
+Geometry” (Paris, 2016). In the present article, we discuss mono-anabelian geometry.
+Anabelian geometry is, in a word, an area of arithmetic geometry in which one studies the
+geometry of geometric objects of interest from the point of view of arithmetic fundamental
+groups. Put another way, roughly speaking, anabelian geometry discusses the issue of how
+much information concerning the geometry of geometric objects of interest is contained in
+the knowledge of the arithmetic fundamental groups.
+The classical point of view of anabelian geometry (i.e., more precisely, of Grothendieck’s an-
+abelian conjecture) centers around a comparison between two geometric objects of interest
+2020 Mathematics Subject Classification. — 11S20.
+Key words and phrases. — mono-anabelian geometry, MLF, mono-anabelian reconstruction algorithm,
+MLF-pair, cyclotomic synchronization, Kummer poly-isomorphism, mono-anabelian transport.
+Acknowledgements. — The author was supported by the Inamori Foundation and JSPS KAKENHI Grant
+Number 15K04780.
+6                                                              Introduction to Mono-anabelian Geometry
+
+via the arithmetic fundamental groups. In fact, in a discussion of anabelian geometry, typ-
+ically, one fixes two geometric objects and discusses the relationship between a certain set
+of morphisms (e.g., the set of isomorphisms) between the fixed two objects and a certain
+set of homomorphisms (e.g., the set of isomorphisms) between the étale fundamental groups.
+In particular, roughly speaking, the classical point of view of anabelian geometry may be
+summarized as the study of some properties such as faithfulness/fullness of the (restriction,
+to a certain suitable category of geometric objects, of the) functor of taking arithmetic fun-
+damental groups. Moreover, the term “group-theoretic” (that often appears in discussions of
+anabelian geometry) is, in the classical point of view, defined simply to mean “preserved by
+an arbitrary isomorphism between the arithmetic fundamental groups under consideration”.
+In [6], this classical point of view is referred to as “bi-anabelian geometry”.
+       bi-anabelian geometry
+                    ∼                 ?                             ∼
+        π1ét (X◦ ) −→ π1ét (X• )   =⇒ (objects related to) X◦ −→ (objects related to) X•
+By contrast, mono-anabelian geometry centers around the task of establishing a “group-
+theoretic software” (i.e., “group-theoretic algorithm”) whose input data consists of a single
+abstract topological group isomorphic to the arithmetic fundamental group of a single geo-
+metric object of interest.
+In particular, a mono-anabelian reconstruction algorithm (i.e., a “group-theoretic algorithm”
+discussed in mono-anabelian geometry) has the virtue of being free of any mention of some
+“fixed reference model” copy of geometric objects (as the above “X◦ ” for “π1ét (X◦ )” in the
+case of bi-anabelian geometry). In the point of view of mono-anabelian geometry, the term
+“group-theoretic algorithm” is used to mean that “the algorithm in a discussion is phrased in
+language that only depends on the topological group structure of the arithmetic fundamental
+group under consideration” (cf., e.g., [6, Introduction, Remark 1.9.8, and Remarks following
+Corollary 3.7] for more details concerning bi-anabelian/mono-anabelian geometry).
+                                        mono-anabelian geometry
+                                                    isomorphic to π1ét (X)
+                                a topological group w
+                                                 ?
+                                                    w
+
+                             object(s) isomorphic to (objects related to) X
+The purpose of the present article is to introduce mono-anabelian geometry by focusing on
+mono-anabelian geometry for mixed-characteristic local fields, i.e., MLF’s (cf. Definition 1.1),
+which provides elementary but nontrivial examples of typical arguments in the study of
+mono-anabelian geometry.
+In Section 1, we introduce some notational conventions related to MLF’s and recall some
+basic facts concerning objects that arise from MLF’s. These basic facts will be applied in
+other sections of the present article. In Section 2, we recall some results in bi-anabelian
+geometry for MLF’s. Some of the fundamental results in bi-anabelian geometry for MLF’s
+are as follows (cf. Theorem 2.2):
+
+    • The isomorphism class of an MLF is not determined by the isomorphism class of the
+      absolute Galois group of the MLF.
+
+    • There exists an outer automorphism of the absolute Galois group of an MLF which does
+      not arise from any automorphism of the MLF.
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                               7
+
+These results lead us to an interest in a study of conditions for an outer isomorphism between
+the absolute Galois groups of MLF’s to arise from an isomorphism between the original MLF’s.
+In Section 2, we also recall such conditions (cf. Theorem 2.3, Remark 2.3.2).
+In Sections 3 and 4, we establish some mono-anabelian reconstruction algorithms for MLF’s,
+i.e., some “group-theoretic algorithms” whose input data consist of a group of MLF-type
+(i.e., an abstract group isomorphic to the absolute Galois group of an MLF — cf. Defini-
+tion 3.1). For instance, by applying the mono-anabelian reconstruction algorithms discussed
+in Section 4, one may construct, from a group G of MLF-type, G-monoids
+                                 O× (G) ⊆ OB (G) ⊆ k × (G)
+which “correspond” to the Gal(k/k)-monoids
+                                      Ok̄× ⊆ Ok̄B ⊆ k × ,
+where k is an MLF, and k is an algebraic closure of k (i.e.,
+
+ • the multiplicative Gal(k/k)-module Ok̄× of units of the ring of integers of k,
+
+ • the multiplicative Gal(k/k)-monoid Ok̄B of nonzero integers of k, and
+
+ • the multiplicative Gal(k/k)-module k × of nonzero elements of k),
+
+respectively (cf. Summary 3.15, Summary 4.3).
+One important aspect of mono-anabelian geometry is the technique of mono-anabelian trans-
+port. In order to explain mono-anabelian transport, in Section 5, we introduce the notion
+of an MLF-pair (cf. Definition 5.3). Some types of MLF-pairs are discussed in the present
+article. For instance, an MLF× -pair is defined to be a collection of data G y M consisting
+of a monoid M , a group G, and an action of G on M such that there exists an isomorphism
+(in the evident sense) of G y M with the collection of data
+                                      Gal(k/k) y Ok̄×
+for some MLF k and some algebraic closure k of k. If G y M is an MLF-pair, then we shall
+refer to the group G, the monoid M as the étale-like portion, the Frobenius-like portion of
+G y M , respectively (cf. Definition 5.4).
+In Section 6, we discuss a phenomenon of cyclotomic synchronization for MLF-pairs. Let us
+recall that a cyclotome refers to an “object isomorphic to the object Z(1)”.
+                                                                      b      Various (a priori
+independent) cyclotomes often appear in studies of arithmetic geometry. For instance, if Ω is
+an algebraically closed field of characteristic zero, then each of
+
+ • the cyclotome
+                                      def              n
+                                Λ(Ω) = lim Ker(Ω× → Ω× )
+                                       ← −
+                                         n
+    — where the projective limit is taken over the positive integers n — associated to Ω and
+
+ • the dual
+                                      def     2                   
+                                Λ(C) = HombZ Hét (C, Z),
+                                                      b Z b
+         b of the second étale cohomology H 2 (C, Z)
+    over Z                                        b of a projective smooth curve C over Ω
+                                           ét
+                                                            Publications mathématiques de Besançon – 2021
+8                                                         Introduction to Mono-anabelian Geometry
+
+gives an example of a cyclotome.
+If one works with certain scheme/ring structures of objects related to cyclotomes under
+consideration, then one may obtain a phenomenon of cyclotomic synchronization, i.e., syn-
+chronization of cyclotomes. For instance, in the case of the above examples Λ(Ω) and Λ(C),
+the homomorphism Pic(C) → H 2 (C, Λ(Ω)) obtained by considering the first Chern classes
+yields an isomorphism
+                                                    ∼
+                           Pic(C)/ Pic0 (C) ⊗Z Z
+                                                                       
+                                               b −→ Hom Λ(C), Λ(Ω) ;
+                                                       Z
+                                                       b
+thus, an invertible sheaf on C of degree one determines a cyclotomic synchronization (i.e., an
+                                           ∼
+isomorphism between cyclotomes) Λ(C) → Λ(Ω) by means of which one usually (i.e., in the
+usual point of view of arithmetic geometry) identifies Λ(C) with Λ(Ω). On the other hand,
+observe that such a phenomenon of cyclotomic synchronization usually depends, at least in
+an a priori sense, on a certain scheme/ring structures of objects related to cyclotomes under
+consideration. Thus, if one works in a situation in which objects related to cyclotomes under
+consideration lose a certain portion of the rigidity that arises from scheme/ring structures,
+then one cannot apply the “scheme/ring-theoretic” construction of the cyclotomic synchro-
+nization.
+In our study of MLF-pairs, one may construct, from a single MLF-pair, (a priori independent)
+two cyclotomes, i.e., a cyclotome constructed from the étale-like portion and a cyclotome
+constructed from the Frobenius-like portion (cf. Definition 5.9, Proposition 5.10). In Section 6,
+we establish a cyclotomic synchronization which relates the Frobenius-like cyclotome to the
+étale-like cyclotome (cf. Definition 6.6, Proposition 6.7).
+In Section 7, we discuss Kummer poly-isomorphisms and mono-anabelian transport. A Kum-
+mer poly-isomorphism relates (monoids constructed, via some functorial algorithms, from)
+Frobenius-like portions to mono-anabelian étale-like monoids (i.e., monoids constructed, via
+some mono-anabelian reconstruction algorithms, from étale-like portions). In Section 7, we
+establish Kummer poly-isomorphisms for MLF-pairs (cf. Definition 7.4). Finally, we discuss
+the technique of mono-anabelian transport (cf. Remark 7.6.1).
+Some details of discussions given in the portion from Sections 3 to 7 of the present article
+may be found in, for instance, [4, §1, §2], [6, §3, §5], [7, §2], [2, §1].
+
+Acknowledgments. — The present article is based on the mini-courses which the author
+gave at the conference “Fundamental Groups in Arithmetic Geometry”. The author would
+like to thank the organizers of the conference for the time and effort they spent to make
+the conference a success. The author would like to thank especially Anna Cadoret, who is
+one of the organizers, for inviting me to the conference. The author also would like to thank
+some participants of the conference for their interest in and some discussions concerning the
+mini-courses. Finally, the author would like to thank the referee for some helpful comments.
+
+
+
+                                    0. Notational Conventions
+Sets. — If S is a finite set, then we shall write ]S for the cardinality of S. If G is a group,
+and T is a set equipped with an action of G, then we shall write T G ⊆ T for the subset of
+G-invariants of T .
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                 9
+
+Monoids. — In the present article, every “monoid” is assumed to be commutative. Let M
+be a monoid. (The monoid operation of M will be written multiplicatively). We shall write
+M × ⊆ M for the abelian group of invertible elements of M . We shall write M gp for the
+groupification of M (i.e., the abelian group obtained by forming the monoid of equivalence
+classes with respect to the relation ∼ on M × M defined by, for (a1 , b1 ), (a2 , b2 ) ∈ M × M ,
+(a1 , b1 ) ∼ (a2 , b2 ) if there exists an element c ∈ M of M such that ca1 b2 = ca2 b1 ). We shall
+write M pf for the perfection of M (i.e., the monoid obtained by forming the injective limit
+of the injective system of monoids
+
+                                   · · · −→ M −→ M −→ · · ·
+
+given by assigning to each positive integer n a copy of M , which we denote by In , and to each
+two positive integers n, m such that n divides m the homomorphism In = M → Im = M
+                                                          def
+given by multiplication by m/n). We shall write M ~ = M ∪ {∗M }; we regard M ~ as a
+                                                                  def                def
+monoid (that contains M as a submonoid) by setting ∗M · ∗M = ∗M and a · ∗M = ∗M for
+every a ∈ M . We shall write N for the additive monoid of nonnegative integers.
+Modules. — Let M be a module. If n is a positive integer, then we shall write M [n] ⊆ M
+for the submodule obtained by forming the kernel of the endomorphism of M given by
+                                         def S
+multiplication by n. We shall write Mtor = n≥1 M [n] ⊆ M for the submodule of torsion
+elements of M and
+                                            def
+                                     M ∧ = lim M/(n · M ),
+                                           ← −
+                                             n
+
+where the projective limit is taken over the positive integers n. (So if M is finitely generated,
+then M ∧ is nothing but the profinite completion of M .)
+Topological Groups. — Let G be a topological group. Then we shall write Gab for the abelian-
+ization of G (i.e., the quotient of G by the closure of the commutator subgroup of G),
+        def
+Gab-tor = (Gab )tor ⊆ Gab , and Gab/tor for the quotient of Gab by the closure of Gab-tor ⊆ Gab .
+Suppose that G is a profinite group. Then we shall say that G is slim if, for every open
+subgroup H ⊆ G of G, the centralizer of H in G is trivial. If n is a nonnegative integer, and
+M is a topological G-module, then we shall write H n (G, M ) for the n-th continuous group
+cohomology of G with coefficients in M and
+
+                                     n            def
+                                ∞H       (G, M ) = lim H n (H, M ),
+                                                   −→
+                                                        H⊆G
+
+where the injective limit is taken over the open subgroups H ⊆ G of G.
+Rings. — In the present article, every “ring” is assumed to be unital, associative, and com-
+mutative. If R is a ring, then we shall write R+ for the underlying additive module of R and
+R× ⊆ R for the multiplicative module of units of R. If R is an integral domain, then we shall
+write RB ⊆ R for the multiplicative monoid of nonzero elements of R.
+                                                               def
+Fields. — Let K be a field. Then we shall write µ(K) = (K × )tor for the group of roots of
+unity in K and K× = K × ∪ {0} for the underlying multiplicative monoid of K. (So we have
+                              ∼
+a natural isomorphism (K × )~ → K× of monoids that maps ∗K × ∈ (K × )~ to 0 ∈ K× ). If,
+                                                              Publications mathématiques de Besançon – 2021
+10                                                        Introduction to Mono-anabelian Geometry
+
+moreover, K is algebraically closed and of characteristic zero, then we shall write
+                                        def
+                                Λ(K) = lim µ(K)[n] = lim K × [n]
+                                       ← −
+                                         n
+                                                     ← −
+                                                       n
+
+(where the projective limits are taken over the positive integers n) and refer to Λ(K) as the
+cyclotome associated to K. Thus, the cyclotome has a natural structure of profinite, hence
+also topological, module and is, as an abstract topological module, isomorphic to Z b +.
+
+Categories. — Let A be an object of a category. Then we shall refer to an object of the
+category isomorphic to A as an isomorph of A.
+Let A, B, and C be objects of a category. Then we shall refer to a nonempty set of iso-
+morphisms from A to B in the category as a poly-isomorphism (from A to B). (So one may
+                                                                                            ∼
+regard a single isomorphism as a poly-isomorphism, i.e., of cardinality one.) Let f : A → B
+                                                           ∼
+be a poly-isomorphism (i.e., from A to B) and g : B → C a poly-isomorphism (i.e., from B
+                                  ∼
+to C). We shall write g ◦ f : A → C for the poly-isomorphism (i.e., from A to C) obtained by
+forming the set { g ◦ f | f ∈ f, g ∈ g } and refer to g ◦ f as the composite of f and g. We shall
+                ∼
+write f −1 : B → A for the poly-isomorphism (i.e., from B to A) obtained by forming the set
+{ f−1 | f ∈ f } and refer to f −1 as the inverse of f .
+
+
+                                     1. Generalities on MLF’s
+In the present section, let us introduce some notational conventions related to mixed-char-
+acteristic local fields, i.e., MLF’s (cf. Definition 1.1 below), and recall some basic facts con-
+cerning objects that arise from MLF’s. These basic facts will be applied in other sections of
+the present article.
+Definition 1.1. — We shall refer to a finite extension of Qp , for some prime number p, as
+an MLF. Here, “MLF” is to be understood as an abbreviation for “mixed-characteristic local
+field”.
+In the remainder of the present section, let k be an MLF. Then we shall write
+
+  • Ok ⊆ k for the ring of integers of k,
+
+  • mk ⊆ Ok for the maximal ideal of Ok ,
+      def
+  • k = Ok /mk for the residue field of Ok ,
+            def
+  • Ok≺n = 1 + mnk ⊆ Ok× (where n is a positive integer) for the n-th higher unit group of k,
+
+         def
+  • Ok≺ = Ok≺1 ⊆ Ok× for the group of principal units of k,
+
+  • µk for the (uniquely determined) Haar measure on (the locally compact topological mod-
+    ule) k+ such that µk ((Ok )+ ) = 1, and
+        def
+  • pk = char(k) for the residue characteristic of k.
+
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                              11
+
+Thus, one verifies easily that [k : Qpk ] and [k : Fpk ] are finite. We shall write
+
+        def
+  • dk = [k : Qpk ] and
+
+        def
+  • fk = [k : Fpk ].
+
+We shall write, moreover,
+
+        def
+  • ek = ](k × /(Ok× · Q×
+                        pk )) for the absolute ramification index of k,
+
+
+  • logk : Ok× → k+ for the pk -adic logarithm, and
+
+        def
+  • Ik = (2pk )−1 · logk (Ok× ) ⊆ k+ for the log-shell of k.
+
+In the following lemma, let us recall some basic facts concerning the above objects.
+
+Lemma 1.2. — The following hold:
+
+ (i) The topological module k × is isomorphic to the topological module
+                          Z+ /(pfkk − 1)Z+ ⊕ (Z+ /pak Z+ ) ⊕ (Zpk )⊕d
+                                          
+                                                                   + ⊕ Z+
+                                                                      k
+
+
+
+     for some nonnegative integer a. Moreover, the topological submodule Ok× ⊆ k × of k ×
+     corresponds, relative to such an isomorphism, to the kernel of the fourth projection
+                    Z+ /(pfkk − 1)Z+ ⊕ (Z+ /pak Z+ ) ⊕ (Zpk )⊕d
+                                     
+                                                             + ⊕ Z+ −→ Z+ .
+                                                                k
+
+
+
+
+(ii) The topological submodule Ok≺ ⊆ Ok× of Ok× is the maximal pro-pk submodule of Ok× .
+
+(iii) It holds that dk = fk · ek .
+
+(iv) The pk -adic logarithm logk : Ok× → k+ determines an isomorphism of topological modules
+                                                    ∼
+                                         (Ok× )pf −→ k+ .
+
+(v) It holds that Ker(logk ) = µ(k).
+
+(vi) It holds that (Ok )+ ⊆ Ik .
+
+Proof. — Assertions (i), (ii) follow immediately from [8, Chapter II, Proposition 5.3 and
+Proposition 5.7 (i)]. Assertion (iii) follows from [8, Chapter II, Proposition 6.8]. Assertions (iv),
+(v) follow immediately from [8, Chapter II, Proposition 5.5], together with assertion (i). As-
+sertion (vi) follows immediately from [8, Chapter II, Proposition 5.5], together with the (easily
+verified) fact that ek > ek /(pk − 1) (respectively, 2ek > ek /(pk − 1)) if pk 6= 2 (respectively,
+pk = 2).                                                                                           
+
+Next, let us recall some basic facts concerning the measure µk .
+                                                            Publications mathématiques de Besançon – 2021
+12                                                                         Introduction to Mono-anabelian Geometry
+
+Lemma 1.3. — The following hold:
+
+ (i) Let S, T ⊆ k+ be compact open subsets of k+ . Then the measure µk satisfies the following
+     conditions:
+      (a) If S ∩ T = ∅, then it holds that µk (S ∪ T ) = µk (S) + µk (T ).
+      (b) For each a ∈ k+ , it holds that µk (S + a) = µk (S).
+      (c) If S is contained in Ok× (⊆ k+ ), and the natural surjection S  logk (S) determined
+          by logk is bijective, then it holds that µk (logk (S)) = µk (S).
+
+(ii) It holds that
+                                µk (Ok× ) = 1 − p−f
+                                                 k
+                                                    k
+                                                      = p−f
+                                                         k
+                                                            k
+                                                              · (pfkk − 1).
+
+(iii) It holds that
+                                     µk (Ik ) = pkk ·dk −fk /]µ(k)(pk ) ,
+     where we write                                   (
+                                                def   1       if pk 6= 2
+                                            k =
+                                                      2       if pk = 2
+     and µ(k)(pk ) for the pk -Sylow subgroup of (the finite — cf. Lemma 1.2 (i) — abelian
+     group) µ(k).
+
+Proof. — First, we verify assertion (i). The assertion that µk satisfies conditions (a), (b)
+follows from the definition of a Haar measure. Next, we verify the assertion that µk satisfies
+condition (c). Let us recall that the system {Ok≺n }n≥1 forms a basis of neighborhoods of the
+identity element 1 ∈ Ok× of Ok× (cf. the discussion preceding [8, Chapter II, Proposition 3.10]).
+Thus, it follows immediately — in light of the (easily verified) fact that the endomorphism of
+k+ given by multiplication by an element of Ok× is a topological automorphism which restricts
+to an automorphism of (Ok )+ ⊆ k+ — from conditions (a), (b) that, to verify the assertion
+that µk satisfies condition (c), it suffices to verify that there exists a positive integer n0 such
+that if n > n0 , then
+                                    µk logk (Ok≺n ) = µk (Ok≺n ).
+                                                   
+
+On the other hand, it follows from [8, Chapter II, Proposition 5.5], together with condition (b),
+that if n > ek /(pk − 1), then
+                        µk logk (Ok≺n ) = µk (mnk ) = µk (1 + mnk ) = µk (Ok≺n ).
+                                        
+
+This completes the proof of the assertion that µk satisfies condition (c), hence also of asser-
+tion (i).
+Next, we verify assertion (ii). Since (one verifies easily that) Ok× = (Ok )+ \ mk , it follows from
+condition (a) of assertion (i) that
+        µk (Ok× ) = µk ((Ok )+ ) − µk (mk ) = µk ((Ok )+ ) · (1 − [(Ok )+ : mk ]−1 ) = 1 − pk−fk ,
+as desired. This completes the proof of assertion (ii).
+Finally, we verify assertion (iii). Let us first recall from Lemma 1.2 (v) that Ker(logk ) = µ(k).
+Thus, it follows from conditions (a), (c) of assertion (i) that
+                                                                                           −1
+         µk (Ik ) = [Ik : logk (Ok× )] · µk log(Ok× ) = [Ik : logk (Ok× )] · ] µ(k)              · µk (Ok× ).
+                                                          
+
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                          13
+
+In particular, since
+                                   ]µ(k) = ]µ(k)(pk ) · (pfkk − 1)
+(cf. Lemma 1.2 (i)), it follows from assertion (ii) and Lemma 1.2 (iv) that
+                                         −1
+     µk (Ik ) = pkk ·dk · ] µ(k)(pk )         · (pfkk − 1)−1 · p−f
+                                                                 k
+                                                                    k
+                                                                      · (pfkk − 1) = pkk ·dk −fk /]µ(k)(pk ) ,
+as desired. This completes the proof of assertion (iii).                                                          
+Next, let k be an algebraic closure of k. Then we shall write
+
+ • Ok̄ ⊆ k for the ring of integers of k,
+
+ • k for the residue field of Ok̄ ,
+
+ • logk̄ : Ok̄× → k + for the pk -adic logarithm,
+
+           def
+ • Gk = Gal(k/k) for the absolute Galois group of k with respect to k,
+
+ • Ik ⊆ Gk for the inertia subgroup of Gk , and
+
+ • Pk ⊆ Ik for the wild inertia subgroup of Gk .
+
+Thus, k is an algebraic closure of k such that the absolute Galois group Gal(k/k) of k with
+respect to k is naturally identified with the quotient Gk /Ik . We shall write
+                          ∼
+ • Frobk ∈ Gal(k/k) ← Gk /Ik for the (]k-th power) Frobenius element.
+
+We shall write, moreover,
+                 def
+ • Br(k) = H 2 (Gk , k × ) (where we regard k × as a discrete Gk -module) for the Brauer group
+   of k.
+
+The following lemma is one of fundamental results concerning the structure of the topological
+group Gk .
+Lemma 1.4. — The following hold:
+
+(i) The topological group Gk is topologically finitely generated.
+
+(ii) For a subgroup H ⊆ Gk of Gk , it holds that H is open in Gk if and only if H is of finite
+     index in Gk .
+
+Proof. — Assertion (i) follows from [9, Theorem 7.4.1]. Assertion (ii) follows from [10, The-
+orem 1.1], together with assertion (i).                                                    
+The following lemma is one of fundamental results concerning the structure of the tame
+quotient Gk /Pk of Gk .
+Lemma 1.5. — The following hold:
+
+(i) The quotient Gk /Ik is topologically generated by Frobk ∈ Gk /Ik and, as an abstract
+                                     b + . In particular, the quotient G /I is abelian.
+    topological group, isomorphic to Z                                  k k
+                                                                      Publications mathématiques de Besançon – 2021
+14                                                                           Introduction to Mono-anabelian Geometry
+
+(ii) There exists an isomorphism of topological groups
+                                                       ∼                 0
+                                            Ik /Pk −→ Λ(k)(pk ) ,
+                               0
+     where we write Λ(k)(pk ) for the quotient of Λ(k) by the pro-pk -Sylow subgroup of Λ(k).
+     Moreover, such an isomorphism is always Gk -equivariant (i.e., with respect to the action
+                                                                            0
+     of Gk on Ik /Pk by conjugation and the natural action of Gk on Λ(k)(pk ) ).
+
+(iii) The action of Gk on Ik /Pk by conjugation determines an injection
+                                                                Z×
+                                                   Y
+                              Gk /Ik ,→                          l = Aut(Ik /Pk )
+                                              l: prime, l6=pk
+
+     (cf. (ii)) which maps Frobk ∈ Gk /Ik to pfkk ∈                     Z×
+                                                                    Q
+                                                                         l .
+
+Proof. — Assertion (i) is discussed in the discussion following [9, Proposition 7.5.1]. Asser-
+tion (ii) follows immediately from [9, Proposition 7.5.2]. Assertion (iii) follows immediately
+— in light of assertion (ii) — from [9, Lemma 7.5.4 (ii)], together with the definition of
+Frobk ∈ Gk /Ik .                                                                            
+Next, let us recall an explicit description of the Brauer group of an MLF as follows.
+Lemma 1.6. — Write kur ⊆ k for the maximal unramified extension of k in k (i.e., kur =
+                                                           def ×
+k Ik ), Okur ⊆ kur for the ring of integers of kur , and V = kur /Ok×ur . Then the following hold:
+
+ (i) The monoids OkBur /Ok×ur ⊆ V are, as abstract monoids, isomorphic to N ⊆ Z+ . Moreover,
+     the action of Gk on V determined by the action of Gk on kur× is trivial.
+
+
+(ii) For each positive integer n, the natural homomorphism
+                                         H 2 Gk , µ(k)[n] −→ Br(k)
+                                                                
+
+     determines an isomorphism
+                                                            ∼
+                                       H 2 Gk , µ(k)[n] −→ Br(k)[n].
+
+(iii) The natural homomorphism
+                                                        ×
+                                         H 2 (Gk /Ik , kur ) −→ Br(k)
+     is an isomorphism.
+
+(iv) The natural homomorphism
+                                                    ×
+                                     H 2 (Gk /Ik , kur ) −→ H 2 (Gk /Ik , V )
+     is an isomorphism.
+
+(v) The homomorphism
+                                   H 1 (Gk /Ik , V pf /V ) −→ H 2 (Gk /Ik , V )
+     determined by the exact sequence of Gk /Ik -modules
+                                    0 −→ V −→ V pf −→ V pf /V −→ 0
+     is an isomorphism.
+Publications mathématiques de Besançon – 2021
+ Y. Hoshi                                                                                                  15
+
+(vi) The homomorphism
+                                   H 1 (Gk /Ik , V pf /V ) −→ V pf /V
+     obtained by mapping
+                          χ ∈ Hom(Gk /Ik , V pf /V ) = H 1 (Gk /Ik , V pf /V )
+     (cf. (i)) to
+                                         χ(Frobk ) ∈ V pf /V
+     is an isomorphism.
+
+(vii) The various isomorphisms of (iii), (iv), (v), (vi) determine an isomorphism
+                                                  ∼
+                                          Br(k) −→ V pf /V
+     (which thus determines an isomorphism
+                                                         ∼
+                                       H 2 (Gk , Λ(k)) −→ V ∧
+     — cf. (i), (ii)).
+
+ Proof. — Assertion (i) follows immediately from the (easily verified) fact that the natural in-
+                                                       ∼                        ∼
+ clusion k ,→ kur determines isomorphisms OkB /Ok× → OkBur /Ok×ur , k × /Ok× → V . Assertion (ii)
+ follows immediately from “Hilbert Theorem 90 ” (cf. [9, Theorem 6.2.1]). Assertion (iii) follows
+ from [11, §1.1, Theorem 1]. Assertion (iv) follows from [11, §1.1, Theorem 2]. Assertion (v)
+ follows from the discussion following [11, §1.1, Theorem 2]. Assertion (vi) follows from the
+ discussion preceding [11, §1.1, Corollary]. Assertion (vii) follows from [11, §1.1, Corollary]. 
+ Next, let us recall local class field theory as follows.
+ Lemma 1.7. — There exists an injective homomorphism
+                                           reck : k × ,→ Gab
+                                                          k
+ which satisfies the following conditions:
+
+ (i) The homomorphism reck determines a commutative diagram
+      1 −−−−→             Ok×            −−−−→              k×            −−−−→ k × /Ok× −−−−→ 1
+                                                                                     
+                           oy                               oy                        oy
+                                                                                     
+
+      1 −−−−→ Im(Ik ,→ Gk  Gab  −−−→ Gab
+                             k ) −     k ×Gk /Ik Frobk −
+                                                     Z
+                                                       −−−→ FrobZk −−−−→ 1
+                                                                                      
+                                                         ∩y                          ∩y
+                                                                                      
+
+      1 −−−−→ Im(Ik ,→ Gk  Gab
+                             k ) −
+                                 −−−→                    Gab
+                                                          k               −−−−→ Gk /Ik −−−−→ 1
+     (cf. Lemma 1.5 (i)) — where the horizontal sequences are exact, the upper vertical arrows
+     are isomorphisms, the lower vertical arrows are injective, and the right-hand upper vertical
+                    ∼
+     arrow k × /Ok× → FrobZk determines an isomorphism
+                                                    ∼
+                                         OkB /Ok× −→ FrobN
+                                                         k.
+     In particular, the homomorphism reck determines an isomorphism of topological modules
+                                                    ∼
+                                           (k × )∧ −→ Gab
+                                                       k .
+                                                                 Publications mathématiques de Besançon – 2021
+16                                                                          Introduction to Mono-anabelian Geometry
+
+                                                                                             def
+(ii) Let K ⊆ k be a finite extension of k. (So K is an MLF, and GK = Gal(k/K) ⊆ Gk
+     is an open subgroup of Gk .) Then the Norm map NmK/k : K × → k × and the natural
+     homomorphism Gab        ab
+                      K → Gk fit into the following commutative diagram:
+                                                     NmK/k
+                                               K × −−−−→ k ×
+                                                                   
+                                         recK y                 reck y
+                                                                   
+
+                                               Gab
+                                                K −−−−→ Gab
+                                                         k .
+
+                                                                                             def
+(iii) Let K ⊆ k be a finite extension of k. (So K is an MLF, and GK = Gal(k/K) ⊆ Gk
+      is an open subgroup of Gk .) Then the natural inclusion k × ,→ K × and the transfer map
+      Tf GK ⊆Gk : Gab    ab
+                   k → GK fit into the following commutative diagram:
+                                                           ⊆
+                                           k×        −−−−→          K×
+                                                                       
+                                        reck y                  recK y
+                                                                       
+
+                                                    Tf G   ⊆G
+                                           Gab   K  k  ab
+                                            k −−−−−−→ GK .
+
+                                                                                  ∼
+(iv) Let L be an MLF, L an algebraic closure of L, and ι : k → L an isomorphism of fields.
+     Then the diagram
+                                        ι
+                                 k × −−−−→       L×
+                                                                  
+                                      reck y                   recL y
+                                                                  
+
+                                   Gab
+                                     k − −−−→ Gal(L/L)ab
+     (where the lower horizontal arrow is the isomorphism induced by ι) commutes.
+
+Proof. — This assertion follows immediately from the various assertions in [11, §2].                             
+Finally, as an application of local class field theory, let us verify the slimness of the absolute
+Galois group of an MLF.
+Lemma 1.8. — The absolute Galois group Gk is slim, hence also center-free.
+Proof. — Let K be a finite extension of k contained in k and γ ∈ Gk an element of the central-
+            def
+izer of GK = Gal(k/K) in Gk . Let us observe that, to verify γ = 1, we may assume without
+loss of generality, by replacing K by a suitable finite extension of K contained in k, that K is
+Galois over k. Thus, it follows immediately from the injectivity of the homomorphism recK
+of Lemma 1.7, together with Lemma 1.7 (iv), that the action of Gk /GK = Gal(K/k) on Gab      K
+by conjugation is faithful, which thus implies that γ ∈ GK . In particular, by allowing “K” to
+vary, we conclude that γ = 1, as desired. This completes the proof of Lemma 1.8.              
+
+
+                               2. Bi-anabelian Results for MLF’s
+In the present section, let us recall some results in bi-anabelian geometry for MLF’s. In the
+present section, for  ∈ {◦, •}, let k be an MLF and k  an algebraic closure of k ; write
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                17
+    def
+G = Gal(k  /k ). Thus, we have a natural map
+                   φ = φk̄◦ /k◦ ,k̄• /k• : Isom(k• , k◦ ) −→ Isom(G◦ , G• )/ Inn(G• ).
+Typically, bi-anabelian geometry (i.e., the classical point of view of anabelian geometry) dis-
+cusses some properties such as faithfulness/fullness of the (restriction, to a certain suitable
+category of geometric objects, of the) functor of taking arithmetic fundamental groups. Put
+another way, in a discussion of bi-anabelian geometry, one usually fixes two schemes/rings of
+interest (e.g., the two fields k◦ and k• in our case) and discusses the relationship between a
+certain set of morphisms (e.g., the set of isomorphisms) between the fixed two schemes/rings
+and a certain set of homomorphisms (e.g., the set of isomorphisms) between the arithmetic
+fundamental groups. In particular, roughly speaking, bi-anabelian geometry (i.e., for isomor-
+phisms between MLF’s) may be summarized as the study of the above map φ.
+The following proposition asserts the injectivity of the map φ.
+Proposition 2.1. — The map φ is injective.
+Proof. — Since (one verifies easily that) every automorphism of the field k  is an automor-
+phism over Qpk (⊆ k  ), this assertion follows immediately, by considering the difference of
+two elements of Isom(k• , k◦ ) whose images via φ coincide, from Lemma 1.8.                 
+The following theorem is fundamental in bi-anabelian geometry for MLF’s.
+Theorem 2.2. — The following hold:
+
+(i) There exists a pair “(k ◦ /k◦ , k • /k• )” which satisfies the following condition: The domain
+    of φk̄◦ /k◦ ,k̄• /k• is empty, but the codomain of φk̄◦ /k◦ ,k̄• /k• is nonempty.
+
+(ii) There exists a pair “(k ◦ /k◦ , k • /k• )” which satisfies the following condition: The do-
+     main of φk̄◦ /k◦ ,k̄• /k• is nonempty (which thus implies that the codomain of φk̄◦ /k◦ ,k̄• /k• is
+     nonempty), but the map φk̄◦ /k◦ ,k̄• /k• is not surjective.
+
+Proof. — Assertion (i) follows from the examples discussed in [13, §2]. Assertion (ii) follows
+from the discussion given at the final portion of [9, Chapter VII, §5].                     
+
+Remark 2.2.1. — In [3], a necessary and sufficient condition for the pair “(k ◦ /k◦ , k • /k• )”
+to satisfy that the codomain of φk̄◦ /k◦ ,k̄• /k• is nonempty was discussed.
+
+The map φ is always injective (cf. Proposition 2.1) but not surjective in general (cf. Theo-
+rem 2.2). Thus, in the study of bi-anabelian geometry for MLF’s, one often discusses con-
+                                       ∼
+ditions for an outer isomorphism G◦ → G• (i.e., an element of the codomain of φ) to be
+contained in the image of φ. The following theorem gives such conditions.
+                                    ∼
+Theorem 2.3. — Let α : G◦ → G• be an isomorphism of topological groups (which thus
+implies that pk◦ = pk• — cf. Remark 2.3.1 below). Then the following five conditions are
+equivalent:
+
+(i) The outer isomorphism determined by α (i.e., the element of the codomain of φ deter-
+    mined by α) is contained in the image of φ.
+                                                              Publications mathématiques de Besançon – 2021
+18                                                          Introduction to Mono-anabelian Geometry
+
+(ii) The isomorphism α is compatible with the respective ramification filtrations (cf. [11,
+     §4.1]) of G◦ , G• .
+
+(iii) For  ∈ {◦, •}, write (kb )+ for the topological G -module obtained by forming the un-
+      derlying additive module of the pk -adic completion kb of k  . Write, moreover, α∗ (kb• )+
+     for the topological G◦ -module obtained by considering the action of G◦ on (kb• )+ via α.
+                                                                         ∼
+     Then there exists a G◦ -equivariant topological isomorphism (kb◦ )+ → α∗ (kb• )+ .
+
+(iv) Write α∗ (Ok̄• )+ for the G◦ -module obtained by considering the action of G◦ on (Ok̄• )+
+                                                                     ∼
+     via α. Then there exists a G◦ -equivariant isomorphism (Ok̄◦ )+ → α∗ (Ok̄• )+ .
+
+(v) For every finite-dimensional Hodge–Tate representation ρ• of G• over Qpk◦ = Qpk• ,
+    the finite-dimensional representation of G◦ over Qpk◦ = Qpk• obtained by forming the
+    composite ρ• ◦ α is Hodge–Tate.
+
+Proof. — The equivalence (i) ⇔ (ii) follows from [4, Theorem]. The equivalence (i) ⇔ (iii)
+follows from [5, Theorem 3.5 (ii)]. The implications (i) ⇒ (iv) ⇒ (iii) are immediate; thus,
+by the equivalence (i) ⇔ (iii) already discussed, we obtain the equivalence (i) ⇔ (iv). The
+equivalence (i) ⇔ (v) follows from [1, Theorem].                                          
+
+Remark 2.3.1. — Suppose that the codomain of φ is nonempty, i.e., that there exists an
+                       ∼
+isomorphism α : G◦ → G• of topological groups. Then it is well-known that it holds that
+pk◦ = pk• . This fact also follows from Proposition 3.6 of the present article.
+
+Remark 2.3.2. —
+
+ (i) One may find other conditions for “α” as in Theorem 2.3 equivalent to condition (i) of
+     Theorem 2.3 in, for instance, [5, §3], [1, §3].
+
+(ii) We have considered, in Theorem 2.3, some conditions for an outer isomorphism between
+     the absolute Galois groups of MLF’s to arise from an isomorphism between the original
+     MLF’s. On the other hand, one may consider a condition for an outer open homomorphism
+     between the absolute Galois groups of MLF’s to arise from an homomorphism between
+     the original MLF’s. One may also find such conditions in, for instance, [5, §3], [1, §3].
+     For instance, a similar equivalence to the equivalence (i) ⇔ (v) of Theorem 2.3 still holds
+     even if one considers an open homomorphism (i.e., as opposed to an isomorphism) from
+     G◦ to G• (cf. [1, Theorem]).
+
+
+                     3. Mono-anabelian Reconstruction for MLF’s: I
+Let us recall that, as discussed at the beginning of Section 2, bi-anabelian geometry cen-
+ters around a comparison between two fixed schemes/rings of interest via the arithmetic
+fundamental groups. By contrast, mono-anabelian geometry centers around the task of es-
+tablishing a “group-theoretic software” (i.e., “group-theoretic algorithm”) whose input data
+consists of a single abstract (topological) group isomorphic to the arithmetic fundamental
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                   19
+
+group of a scheme/ring of interest (cf., e.g., [6, Introduction, Remark 1.9.8, and Remarks
+following Corollary 3.7] for more details concerning bi-anabelian/mono-anabelian geometry).
+     bi-anabelian geometry
+                 ∼                       ?                                  ∼
+      π1ét (X◦ ) −→ π1ét (X• )       =⇒ (objects related to) X◦ −→ (objects related to) X•
+   mono-anabelian geometry
+                                         ?
+     an isomorph of π1ét (X)          =⇒            isomorph(s) of (objects related to) X
+In the present section, let us establish some mono-anabelian reconstruction algorithms for
+MLF’s. In particular, we discuss some “group-theoretic algorithms” (cf. Remark 3.15.1 below)
+whose input data consist of an abstract group isomorphic to the absolute Galois group of an
+MLF.
+
+Definition 3.1. — We shall refer to an isomorph, as a group, of the absolute Galois group
+of an MLF as a group of MLF-type.
+
+In the remainder of the present section, let G be a group of MLF-type, k an MLF, and k
+an algebraic closure of k. We shall also apply the notational conventions related to k and k
+introduced in Section 1.
+
+Definition 3.2. — We shall say that a subgroup of G is open if the subgroup is of finite
+index in G.
+
+Proposition 3.3. — The following hold:
+
+(i) The open subgroups of G (i.e., in the sense of Definition 3.2) determine a structure of
+    profinite group of G.
+                                   ∼
+(ii) Every isomorphism G → Gk of groups is an isomorphism of topological groups with
+     respect to the structure of profinite group of G of (i).
+
+Proof. — Assertion (i) follows from Lemma 1.4 (ii). Assertion (ii) follows from (i).                       
+In the remainder of the present article, we always regard a group of MLF-type as a profinite,
+hence also topological, group by Proposition 3.3 (i). Note that it follows from the various
+definitions involved that every open subgroup of a group of MLF-type is of MLF-type.
+
+Lemma 3.4. — The following hold:
+
+(i) There exists a uniquely determined prime number l such that
+                                       logl ](Gab/tor /l · Gab/tor ) ≥ 2.
+                                                                  
+
+
+(ii) The subquotient Gab-tor of G is finite.
+
+Proof. — Let us observe that it follows from Lemma 1.7 (i), together with Lemma 1.2 (i),
+that the topological module Gab
+                             k is isomorphic to the topological module
+
+                          Z+ /(pfkk − 1)Z+ ⊕ (Z+ /pak Z+ ) ⊕ (Zpk )⊕d
+                                               
+                                                                   + ⊕ Z+
+                                                                      k b
+                                                                 Publications mathématiques de Besançon – 2021
+20                                                                        Introduction to Mono-anabelian Geometry
+
+                                                                                                 ab/tor
+for some nonnegative integer a. In particular, the topological module Gk                                  (respectively,
+Gkab-tor ) is isomorphic to the topological module
+                (Zpk )⊕d               (respectively, Z+ /(pfkk − 1)Z+ ⊕ (Z+ /pak Z+ )).
+                                                                                   
+                      + ⊕ Z+
+                         k b
+
+Thus, assertion (i) (respectively, (ii)) holds.                                                                       
+Definition 3.5. —
+
+ (i) We shall write
+                                           p(G)
+     for the uniquely determined (cf. Lemma 3.4 (i)) prime number such that
+                                                                           
+                                logp(G) ] Gab/tor /p(G) · Gab/tor                ≥ 2.
+
+(ii) We shall write
+                                                                                  
+                                 def
+                           d(G) = logp(G) ] Gab/tor /p(G) · Gab/tor                     − 1,
+                                                                           0 
+                                                                              
+                                 def
+                           f (G) = logp(G) 1 + ] (Gab-tor )(p(G) )                     (6= 0),
+                                         0
+     where we write (Gab-tor )(p(G) ) for the quotient of Gab-tor by the p(G)-Sylow subgroup of
+     (the finite — cf. Lemma 3.4 (ii) — abelian group) Gab-tor , and
+                                                      def
+                                                 e(G) = d(G)/f (G).
+
+(iii) We shall write
+                                                        def   \
+                                                  I(G) =             N,
+                                                              N ⊆G
+     where N ranges over the normal open subgroups of G (so N is of MLF-type — cf. the
+     discussion following Proposition 3.3) such that e(N ) = e(G);
+                                                        def    \
+                                                  P (G) =            N,
+                                                              N ⊆G
+
+     where N ranges over the normal open subgroups of G (so N is of MLF-type — cf. the
+     discussion following Proposition 3.3) such that e(N )/e(G) is a positive integer prime
+     to p(G).
+
+Proposition 3.6. — It holds that
+                       pk = p(Gk ),      dk = d(Gk ),         fk = f (Gk ),        ek = e(Gk ),
+                                         Ik = I(Gk ),         Pk = P (Gk ).
+Proof. — The assertions for pk , dk , and fk follow from Lemma 1.7 (i), together with Lem-
+                                                    ab/tor
+ma 1.2 (i) (cf. also the explicit descriptions of Gk       and Gab-tor
+                                                                  k     given in the proof of
+Lemma 3.4). The assertion for ek follows — in light of the assertions for dk and fk — from
+Lemma 1.2 (iii). The assertions for Ik and Pk follow — in light of the assertions for pk and ek
+— from the definitions of Ik and Pk .                                                        
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                             21
+
+Lemma 3.7. — The following hold:
+
+ (i) The quotients G/I(G) and I(G)/P (G) are abelian.
+
+(ii) There exists a uniquely determined element γ ∈ G/I(G) of G/I(G) such that the action of
+     γ on (the abelian — cf. (i) — group) I(G)/P (G) by conjugation is given by multiplication
+     by p(G)f (G) .
+
+Proof. — Assertion (i) follows — in light of Proposition 3.6 — from Lemma 1.5 (i), (ii).
+Assertion (ii) follows — in light of Proposition 3.6 — from Lemma 1.5 (iii).          
+Definition 3.8. — We shall write
+                                           Frob(G) ∈ G/I(G)
+for the uniquely determined (cf. Lemma 3.7 (ii)) element of G/I(G) such that the action
+of Frob(G) on I(G)/P (G) by conjugation is given by multiplication by p(G)f (G) (cf. Lem-
+ma 3.7 (i)).
+Proposition 3.9. — It holds that
+                                           Frobk = Frob(Gk )
+in Gk /Ik = Gk /I(Gk ) (cf. Proposition 3.6).
+Proof. — This assertion follows — in light of Proposition 3.6 — from Lemma 1.5 (iii).                
+Definition 3.10. —
+
+ (i) We shall write
+                                     def
+                           O× (G) = Im I(G) ,→ G  Gab ⊆ Gab .
+                                                                 
+
+    By considering the topology induced by the topology of I(G), we regard O× (G) as a
+    profinite, hence also topological, module.
+
+(ii) We shall write
+                                   O≺ (G) ⊆ O× (G)
+    for the maximal pro-p(G) submodule of the profinite module O× (G).
+
+(iii) We shall write
+                                             def
+                                  k × (G) = O× (G)/O≺ (G).
+
+(iv) We shall write
+                                     def
+                            k × (G) = Gab ×G/I(G) Frob(G)Z ⊆ Gab
+    (cf. Lemma 3.7 (i)),
+                                       rec(G) : k × (G) ,→ Gab
+    for the natural inclusion, and
+                                 def
+                           OB (G) = Gab ×G/I(G) Frob(G)N ⊆ k × (G)
+    (cf. Lemma 3.7 (i)). By considering the topologies induced by the topology of O× (G)
+    (cf (i)), we regard OB (G), k × (G) as a topological monoid, topological module, respec-
+    tively.
+                                                           Publications mathématiques de Besançon – 2021
+22                                                                   Introduction to Mono-anabelian Geometry
+
+(v) We shall write
+                                                    def
+                                             k× (G) = k × (G)~
+     and
+                                                    def
+                                            k × (G) = k × (G)~ .
+
+(vi) We shall write
+                                                    def
+                                            k+ (G) = O× (G)pf
+     and                                    −1
+                           def
+                                        · Im O× (G) → k+ (G) ⊆ k+ (G).
+                                                                           
+                    I(G) = 2 · p(G)
+     By considering the topologies induced by the topology of O× (G) (cf. (i)), we regard
+     k+ (G), I(G) as topological modules, respectively.
+
+Proposition 3.11. — The following hold:
+
+ (i) The injective homomorphism reck : k × ,→ Gab
+                                               k of Lemma 1.7 determines a commutative
+     diagram of topological monoids
+                       ⊆                      ⊆                      ⊆              rec
+             Ok≺      −−−−→       Ok×       −−−−→         OkB    −−−−→        k×      → Gab
+                                                                                      k
+                                                                                   −−−−  k
+                                                                            
+              oy                   oy                     oy                  oy
+                                                                            
+
+                       ⊆                      ⊆                      ⊆             rec(Gk )
+           O≺ (Gk ) −−−−→ O× (Gk ) −−−−→ OB (Gk ) −−−−→ k × (Gk ) −−−−−→ Gab     k ,
+     where the horizontal arrows are injective, and the vertical arrows are isomorphisms.
+                              ∼
+(ii) The isomorphism k × → k × (Gk ) in the diagram of (i) determines an isomorphism of
+     monoids
+                                          ∼
+                                     k× −→ k× (Gk ).
+
+(iii) The left-hand square of the diagram of (i) determines isomorphisms of monoids
+                                        ∼                        ∼
+                                 k × −→ k × (Gk ),         k × −→ k × (Gk ).
+                              ∼
+(iv) The isomorphism Ok× → O× (Gk ) in the diagram of (i) and the natural homomorphisms
+     O× (Gk ) → I(Gk ) ,→ k+ (Gk ) fit into a commutative diagram of topological modules
+                                            log                  ⊆
+                                  Ok×          k
+                                            −−−−
+                                               →     Ik         −−−−→    k+
+                                                                        
+                                  oy                 oy                  oy
+                                                                        
+
+                                                                 ⊆
+                            O× (Gk ) −−−−→ I(Gk ) −−−−→ k+ (Gk ),
+     where the vertical arrows are isomorphisms.
+
+Proof. — Assertion (i) follows immediately — in light of Proposition 3.6 and Proposition 3.9
+— from Lemma 1.7 (i), together with Lemma 1.2 (ii). Assertions (ii), (iii) are immediate.
+Assertion (iv) follows — in light of Proposition 3.6 — from Lemma 1.2 (iv).               
+Lemma 3.12. — The following hold:
+
+(i) The topological module k+ (G) is locally compact.
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                             23
+
+(ii) The topological submodule I(G) ⊆ k+ (G) of k+ (G) is compact and open.
+
+(iii) For each positive real number a, there exists a uniquely determined Haar measure on
+      k+ (G) (cf. (i)) that assigns the compact open (cf. (ii)) subset I(G) ⊆ k+ (G) to a.
+
+Proof. — Assertions (i), (ii) follow from Proposition 3.11 (iv). Assertion (iii) follows from
+assertions (i), (ii).                                                                       
+Definition 3.13. — We shall write
+                                          µ(G)
+for the uniquely determined (cf. Lemma 3.12 (iii)) Haar measure on k+ (G) such that
+                       µ(G) I(G) = p(G)(G)·d(G)−f (G) /](k × (G)tor )(p(G)) ,
+                                  
+
+where we write                                  (
+                                          def   1   if p(G) 6= 2
+                                      (G) =
+                                                2   if p(G) = 2
+and (k × (G)tor )(p(G)) for the p(G)-Sylow subgroup of (the finite — cf. Lemma 1.2 (i), Propo-
+sition 3.11 (i) — abelian group) k × (G)tor .
+Proposition 3.14. — It holds that
+                                            µk = µ(Gk )
+                                                ∼
+relative to the right-hand vertical arrow k+ → k+ (Gk ) of the diagram of Proposition 3.11 (iv).
+Proof. — This assertion follows — in light of Proposition 3.6 and Proposition 3.11 (i), (iv)
+— from Lemma 1.3 (iii).                                                                   
+The various assertions discussed in the present section may be summarized as follows.
+Summary 3.15. — There exist functorial group-theoretic algorithms (cf. Remark 3.15.1
+below) for constructing, from a group G of MLF-type,
+
+  • a topology on G,
+
+  • a prime number p(G),
+
+  • positive integers d(G), f (G), and e(G),
+
+  • subgroups P (G) ⊆ I(G) ⊆ G of G,
+
+  • an element Frob(G) ∈ G/I(G) of G/I(G),
+                                                                   rec(G)
+  • topological monoids O≺ (G) ⊆ O× (G) ⊆ OB (G) ⊆ k × (G) ,→ Gab ,
+
+  • monoids k × (G) ⊆ k × (G) and k× (G),
+
+  • topological modules I(G) ⊆ k+ (G), and
+
+  • a measure µ(G) on k+ (G)
+
+which “correspond” to
+                                                           Publications mathématiques de Besançon – 2021
+24                                                        Introduction to Mono-anabelian Geometry
+
+  • the profinite topology on Gk ,
+
+  • the prime number pk ,
+
+  • the positive integers dk , fk , and ek ,
+
+  • the subgroups Pk ⊆ Ik ⊆ Gk of Gk ,
+
+  • the element Frobk ∈ Gk /Ik of Gk /Ik ,
+                                                   reck
+  • the topological monoids Ok≺ ⊆ Ok× ⊆ OkB ⊆ k × ,→ Gab
+                                                      k ,
+
+  • the monoids k × ⊆ k × and k× ,
+
+  • the topological modules Ik ⊆ k+ , and
+
+  • the measure µk on k+ ,
+
+respectively.
+Remark 3.15.1. — As discussed in [6, Remark 1.9.8], in bi-anabelian geometry, the term
+“group-theoretic” is usually used simply to mean “preserved by an arbitrary isomorphism
+between the arithmetic fundamental groups under consideration”; on the other hand, in mono-
+anabelian geometry, the term “group-theoretic algorithm” is used to mean that “the algorithm
+in a discussion is phrased in language that only depends on the topological group structure of
+the arithmetic fundamental group under consideration”.
+Remark 3.15.2. —
+
+(i) It follows from Theorem 2.2 (ii) and the equivalence (i) ⇔ (ii) of Theorem 2.3 that there
+                                                                                   def
+    exist an MLF L, an algebraic closure L of L, and an automorphism α of GL = Gal(L/L)
+    not compatible with the ramification filtration of GL . By this fact, one may conclude that
+          the ramification filtration of the absolute Galois group of an MLF should be
+          considered to be “not group-theoretic”.
+
+(ii) It follows from Theorem 2.2 (ii) and the equivalence (i) ⇔ (v) of Theorem 2.3 that there
+                                                                             def
+     exist an MLF L, an algebraic closure L of L, an automorphism α of GL = Gal(L/L), and
+     a finite-dimensional Hodge–Tate representation ρ of GL over QpL such that the composite
+     ρ ◦ α is not Hodge–Tate (cf. also [1, Remark 3.3.1]). By this fact, one may conclude that
+          Hodge–Tate-ness of the p-adic representations of the absolute Galois group of
+          an MLF should be considered to be “not group-theoretic”.
+
+
+                     4. Mono-anabelian Reconstruction for MLF’s: II
+In the present section, we continue to establish mono-anabelian reconstruction algorithms for
+MLF’s. Let G be a group of MLF-type, k an MLF, and k an algebraic closure of k. We shall
+also apply the notational conventions related to k and k introduced in Section 1.
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                              25
+
+Definition 4.1. —
+
+ (i) We shall write
+                  def                           def                        def
+           O× (G) = lim O× (H),        k × (G) = lim k × (H),      k × (G) = lim k × (H),
+                    −→                           −→                          −→
+                        H⊆G                           H⊆G                        H⊆G
+
+                  def                           def                        def
+           OB (G) = lim OB (H),        k × (G) = lim k× (H),       k × (G) = lim k × (H),
+                    −→                           −→                          −→
+                        H⊆G                           H⊆G                        H⊆G
+                                               def
+                                       k + (G) = lim k+ (H),
+                                                 −→
+                                                      H⊆G
+    where the injective limits are taken over the open subgroups H ⊆ G of G (so H is of
+    MLF-type — cf. the discussion following Proposition 3.3), and the transition morphisms
+    in the limits are given by the homomorphisms determined by the transfer maps. We
+    regard these seven monoids as G-monoids by the actions of G obtained by conjugation.
+
+(ii) We shall write
+                                                def
+                                        µ(G) = k × (G)tor .
+    We regard µ(G) as a G-module by the action of G induced by the action of G on k × (G)
+    (cf. (i)).
+
+(iii) We shall write
+                                               def
+                                       Λ(G) = lim µ(G)[n]
+                                              ← −
+                                                n
+    — where the projective limit is taken over the positive integers n — and refer to Λ(G) as
+    the cyclotome associated to G. We regard the cyclotome Λ(G) as a profinite, hence also
+    topological, module (by the easily verified finiteness of µ(G)[n] for each n). Moreover, we
+    also regard the cyclotome Λ(G) as a (topological) G-module by the action of G induced
+    by the action of G on µ(G) (cf. (ii)).
+
+Proposition 4.2. — The following hold:
+
+ (i) The various injective homomorphisms recK : K × ,→ Gab  K — where K ranges over the
+     finite extensions of k contained in k — of Lemma 1.7 determine a commutative diagram
+     of Gk -monoids
+                                   ⊆                  ⊆              ⊆
+                        Ok̄×   −−−−→    Ok̄B     −−−−→      k×    −−−−→      k×
+                                                                              
+                        oy               oy                 oy                oy
+                                                                              
+
+                                   ⊆                  ⊆              ⊆
+                   O× (Gk ) −−−−→ OB (Gk ) −−−−→ k × (Gk ) −−−−→ k × (Gk )
+    — where the horizontal arrows are injective, and the vertical arrows are isomorphisms.
+                               ∼
+(ii) The isomorphism Ok̄× → O× (Gk ) in the diagram of (i) determines isomorphisms of Gk -
+     monoids
+                                 ∼                 ∼
+                            k × −→ k × (Gk ), k × −→ k × (Gk ).
+                                                            Publications mathématiques de Besançon – 2021
+26                                                              Introduction to Mono-anabelian Geometry
+
+                                ∼
+(iii) The isomorphism Ok̄× → O× (Gk ) in the diagram of (i) and the natural homomorphism
+      O× (Gk ) → k + (Gk ) fit into a commutative diagram of Gk -modules
+                                                   log
+                                           Ok̄×      k̄
+                                                  −−−−
+                                                     →    k+
+                                                          
+                                           oy              oy
+                                                          
+
+                                        O× (Gk ) −−−−→ k + (Gk )
+     — where the vertical arrows are isomorphisms.
+                                ∼
+(iv) The isomorphism k × → k × (Gk ) in the diagram of (i) determines an isomorphism of
+     Gk -modules
+                                           ∼
+                                    µ(k) −→ µ(Gk ),
+     hence also an isomorphism of topological Gk -modules
+                                                  ∼
+                                            Λ(k) −→ Λ(Gk ).
+
+Proof. — These assertions follow — in light of Proposition 3.11 (i), (ii), (iii), (iv) — from
+Lemma 1.7 (iii), (iv).                                                                      
+The various assertions discussed in the present section may be summarized as follows.
+Summary 4.3. — There exist functorial group-theoretic algorithms (cf. Remark 3.15.1)
+for constructing, from a group G of MLF-type,
+
+  • G-monoids O× (G) ⊆ OB (G) ⊆ k × (G) ⊆ k × (G),
+
+  • G-monoids k × (G) ⊆ k × (G),
+
+  • a G-module k + (G),
+
+  • a G-module µ(G), and
+
+  • a topological G-module Λ(G)
+
+which “correspond” to
+
+  • the Gk -monoids Ok̄× ⊆ Ok̄B ⊆ k × ⊆ k × ,
+
+  • the Gk -monoids k × ⊆ k × ,
+
+  • the Gk -module k + ,
+
+  • the Gk -module µ(k), and
+
+  • the topological Gk -module Λ(k),
+
+respectively.
+
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                             27
+
+Remark 4.3.1. —
+
+ (i) It follows from Theorem 2.2 (ii) and the equivalence (i) ⇔ (iii) of Theorem 2.3 that there
+     exist an MLF L, an algebraic closure L of L, and an automorphism α of Gal(L/L) such
+     that the automorphism of L+ induced by α (cf. Proposition 4.2 (iii)) is not compatible
+     with the pL -adic topology of L+ . By this fact, one may conclude that
+           the p-adic topology on the underlying additive module of an algebraic closure
+           of an MLF should be considered to be “not group-theoretic”
+    (cf. also Remark 4.3.2 (ii) below).
+
+(ii) It follows from Theorem 2.2 (ii) and the equivalence (i) ⇔ (iv) of Theorem 2.3 that there
+     exist an MLF L, an algebraic closure L of L, and an automorphism α of Gal(L/L) such
+     that the automorphism of L+ induced by α (cf. Proposition 4.2 (iii)) does not restrict to
+     an automorphism of the submodule (OL̄ )+ ⊆ L+ of L+ . By this fact, one may conclude
+     that
+           the underlying additive module of the ring of integers of an algebraic closure of
+           an MLF should be considered to be “not group-theoretic”.
+
+(iii) Assume that there exists a functorial group-theoretic algorithm for constructing, from a
+      group G of MLF-type, the submodule of k+ (G) which “corresponds” to the submodule
+      (Ok )+ ⊆ k+ of k+ . Then, by applying a similar construction to the constructions of Defi-
+      nition 4.1 (i), one may obtain a functorial group-theoretic algorithm for constructing, from
+      a group G of MLF-type, the submodule of k + (G) which “corresponds” to the submodule
+      (Ok̄ )+ ⊆ k + of k + — in contradiction to the discussion of (ii). By this fact, one may
+      conclude that
+           the underlying additive module of the ring of integers of an MLF should be
+           considered to be “not group-theoretic”.
+    (Note that if one works with a special case, then a functorial group-theoretic algorithm for
+    constructing the submodule of k+ (G) which “corresponds” to the submodule (Ok )+ ⊆ k+
+    of k+ may be established. For instance, if p(G) 6= 2, and e(G) = 1, then it follows
+    immediately from Lemma 1.2 (vi) and Lemma 1.3 (iii) that the submodule I(G) ⊆ k+ (G)
+    of k+ (G) in fact “corresponds” to the submodule (Ok )+ ⊆ k+ of k+ .)
+
+Remark 4.3.2. —
+
+ (i) Let us observe that the field k, as well as the underlying additive module k + of k, admits
+     the following two natural topologies:
+     (a) the pk -adic topology
+     (b) the final topology, i.e., the topology determined by the pk -adic topologies of the
+         various subfields of k finite over k
+    Let us also observe that these two topologies do not coincide. One verification of this fact
+    is given as follows: Let us consider the map
+                                          Tr : k + −→ k+
+                                                           Publications mathématiques de Besançon – 2021
+28                                                           Introduction to Mono-anabelian Geometry
+
+     defined by mapping a ∈ k + to d−1  K · TrK/k (a) ∈ k+ if a ∈ K+ for a finite extension K
+     of k contained in k — where we write TrK/k for the trace map with respect to the finite
+     extension K/k. Then one verifies immediately that this map Tr is (well-defined and) a
+     k-linear homomorphism. Moreover, since (one verifies easily that) the restriction of the
+     map Tr to each finite extension of k contained in k is continuous with respect to the
+     respective pk -adic topologies on the finite extension and on k+ , the map Tr is continuous
+     with respect to the topology (b) on k + and the pk -adic topology on k+ .
+     Next, let us observe that it follows immediately from the well-known surjectivity of the
+     trace map with respect to a finite extension of finite fields that,
+          for each positive integer n, there exists an element an ∈ (OKn )+ of (OKn )+
+          (where we write Kn ⊆ k for the (uniquely determined) unramified finite exten-
+          sion of k such that dKn = pn · dk ) such that TrKn /k (an ) ∈ Ok× (⊆ (Ok )+ ).
+     Then it is immediate that the sequence (pn · an )n≥1 converges to 0 ∈ k + with respect to
+     the topology (a) on k + . On the other hand, since Tr(pn · an ) = p−n · d−1            n
+                                                                              k · TrKn /k (p · an ) =
+                           −1      ×
+     d−1                                             n
+      k · TrKn /k (an ) ∈ dk Ȯk , the sequence (Tr(p · an ))n≥1 does not converge to Tr(0) =
+     0 ∈ k+ with respect to the pk -adic topology on k+ . In particular, the map Tr is not
+     continuous with respect to the topology (a) on k + and the pk -adic topology on k+ . Thus,
+     we conclude that the topology (a) on k + does not coincide with the topology (b) on k + .
+
+(ii) It follows from Summary 3.15 that one has a functorial group-theoretic algorithm for
+     constructing, from a group G of MLF-type, the topological module k+ (G), i.e., the module
+     k+ (G) equipped with the “p(G)-adic topology”. Thus, it follows from the construction of
+     k + (G) that one has a functorial group-theoretic algorithm for constructing, from a group
+     G of MLF-type, the module k + (G) equipped with the final topology determined by the
+     “p(G)-adic topologies” of the various submodules k+ (H) = k + (G)H of k + (G) — where
+     H ranges over the open subgroups H ⊆ G of G. On the other hand, as already discussed
+     in (i), the pk -adic topology on k + does not coincide with the final topology determined by
+     the pk -adic topologies of the various submodules K+ = (k + )GK of k + — where K ranges
+     over the finite extensions of k contained in k.
+        G 6⇒ the topology on k + (G) which “corresponds” to the topology (a) of (i)
+                                     — cf. Remark 4.3.1 (i)
+        G ⇒ the topology on k + (G) which “corresponds” to the topology (b) of (i)
+                           — cf. Summary 3.15, Definition 4.1 (i)
+
+(iii) The consideration of the continuity of the map Tr of (i) is in fact important in the
+      study of p-adic Hodge theory. The discussion of (i) asserts that the restriction of the
+      map Tr to the (uniquely determined) unramified Zpk -extension of k is not continuous
+      with respect to the respective pk -adic topologies. On the other hand, in [12], it was
+      proved that the restriction of the map Tr to an arbitrary totally ramified Zpk -extension
+      of k is continuous with respect to the respective pk -adic topologies (cf. the discussion
+      preceding [12, Proposition 7]). Moreover, this continuity is one of the crucial ingredients
+      of the computation of an important continuous group cohomology “H i (Gk , kb+ (j))” in the
+      p-adic Hodge theory established in [12].
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                          29
+
+Remark 4.3.3. — By Theorem 2.2, Summary 3.15, and Summary 4.3, one may conclude
+that a group of MLF-type may not be directly related to a sort of ring structure but may
+be related to one of the underlying additive and underlying multiplicative structures of a ring
+structure. Put another way, from the point of view of the terminology of [7], a group of MLF-
+type may/should be regarded as a mono-analytic object (cf. [7, §2.7, (vii)]) (i.e., as opposed
+to an arithmetic holomorphic object — cf. [7, §2.7, (vii)]). Moreover, the passage
+
+ • from the Galois group Gk ⊆ Aut(k) which is, by definition, related to the ring structure
+   of the field k
+
+ • to an abstract group isomorphic to Gk (i.e., as opposed to a situation in which one regards
+   the group as a group related to the ring structure under consideration as in the case of
+   Gk )
+
+may be regarded as an analogue of the passage
+
+ • from the field k equipped with the natural action of Gk
+
+ • to an abstract monoid isomorphic to either the underlying additive module k + or the
+   underlying multiplicative monoid k × (i.e., as opposed to a situation in which one regards
+   the monoid as a monoid arising from the field k) equipped with an action of the abstract
+   group isomorphic to Gk .
+
+
+                                       5. MLF-pairs
+One important aspect of mono-anabelian geometry is the technique of mono-anabelian trans-
+port (cf. [7, §2]). In order to explain mono-anabelian transport, in the present section, we
+introduce the notion of an MLF-pair (cf. Definition 5.3 below).
+Definition 5.1. —
+
+(i) We shall refer to a collection of data
+                                             GyM
+    consisting of a monoid M , a group G, and an action of G on M as a group-monoid-pair.
+
+(ii) Let G◦ y M◦ , G• y M• be group-monoid-pairs. Then we shall refer to a pair α =
+                                                    ∼              ∼
+     (αG , αM ) consisting of isomorphisms αG : G◦ → G• , αM : M◦ → M• compatible with the
+     respective actions of G◦ , G• on M◦ , M• as an isomorphism from G◦ y M◦ to G• y M• .
+
+Definition 5.2. — Let k be an MLF and k an algebraic closure of k. Then we shall refer
+to the group-monoid-pair
+                      Gk y k ×    (respectively, Gk y Ok̄B ;   Gk y Ok̄× )
+                                                                          def
+consisting of the monoid k × (respectively, Ok̄B ; Ok̄× ), the group Gk = Gal(k/k), and the
+natural action of Gk on k × (respectively, Ok̄B ; Ok̄× ) as the model MLF -pair (respectively,
+                                                                             ♦
+
+model MLFB -pair; model MLF× -pair) (associated to k/k).
+                                                        Publications mathématiques de Besançon – 2021
+30                                                                 Introduction to Mono-anabelian Geometry
+
+Definition 5.3. — We shall refer to an isomorph, as a group-monoid-pair (i.e., in the
+sense of Definition 5.1 (ii)), of a model MLF -pair (respectively, model MLFB -pair; model
+                                                         ♦
+
+MLF× -pair) as an MLF -pair (respectively, MLFB -pair; MLF× -pair).
+                            ♦
+
+
+Remark 5.3.1. — The notion of an MLF -pair (respectively, MLFB -pair; MLF× -pair) in
+                                                       ♦
+
+the sense of Definition 5.3 is the same as the notion of an MLF-Galois TLG-pair of mono-
+analytic type (respectively, MLF-Galois TM-pair of mono-analytic type; MLF-Galois TCG-
+pair of mono-analytic type) in the sense of [6, Definition 3.1 (ii)] (cf. also Remark 5.7.2 below).
+
+In the remainder of the present section, let  ∈ { , B, ×} and G y M an MLF -pair.
+                                                              ♦
+
+Definition 5.4. — We shall refer to the group G (respectively, monoid M ) as the étale-
+like portion (cf. [7, §2.7 (iii)]) (respectively, Frobenius-like portion (cf. [7, §2.7 (ii))]) of the
+MLF -pair G y M .
+
+Remark 5.4.1. — It follows from the various definitions involved that the étale-like portion
+of an MLF -pair is a group of MLF-type.
+
+Definition 5.5. — We shall write
+                                                    
+                                                    {±1}     if  =
+                                                    
+                                                                   ♦
+                                             def
+                                      Ind       =      {1}    if  = B
+                                                    
+                                                    
+                                                    Zb×      if  = ×.
+                                    b × (in an evident way).
+Let us regard Ind as a subgroup of Z
+
+Remark 5.5.1. — Let us observe that, for each element of Ind , the identity automorphism
+of G and the automorphism of M given by multiplication by the element of Ind (i.e., the
+automorphism given by “x 7→ xλ ” for the fixed “λ” ∈ Ind ⊆ Zb × ) form an automorphism of
+the MLF -pair G y M . In particular, we have an injective homomorphism
+                                Ind ,→ AutG (M )
+                                                                           
+                                                             ⊆ Aut(G y M ) .
+
+Lemma 5.6. — Suppose that  =               ♦   . Then the following hold:
+
+(i) Let H ⊆ G be an open subgroup of G. Then there exist infinitely many prime numbers l
+    such that the pro-l completion of the submodule M H ⊆ M of H-invariants of M is, as
+    an abstract pro-l group, isomorphic to (Zl )+ . Moreover, for such an l, the submodule
+                                                 J(H) ⊆ M H
+     of M H obtained by forming the kernel of the natural homomorphism from M H to the
+     pro-l completion of M H does not depend on the choice of l.
+
+(ii) Write
+                                                 def
+                                       M (×) = lim J(H) ⊆ M
+                                               −→
+                                                       H⊆G
+     (cf. (i)) — where the injective limit is taken over the open subgroups H ⊆ G of G. Then
+     the submodule M (×) ⊆ M of M is G-stable.
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                            31
+
+Proof. — Let us observe that it follows from the various definitions involved that, for each
+open subgroup H ⊆ G of G, the module M H is, as an abstract module, isomorphic to “k × ”
+for some MLF. Thus, these assertions follow immediately from Lemma 1.2 (i).               
+Proposition 5.7. — The following hold:
+
+(i) Suppose that  = B. Then the group-monoid-pair G y M gp obtained by replacing M in
+    G y M by M gp is an MLF -pair.
+                                 ♦
+
+
+(ii) Suppose that  = . Then the group-monoid-pair G y M (×) obtained by replacing M
+                       ♦
+     in G y M by M (×) of Lemma 5.6 (ii) is an MLF× -pair.
+
+Proof. — Assertion (i) follows from the (easily verified) fact that the natural inclusion Ok̄B ,→
+                                         ∼
+k × determines an isomorphism (Ok̄B )gp → k × . Assertion (ii) follows immediately — in light
+of Lemma 1.2 (i) — from the definition of M (×).                                                
+Remark 5.7.1. — The content of Proposition 5.7 may be summarized as follows:
+                 an MLFB -pair =⇒ an MLF -pair =⇒ an MLF× -pair
+                                                  ♦
+
+                    GyM             G y M gp
+                                     GyM           G y M (×).
+Remark 5.7.2. —
+
+(i) Suppose that  = ×. Then it follows from the various definitions involved that, for each
+    open subgroup H ⊆ G of G, the module M H “corresponds” to the module “O× ” for
+    some MLF. Thus, by considering the submodules of M H of finite index, one obtains a
+    topology on M H which “corresponds” to the p-adic topology on “O× ”. In particular, one
+    may regard M as an object of the category “TCG” of [6, Definition 3.1 (i)].
+
+(ii) Suppose that  =    ♦     (respectively,  = B). Then it follows from the various defini-
+     tions involved that, for each open subgroup H ⊆ G of G, the submonoid M H ⊆ M
+     of H-invariants of M contains the submodule M gp (×)H of H-invariants of M gp (×) (cf.
+     Proposition 5.7 (i), (ii)); moreover, the pair of monoids M gp (×)H ⊆ M H “corresponds”
+     to the pair of monoids “O× ⊆ k × ” (respectively, “O× ⊆ OB ”) for some MLF. Thus, by
+     considering the topology on M H induced by the topology of M gp (×)H discussed in (i)
+     (cf. Proposition 5.7 (i), (ii)), one obtains a topology on M H which “corresponds” to the
+     p-adic topology on “k × ” (respectively, “OB ”). In particular, one may regard M as an
+     object of the category “TLG” (respectively, “TM”) of [6, Definition 3.1 (i)].
+
+Definition 5.8. — We shall write
+                                              
+                                                ×
+                                              k (G)     if  =
+                                              
+                                                               ♦
+                                       def
+                                M (G) =        OB (G)    if  = B
+                                              
+                                              O × (G)
+                                              
+                                                         if  = ×
+(cf. Definition 4.1 (i), Remark 5.4.1). Thus, it follows from Proposition 4.2 (i) that the group-
+monoid-pair
+                                          G y M  (G)
+is an MLF -pair.
+                                                          Publications mathématiques de Besançon – 2021
+32                                                           Introduction to Mono-anabelian Geometry
+
+Definition 5.9. —
+
+(i) We shall refer to the group-monoid-pair
+                                                G y Λ(G)
+     (cf. Definition 4.1 (iii), Remark 5.4.1), i.e., obtained by considering the cyclotome associ-
+     ated to G, as the étale-like cyclotome associated to G y M .
+
+(ii) We shall write
+                                          def
+                                  Λ(M ) = lim M × [n] = lim M gp [n]
+                                          ← −
+                                            n
+                                                        ← −
+                                                          n
+     — where the projective limits are taken over the positive integers n — and refer to the
+     group-monoid-pair
+                                         G y Λ(M )
+     obtained by considering the action of G on Λ(M ) induced by the action of G on M as
+     the Frobenius-like cyclotome associated to G y M . We regard the cyclotome Λ(M ) as a
+     profinite, hence also topological, G-module (by the easily verified finiteness of M × [n] for
+     each n).
+
+Remark 5.9.1. — One verifies easily from the various definitions involved that we have
+a natural identification of the étale-like cyclotome G y Λ(G) with the Frobenius-like cy-
+clotome G y Λ(M  (G)) associated to the MLF -pair G y M  (G) constructed from G in
+Definition 5.8.
+
+Proposition 5.10. — Let k be an MLF and k an algebraic closure of k. Suppose that the
+MLF -pair G y M is the model MLF -pair associated to k/k (which thus implies that
+       def
+G = Gk = Gal(k/k) and M ⊆ k × ). Then the following hold:
+                                 ∼
+(i) The isomorphism Λ(k) → Λ(G) of topological G-modules of Proposition 4.2 (iv) induces
+    an isomorphism of the étale-like cyclotome
+                                            G = Gk y Λ(G)
+     with the group-monoid-pair
+                                                Gk y Λ(k)
+     obtained by considering the cyclotome associated to k.
+
+(ii) The natural inclusion µ(k) ,→ M induces an isomorphism of the Frobenius-like cyclotome
+                                            G = Gk y Λ(M )
+     with the group-monoid-pair
+                                                Gk y Λ(k)
+     obtained by considering the cyclotome associated to k.
+
+Proof. — These assertions are immediate.                                                          
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                            33
+
+                    6. Cyclotomic Synchronization for MLF-pairs
+Let us recall that a cyclotome refers to an “isomorph of the object Z(1)”.
+                                                                    b      Various (a priori
+independent) cyclotomes often appear in studies of arithmetic geometry. For instance, if Ω is
+an algebraically closed field of characteristic zero, then each of
+ • the cyclotome Λ(Ω) associated to Ω,
+ • the étale fundamental group
+                                                      
+                                      π1ét Spec Ω((t))
+    of the spectrum of the field Ω((t)) of fractions of the ring of formal power series with
+    coefficients in Ω, and
+ • the dual
+                                       def     2                
+                                 Λ(C) = HombZ Hét (C, Z),
+                                                       b Z b
+         b of the second étale cohomology H 2 (C, b
+    over Z                                        Z) of a projective smooth curve C over Ω
+                                           ét
+
+gives an example of a cyclotome. In our case, we constructed, from a single MLF -pair
+G y M (where  ∈ { , B, ×}), (a priori independent) two cyclotomes, i.e.,
+                      ♦
+ • the étale-like cyclotome Λ(G) and
+ • the Frobenius-like cyclotome Λ(M )
+(cf. Definition 5.9, Proposition 5.10).
+If one works with certain arithmetic holomorphic structures (cf. [7, §2.7, (vii)]) related to
+cyclotomes under consideration, then one may obtain a phenomenon of cyclotomic synchro-
+nization, i.e., synchronization of cyclotomes. For instance, in the case of the above examples
+Λ(Ω) and Λ(C), the homomorphism Pic(C) → H 2 (C, Λ(Ω)) obtained by considering the first
+Chern classes yields an isomorphism
+                                                 ∼
+                        Pic(C)/ Pic0 (C) ⊗Z Z
+                                                                          
+                                            b −→ Hom Λ(C), Λ(Ω) ;
+                                                    Z
+                                                    b
+thus, an invertible sheaf on C of degree one determines a cyclotomic synchronization (i.e.,
+                                                ∼
+an isomorphism between cyclotomes) Λ(C) → Λ(Ω) by means of which one usually (i.e., in
+the usual point of view of arithmetic geometry) identifies Λ(C) with Λ(Ω). In our case, if
+our MLF -pair G y M is a model MLF -pair (i.e., an MLF -pair directly related to the
+ring structure of an MLF), then, by means of the arithmetic holomorphic structures related
+to the objects involved (more concretely, essentially, by means of local class field theory), one
+may construct a natural isomorphism between the Frobenius-like cyclotome Λ(M ) and the
+étale-like cyclotome Λ(G) (cf. Definition 6.2 below).
+On the other hand, observe that such a phenomenon of cyclotomic synchronization usually
+depends, at least in an a priori sense, on a certain arithmetic holomorphic structure related to
+cyclotomes under consideration. Thus, if one works with only mono-analytic structures (cf. [7,
+§2.7, (vii)]), then one cannot apply the “arithmetic holomorphic” construction of the cyclo-
+tomic synchronization. In the present section, we establish a cyclotomic synchronization that
+one may apply to an arbitrary (i.e., a not necessarily model) MLF -pair (cf. Definition 6.6,
+Proposition 6.7 below).
+In the present section, let  ∈ { , B, ×} and G y M an MLF -pair.
+                                 ♦
+                                                          Publications mathématiques de Besançon – 2021
+34                                                               Introduction to Mono-anabelian Geometry
+
+Proposition 6.1. — The set
+                                                                 
+                                          IsomG Λ(M ), Λ(G)
+                                                ∼                    b × -torsor, i.e.,
+of G-equivariant isomorphisms Λ(M ) → Λ(G) (is nonempty and) forms a Z
+                                  b × = Aut(Λ(G)) on Λ(G).
+relative to the natural action of Z
+
+Proof. — This assertion follows immediately from Proposition 5.10 (i), (ii).                          
+
+Definition 6.2. — Suppose that the MLF -pair G y M is a model MLF -pair. Then, by
+considering the composite of the isomorphisms of Proposition 5.10 (i), (ii) (i.e, the isomor-
+               ∼                ∼
+phisms “Λ(G) → Λ(k)”, “Λ(M ) → Λ(k)”), we obtain a G-equivariant isomorphism
+                                                     ∼
+                                            Λ(M ) −→ Λ(G).
+                                                ∼                        b × -torsor discussed
+We shall refer to this composite Λ(M ) → Λ(G) (that is an element of the Z
+in Proposition 6.1) as the holomorphic cyclotomic synchronization isomorphism associated
+to the model MLF -pair G y M .
+
+Remark 6.2.1. — One verifies easily that the construction of the holomorphic cyclotomic
+synchronization isomorphism of Definition 6.2 depends, in an essential way, on the ring struc-
+ture (i.e., the arithmetic holomorphic structure — cf. [7, §2.7, (vii)]) of a given model MLF -
+pair. In particular, one cannot apply this construction of the holomorphic cyclotomic syn-
+chronization isomorphism of Definition 6.2 to an abstract (i.e., a not necessarily model)
+MLF -pair.
+                                                                     def
+Lemma 6.3. — Suppose that  ∈ { , B}. Write M (×) = M gp (×) (cf. Proposition 5.7 (i),
+                                            ♦
+                                                                                              def
+(ii)). (Thus, one verifies easily that M (×) ⊆ M ⊆ M gp .) Write, moreover, V (G y M ) =
+M I(G) /M (×)I(G) (cf. Definition 3.5 (iii), Remark 5.4.1). (Thus, one also verifies easily that
+there exists a natural identification V (G y M )gp = (M gp )I(G) /M (×)I(G) .) Then the follow-
+ing hold:
+
+ (i) The monoid V (G y M ) is, as an abstract monoid, isomorphic to
+                                            (
+                                                Z+   if  =  ♦
+                                                N    if  = B.
+     Moreover, the action of G on V (G y M ) induced by the action of G on M is trivial.
+
+(ii) For each positive integer n, the natural homomorphism
+                                    H 2 (G, M × [n]) −→ H 2 (G, M gp )
+     determines an isomorphism
+                                                     ∼
+                                  H 2 (G, M × [n]) −→ H 2 (G, M gp )[n].
+
+(iii) The natural homomorphism
+                              H 2 G/I(G), (M gp )I(G) −→ H 2 (G, M gp )
+                                                         
+
+     is an isomorphism.
+Publications mathématiques de Besançon – 2021
+ Y. Hoshi                                                                                                                 35
+
+(iv) The natural homomorphism
+                        H 2 G/I(G), (M gp )I(G) −→ H 2 G/I(G), V (G y M )gp
+                                                                                                     
+
+     is an isomorphism.
+
+ (v) The homomorphism
+                                      pf                           
+        H 1 G/I(G), V (G y M )gp               /V (G y M )gp −→ H 2 G/I(G), V (G y M )gp
+                                                                                                                  
+
+
+     determined by the exact sequence of G/I(G)-modules
+                                                       pf                              pf
+     0 −→ V (G y M )gp −→ V (G y M )gp                       −→ V (G y M )gp                  /V (G y M )gp −→ 0
+     is an isomorphism.
+
+(vi) The homomorphism
+                                    pf                                                       pf
+      H 1 G/I(G), V (G y M )gp             /V (G y M )gp −→ V (G y M )gp                              /V (G y M )gp
+
+     obtained by mapping
+                                          pf                           
+   χ ∈ Hom G/I(G), V (G y M )gp                  /V (G y M )gp
+                                                                                                   pf                   
+                                                   = H 1 G/I(G), V (G y M )gp                             /V (G y M )gp
+
+     (cf. (i)) to
+                                                                     pf
+                            χ Frob(G) ∈ V (G y M )gp                         /V (G y M )gp
+                                      
+
+     (cf. Definition 3.8, Remark 5.4.1) is an isomorphism.
+
+(vii) The various isomorphisms of (iii), (iv), (v), (vi) determine an isomorphism
+                                           ∼                             pf
+                           H 2 (G, M gp ) −→ V (G y M )gp                      /V (G y M )gp
+     which thus determines an isomorphism
+                                                    ∼                             ∧
+                                 H 2 G, Λ(M ) −→ V (G y M )gp
+     (cf. (i), (ii)).
+
+ Proof. — These assertions follow — in light of Proposition 3.6 and Proposition 3.9 — from
+ Lemma 1.6 (i), (ii), (iii), (iv), (v), (vi), (vii).                                     
+
+ Definition 6.4. — Suppose that  ∈ { , B}. Then we shall write
+                                                   ♦
+                                                                  ∼                           ∧
+                          inv∧ (G y M ) : H 2 G, Λ(M ) −→ V (G y M )gp
+ for the second displayed isomorphism of Lemma 6.3 (vii).
+                                               ♦  b × -torsor
+ Lemma 6.5. — Suppose that  ∈ { , B}. Recall the Z
+                                                                             
+                                           IsomG Λ(M ), Λ(G)
+                                                                           Publications mathématiques de Besançon – 2021
+36                                                                      Introduction to Mono-anabelian Geometry
+
+discussed in Proposition 6.1. Then the subset of IsomG (Λ(M ), Λ(G)) consisting of isomor-
+phisms α ∈ IsomG (Λ(M ), Λ(G)) which satisfy the following condition (is nonempty and)
+forms an Ind -torsor: The composite
+                         inv∧ (GyM )
+                 gp ∧         ∼
+                                       H 2 G, Λ(M )
+                                                           
+     V (G y M )             ←−
+                                       H 2 (idG ,α)                    ∧         
+                                             ∼                       inv (GyM
+                                                                            ∼
+                                                                               (G)) 
+                                                                                                             gp ∧
+                                          −→              2
+                                                      H G, Λ(G)             −→               V G y M  (G)
+
+(cf. Remark 5.9.1) — where we write H 2 (idG , α) for the isomorphism induced by α — maps
+the submonoid
+                                                             ∧
+                              V (G y M ) ⊆ V (G y M )gp
+(cf. Lemma 6.3 (i)) to the submonoid
+                                                                            gp ∧
+                               V G y M  (G) ⊆ V G y M  (G)
+                                                      
+                                                                                         .
+
+Proof. — Let us first observe that one verifies immediately from Proposition 5.10 (i), (ii) that
+the subset discussed in Lemma 6.5 is nonempty. Next, let us observe that, by Lemma 6.3 (i),
+there exists a natural isomorphism of Aut(V (G y M )) with Ind . Thus, it follows immedi-
+ately from the definition of the displayed composite in the statement of Lemma 6.5 that the
+subset discussed in Lemma 6.5 forms an Ind -torsor, as desired.                              
+Definition 6.6. — If  = ×, then we shall write
+                                                          def                        
+                                 synΛ (G y M ) = IsomG Λ(M ), Λ(G) .
+If  ∈ { , B}, then we shall write
+         ♦
+                                                                                     
+                                 synΛ (G y M ) ⊆ IsomG Λ(M ), Λ(G)
+for the Ind -torsor discussed in Lemma 6.5. (So, for each  ∈ { , B, ×}, the set synΛ (G y
+                                                                                     ♦
+M ) forms an Ind -torsor — cf. also Proposition 6.1). We shall refer to the Ind -torsor
+synΛ (G y M ) as the cyclotomic synchronization poly-isomorphism associated to G y M .
+Proposition 6.7. — Suppose that the MLF -pair G y M is a model MLF -pair. Then
+the Ind -torsor synΛ (G y M ) coincides with the Ind -orbit of the holomorphic cyclotomic
+synchronization isomorphism associated to G y M .
+Proof. — This assertion follows immediately from the definition of synΛ (G y M ).                                     
+Remark 6.7.1. —
+
+(i) Let us observe that one verifies easily from the definition of the injective homomorphism
+    of Remark 5.5.1 that the composite
+                                                                  b×
+                Ind ,→ Aut(G y M ) → Aut G y Λ(M ) → Aut Λ(M ) = Z
+                                                                                             
+
+                                                  b × , but the image of the composite
+     coincides with the natural inclusion Ind ,→ Z
+                                                                   b×
+                         Ind ,→ Aut(G y M ) → Aut(G) → Aut Λ(G) = Z
+                                                                                         
+
+                     b ×.
+     consists of 1 ∈ Z
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                             37
+
+(ii) Let
+                   s : G† y M †       s (G† y M † ) ⊆ IsomG† Λ(M † ), Λ(G† )
+                                                                                 
+
+    be a functorial assignment which assigns each MLF -pair G† y M † (for a fixed  ∈
+    { , B, ×}) to a subset of the Z
+     ♦                             b × -torsor Isom † (Λ(M † ), Λ(G† )). Then, by the observation
+                                                   G
+    of (i), one may verify easily that
+           the subset s (G† y M † ) ⊆ IsomG† (Λ(M † ), Λ(G† )) is stable by the action of
+                  b ×.
+           Ind ⊆ Z
+
+(iii) Let us recall that the cyclotomic synchronization poly-isomorphism “synΛ (G y M )”
+      (which forms — by allowing “G y M ” to vary — a functorial assignment as discussed
+      in (ii))
+     (∗) contains the holomorphic cyclotomic synchronization isomorphism (i.e., if one con-
+         siders the cyclotomic synchronization poly-isomorphism of a model MLF -pair) (cf.
+         Proposition 6.7).
+    By the observation of (ii), together with Proposition 6.7, one may conclude that the cy-
+    clotomic synchronization poly-isomorphism “synΛ (G y M )” (which forms — by allowing
+    “G y M ” to vary — a functorial assignment as discussed in (ii)) is “minimal” among
+    functorial assignments as discussed in (ii) which satisfy the condition (∗).
+    Put another way, roughly speaking, the cyclotomic synchronization poly-isomorphism of
+    Definition 6.6 may be considered to be “best” among functorial assignments as discussed
+    in (ii).
+
+                      7. Mono-anabelian Transport for MLF-pairs
+One important aspect of the technique of mono-anabelian transport is the notion of a Kummer
+poly-isomorphism, which relates (monoids constructed, via some functorial algorithms, from)
+Frobenius-like portions to mono-anabelian étale-like monoids (i.e., monoids constructed, via
+some mono-anabelian reconstruction algorithms, from étale-like portions). In the present
+section, we establish Kummer poly-isomorphisms (cf. Definition 7.4 below) and discuss mono-
+anabelian transport for MLF-pairs (cf. Remark 7.6.1 below).
+In the present section, let  ∈ { , B, ×} and G y M an MLF -pair.
+                                   ♦
+
+Lemma 7.1. — The following hold:
+ (i) For each open subgroup H ⊆ G of G, the homomorphism
+                             (M H ⊆)      (M gp )H −→ H 1 H, Λ(M )
+                                                                        
+
+    determined by the exact sequences of H-modules
+                                                       n
+                             1 −→ M gp [n] −→ M gp −→ M gp −→ 1
+    — where n ranges over the positive integers — is injective.
+
+(ii) The homomorphism
+                              (M ⊆) M gp −→ ∞ H 1 G, Λ(M )
+                                                                    
+
+    obtained by forming the injective limit of the homomorphisms of (i) for the open subgroups
+    H ⊆ G of G is injective.
+                                                           Publications mathématiques de Besançon – 2021
+38                                                                  Introduction to Mono-anabelian Geometry
+
+Proof. — First, we verify assertion (i). Let us first observe that, by definition, the kernel
+of the homomorphism discussed in assertion (i) coincides with the submodule of (M gp )H
+consisting of divisible elements of (M gp )H . Next, let us observe that the module (M gp )H
+is, as an abstract module, isomorphic to “k × ” (respectively, “k × ”; “O× ”) for some MLF if
+=    ♦  (respectively,  = B;  = ×). Thus, assertion (i) follows from Lemma 1.2 (i). This
+completes the proof of assertion (i). Assertion (ii) follows from assertion (i).           
+
+Definition 7.2. — We shall write
+                                                                1              
+                              ∞ Kmm(G y M ) : M ,→ ∞ H              G, Λ(M )
+for the injection (obtained by the injection) discussed in Lemma 7.1 (ii).
+
+Lemma 7.3. — The Ind -orbit of G-equivariant isomorphisms
+                                      1             ∼
+                                          G, Λ(M ) −→ ∞ H 1 G, Λ(G)
+                                                                           
+                                 ∞H
+
+induced by the Ind -orbit of G-equivariant isomorphisms
+                                                             ∼
+                                   synΛ (G y M ) : Λ(M ) −→ Λ(G)
+restricts — relative to the injections ∞ Kmm(G y M ), ∞ Kmm(G y M  (G)) of Defini-
+tion 7.2 (cf. also Remark 5.9.1) — to an Ind -orbit of G-equivariant isomorphisms
+                                                   ∼
+                                                M −→ M  (G).
+
+Proof. — This assertion follows immediately from Proposition 6.7.                                        
+
+Definition 7.4. — We shall write
+                                                         ∼
+                             κ(G y M ) : (G y M ) −→ G y M  (G)
+                                                                               
+
+
+for the Ind -orbit of G-equivariant isomorphisms discussed in Lemma 7.3 and refer to κ(G y
+M ) as the Kummer poly-isomorphism associated to G y M .
+
+Some of the various assertions discussed in Sections 5, 6, and 7 may be summarized as follows.
+
+Summary 7.5. — One may construct, from an MLF -pair G y M ,
+
+  • the “étale-like” MLF -pair G y M  (G),
+
+  • the étale-like cyclotome G y Λ(G),
+
+  • the Frobenius-like cyclotome G y Λ(M ),
+                                                                                            ∼
+  • the cyclotomic synchronization poly-isomorphism synΛ (G y M ) : Λ(M ) → Λ(G) (i.e.,
+    a certain poly-isomorphism which forms an Ind -orbit of G-equivariant isomorphisms
+           ∼
+    Λ(M ) → Λ(G)), and
+                                                         ∼
+  • the Kummer poly-isomorphism κ(G y M ) : M → M  (G) (i.e., a certain poly-isomorphism
+                                                                ∼
+    which forms an Ind -orbit of G-equivariant isomorphisms M → M  (G)).
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                        39
+
+Theorem 7.6. — Let  ∈ { , B, ×}; G◦ y M◦ , G• y M• MLF -pairs. Thus, we have a
+                                 ♦
+natural map
+                F : Isom(G◦ y M◦ , G• y M• ) −→ Isom(G◦ , G• ).
+Moreover, by considering the action of Ind on M• (cf. Remark 5.5.1), we have a natural
+action of Ind on the set Isom(G◦ y M◦ , G• y M• ) over Isom(G◦ , G• ) relative to the map
+F . Then the following hold:
+
+ (i) The map F is surjective.
+
+(ii) Every fiber of the map F forms an Ind -torsor.
+
+(iii) If  =   , then every fiber of the map F is of cardinality two.
+               ♦
+
+(iv) If  = B, then the map F is bijective.
+                                                                 ∼
+Proof. — First, we verify assertion (i). Let α : G◦ → G• be an isomorphism (i.e., an element
+of the codomain of F ). Then one verifies easily from the functoriality of the mono-anabelian
+reconstruction algorithm of Definition 4.1 (i) that α induces an isomorphism between the
+“étale-like” MLF -pairs
+                                                             
+                                                 α,M  (α)
+                                                    ∼
+                            G◦ y M  (G◦ )                       G• y M  (G• ) .
+                                                                                   
+                                                   −→
+Thus, by considering respective elements ι◦ , ι• of the Kummer poly-isomorphisms κ(G◦ y
+M◦ ), κ(G• y M• ), we obtain isomorphisms
+                                                             
+                       ι◦                        α,M  (α)
+                       ∼                            ∼                                 ι∼•
+           (G◦ y M◦ ) −→ G◦ y M  (G◦ )                              G• y M  (G• ) ←− (G• y M• )
+                                             
+                                                   −→
+                                                                 ∼
+such that the image of the composite (G◦ y M◦ ) → (G• y M• ) of these isomorphisms via
+F coincides with the original isomorphism α. This completes the proof of assertion (i).
+Next, we verify assertion (ii). Let us first observe that, to verify assertion (ii), by considering
+the difference of two elements of the domain of F whose images via F coincide, it suffices to
+verify the following assertion:
+
+     Let (αG , αM ) be an automorphism of the MLF -pair G y M . Suppose that αG =
+     idG . Then it holds that αM ∈ Ind (⊆ AutG (M )).
+
+To this end, let us observe that one verifies easily from the functoriality of the Kummer poly-
+isomorphism of Definition 7.4 that the Kummer poly-isomorphism associated to G y M
+                                                         ∼
+                                                                      G y M  (G)
+                                                                                    
+                            κ(G y M ) : (G y M ) −→
+is compatible with the automorphism (αG , αM ), i.e., the diagram of poly-isomorphisms
+                                             κ(GyM )
+                               (G y M ) −−−−−−→ G y M  (G)
+                                                                                
+                                                                      
+                            (αG ,αM )y              αG ,M  (αG ) y
+                                                                       
+
+                                             κ(GyM )
+                               (G y M ) −−−−−−→ G y M  (G)
+                                                                                
+
+                                                                      Publications mathématiques de Besançon – 2021
+40                                                                 Introduction to Mono-anabelian Geometry
+
+commutes. Next, let us observe that since (we have assumed that) αG = idG , the right-hand
+vertical arrow of this diagram is the (poly-isomorphism consisting of the) identity automor-
+phism. Thus, it holds that (αG , αM ) ∈ κ(G y M )−1 ◦ κ(G y M ), which thus implies that
+αM ∈ Ind (⊆ AutG (M )), as desired. This completes the proof of assertion (ii).
+Assertions (iii), (iv) follow from assertions (i), (ii), together with the (easily verified) fact
+that ]Ind = 2 and ]IndB = 1.
+          ♦
+                                                                                               
+
+Remark 7.6.1. — The content of Theorem 7.6, as well as the proof of Theorem 7.6, gives
+some examples of the technique of mono-anabelian transport.
+
+(i) In order to explain the technique of mono-anabelian transport from the point of view of
+    Theorem 7.6 (i), let us recall the proof of Theorem 7.6 (i), i.e., the surjectivity of the map
+    F of Theorem 7.6 as follows:
+     Theorem 7.6 (i) asserts that, roughly speaking, for two MLF -pairs, an “étale-like link”
+     between the MLF -pairs (i.e., an isomorphism between the étale-like portions of the
+     MLF -pairs) induces a “Frobenius-like link” between the MLF -pairs (i.e., an isomor-
+     phism between the Frobenius-like portions of the MLF -pairs) compatible with the given
+     “étale-like link”.
+                                                      ∼
+                          étale-like portion          −→
+                                                       w        étale-like portion
+                                                    ?
+                                                     w
+                                y                                      y
+                       Frobenius-like portion                 Frobenius-like portion
+     Suppose that we are in a situation described by the following diagram to recall the proof
+     of Theorem 7.6 (i):
+                                                      ∼
+                         étale-like portion   −→    étale-like portion
+                                  y                          y
+                       Frobenius-like portion    Frobenius-like portion.
+
+     In order to obtain a “Frobenius-like link” from our “étale-like link”, let us first apply
+     the mono-anabelian reconstruction algorithm discussed in Summary 4.3 to each of the
+     étale-like portions to construct a mono-anabelian étale-like monoid (i.e., the “étale-like
+     copy M  (G)” — cf. Definition 5.8 — of the Frobenius-like portion “M ”).
+                                     mono-anabelian
+            étale-like portion                              mono-anabelian étale-like monoid
+                                 reconstruction algorithm
+
+     Here, let us recall that we do not require the “étale-like link” to be compatible with any sort
+     of ring structures. On the other hand, observe that the mono-anabelian reconstruction
+     algorithms discussed in Sections 3 and 4 may be applied without existence of some “fixed
+     reference model” (as k ◦ /k◦ and k • /k• for G◦ = Gal(k ◦ /k◦ ) and G• = Gal(k • /k• ) in
+     the case of bi-anabelian geometry discussed in Section 2). Put another way, the mono-
+     anabelian reconstruction algorithms discussed in Sections 3 and 4 have the virtue of
+     being free of any mention of some “fixed reference model” copy of ring-theoretic objects.
+     In particular, by the mono-anabelian property of our algorithm, we obtain, from the
+     given “étale-like link”, an isomorphism between the mono-anabelian étale-like monoids
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                                  41
+
+    compatible with the given “étale-like link”.
+                                                   ∼
+            étale-like portion                    −→
+                                                   w                        étale-like portion
+                                        mono-anab.  property
+                                                   w
+                     y                                                               y
+                                                   ∼
+mono-anabelian étale-like monoid                  −→               mono-anabelian étale-like monoid
+
+    Next, in order to relate the Frobenius-like portions to the mono-anabelian étale-like
+    monoids, let us discuss cyclotomic synchronization poly-isomorphisms, which induce Kum-
+    mer poly-isomorphisms. Let us recall that, as in the discussion of Section 6, we can con-
+    struct a cyclotomic synchronization poly-isomorphism “synΛ ” (cf. Definition 6.6) (i.e., a
+    poly-isomorphism between the Frobenius-like cyclotome and the étale-like cyclotome).
+                                                   cyclotomic
+                                                       ∼
+                    Frobenius-like cyclotome            −→         étale-like cyclotome
+                                                 synchronization
+
+    Thus, by applying a sort of the Kummer theory (i.e., by considering the injection “∞ Kmm”
+    — cf. Definition 7.2), we obtain a Kummer poly-isomorphism “κ” (cf. Definition 7.4) (i.e.,
+    a poly-isomorphism between the Frobenius-like portion and the mono-anabelian étale-like
+    monoid) from the above cyclotomic synchronization poly-isomorphism.
+                                                   cyclotomic
+                                                       ∼
+                    Frobenius-like cyclotome            −→         étale-like cyclotome
+                                                 synchronization
+                                                   Kummer
+   Kummer theory                                     ∼
+                     Frobenius-like portion            −→          mono-anabelian étale-like monoid
+                                               poly-isomorphism
+
+    Thus, we are in a situation described by the following diagram:
+                                                    ∼
+             étale-like portion                    −→
+                                                    w                        étale-like portion
+                                        mono-anab.  property
+                                                   w
+                                                    ∼
+ mono-anabelian étale-like
+                x          monoid                  −→               mono-anabelian étale-like
+                                                                                   x          monoid
+     Kummer poly-  isomorphism                                         Kummer poly-  isomorphism
+                                                                                      
+
+           Frobenius-like portion                                          Frobenius-like portion.
+    In particular, by considering the composite of the two lower vertical arrows and the middle
+    horizontal arrow of this diagram, we obtain a “Frobenius-like link” compatible with the
+    given “étale-like link”.
+    Thus, in summary, by means of
+       • Kummer-detachment (cf. [7, §2.7, (vi)]), i.e., the passage, via Kummer poly-isomor-
+         phisms, from Frobenius-like structures to corresponding étale-like structures, and
+       • étale-transport, i.e., the passage, via the mono-anabelian property of mono-anabelian
+         reconstruction algorithms, from the “left-hand side” to the “right-hand side”,
+    one may transport, via “étale-like links”, Frobenius-like portions from the “left-hand side”
+    to the “right-hand side”.
+                                                    ∼
+                          étale-like portion       −→
+                                                    w        étale-like portion
+                                                    w
+                                    y                                 y
+                                                    ∼
+                       Frobenius-like portion −→ Frobenius-like portion
+                                                                Publications mathématiques de Besançon – 2021
+42                                                                  Introduction to Mono-anabelian Geometry
+
+(ii) In order to explain the technique of mono-anabelian transport from the point of view of
+     Theorem 7.6 (ii), let us recall the proof of Theorem 7.6 (ii) as follows:
+     Theorem 7.6 (ii) asserts that, roughly speaking, for an isomorphism between MLF -pairs,
+     one may compute the effect on the Frobenius-like portions of the “Frobenius-like link”
+     (cf. (i)) from the point of view of the effect on the étale-like portions of the “étale-like
+     link” (cf. (i)). Suppose that we are in a situation described by the following diagram to
+     recall the proof of Theorem 7.6 (ii):
+                                                      ∼
+                        étale-like portion   −→    étale-like portion
+                                 y                          y
+                                              ∼
+                      Frobenius-like portion −→ Frobenius-like portion.
+
+     In order to compute the effect of the “Frobenius-like link” from the point of view of
+     the effect of the “étale-like link”, let us first apply the mono-anabelian reconstruction
+     algorithm discussed in Summary 4.3 to each of the étale-like portions to construct a
+     mono-anabelian étale-like monoid (cf. (i)).
+                                     mono-anabelian
+            étale-like portion                              mono-anabelian étale-like monoid
+                                 reconstruction algorithm
+
+     Here, let us recall that we do not require the “links” to be compatible with any sort of ring
+     structures. On the other hand, observe that the mono-anabelian reconstruction algorithms
+     discussed in Sections 3 and 4 may be applied without existence of some “fixed reference
+     model” (as k ◦ /k◦ and k • /k• for G◦ = Gal(k ◦ /k◦ ) and G• = Gal(k • /k• ) in the case
+     of bi-anabelian geometry discussed in Section 2). Put another way, the mono-anabelian
+     reconstruction algorithms discussed in Sections 3 and 4 have the virtue of being free of
+     any mention of some “fixed reference model” copy of ring-theoretic objects. In particular,
+     by the mono-anabelian property of our algorithm, we obtain, from the “étale-like link”, an
+     isomorphism between the mono-anabelian étale-like monoids compatible with the “étale-
+     like link”.
+                                                      ∼
+           étale-like portion                       −→
+                                                     w                       étale-like portion
+                                       mono-anab.  property
+                                                  w
+                    y                                                                 y
+                                                      ∼
+mono-anabelian étale-like monoid                    −→              mono-anabelian étale-like monoid
+
+     Next, in order to relate the Frobenius-like portions to the mono-anabelian étale-like
+     monoids, let us discuss cyclotomic synchronization poly-isomorphisms, which induce Kum-
+     mer poly-isomorphisms. As in the discussion of (i), by applying a sort of the Kummer
+     theory, we obtain a Kummer poly-isomorphism “κ” from the cyclotomic synchronization
+     poly-isomorphism “synΛ ”.
+                                                      cyclotomic
+                                                          ∼
+                     Frobenius-like cyclotome             −→        étale-like cyclotome
+                                                  synchronization
+
+                                                      Kummer
+     Kummer theory                                      ∼
+                      Frobenius-like portion              −→        mono-anabelian étale-like monoid
+                                                 poly-isomorphism
+Publications mathématiques de Besançon – 2021
+Y. Hoshi                                                                                              43
+
+    Thus, we are in a situation described by the following diagram:
+                                                   ∼
+             étale-like portion                   −→
+                                                   w                    étale-like portion
+                                        mono-anab.  property
+                                                   w
+                                                   ∼
+ mono-anabelian étale-like
+                x          monoid                 −→            mono-anabelian étale-like
+                                                                               x          monoid
+     Kummer poly-  isomorphism                                    Kummer poly-  isomorphism
+                                                                                  
+                                                   ∼
+           Frobenius-like portion                 −→                 Frobenius-like portion.
+    Here, let us observe that, in our case, by the constructions of the various objects under
+    consideration, the lower square (of poly-isomorphisms) of this diagram commutes. In par-
+    ticular, by this commutativity, we can compute the effect on the Frobenius-like portions of
+    the “Frobenius-like link” by considering the composite of the Kummer poly-isomorphism,
+    a(n) (poly-)isomorphism that arises from the mono-anabelian property of the mono-
+    anabelian reconstruction algorithm, and the inverse of the Kummer poly-isomorphism.
+    Thus, in summary, by means of
+       • Kummer-detachment, i.e., the passage, via Kummer poly-isomorphisms, from
+         Frobenius-like structures to corresponding étale-like structures, and
+       • étale-transport, i.e., the passage, via the mono-anabelian property of mono-anabelian
+         reconstruction algorithms, from the “left-hand side” to the “right-hand side”,
+    one may compute the effect of the “Frobenius-like link” from the point of view of the
+    effect of the “étale-like link” by comparing the “Frobenius-like link” with the transport
+    as discussed in (i).
+                                                  ∼
+                        étale-like portion   −→   étale-like portion
+                                 y                         y
+                                              ∼
+                      Frobenius-like portion −→ Frobenius-like portion
+                         computation of the effect of the “Frobenius-like link”
+
+Corollary 7.7. — Let  ∈ { , B, ×} and G y M an MLF -pair. Then the natural homo-
+                                    ♦
+morphism
+                                   Aut(G y M ) −→ Aut(G)
+fits into the following exact sequence:
+                         1 −→ Ind −→ Aut(G y M ) −→ Aut(G) −→ 1.
+Proof. — This assertion is the content of Theorem 7.6 in the case where (G◦ y M◦ ) =
+(G• y M• ).                                                                        
+
+
+                                             References
+ [1] Y. Hoshi, “A note on the geometricity of open homomorphisms between the absolute Galois
+     groups of p-adic local fields”, Kodai Math. J. 36 (2013), no. 2, p. 284-298.
+ [2] ——— , “Mono-anabelian reconstruction of number fields”, RIMS Kôkyûroku Bessatsu B76
+     (2019), p. 1-77.
+ [3] M. Jarden & J. Ritter, “On the characterization of local fields by their absolute Galois
+     groups”, J. Number Theory 11 (1979), no. 1, p. 1-13.
+                                                            Publications mathématiques de Besançon – 2021
+44                                                            Introduction to Mono-anabelian Geometry
+
+ [4] S. Mochizuki, “A version of the Grothendieck conjecture for p-adic local fields”, Int. J. Math.
+     8 (1997), no. 4, p. 499-506.
+ [5] ——— , “Topics in absolute anabelian geometry I: generalities”, J. Math. Sci., Tokyo 19 (2012),
+     no. 2, p. 139-242.
+ [6] ——— , “Topics in absolute anabelian geometry III: global reconstruction algorithms”, J. Math.
+     Sci., Tokyo 22 (2015), no. 4, p. 939-1156.
+ [7] ——— , “The mathematics of mutually alien copies: from Gaussian integrals to inter-universal
+     Teichmüller theory”, RIMS Kôkyûroku Bessatsu B84 (2021), p. 23-192.
+ [8] J. Neukirch, Algebraic number theory, Grundlehren der Mathematischen Wissenschaften, vol.
+     322, Springer, 1992.
+ [9] J. Neukirch, A. Schmidt & K. Wingberg, Cohomology of number fields, 2nd ed., Grundlehren
+     der Mathematischen Wissenschaften, vol. 323, Springer, 2008.
+[10] N. Nikolov & D. Segal, “Finite index subgroups in profinite groups”, C. R. Math. Acad. Sci.
+     Paris 337 (2003), no. 5, p. 303-308.
+[11] J.-P. Serre, “Local class field theory”, in Algebraic Number Theory, Academic Press Inc., 1965,
+     p. 128-161.
+[12] J. T. Tate, “p-divisible groups”, in Proc. Conf. Local Fields (Driebergen, 1966), Springer, 1967,
+     p. 158-183.
+[13] S. Yamagata, “A counterexample for the local analogy of a theorem by Iwasawa and Uchida”,
+     Proc. Japan Acad. 52 (1976), no. 6, p. 276-278.
+
+
+
+January 31, 2017
+Yuichiro Hoshi, Research Institute for Mathematical Sciences, Kyoto University, Kyoto 606-8502, JAPAN
+    E-mail : yuichiro@kurims.kyoto-u.ac.jp
+
+
+
+
+Publications mathématiques de Besançon – 2021
+
