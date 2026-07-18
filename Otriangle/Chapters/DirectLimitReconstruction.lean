@@ -15,6 +15,7 @@ import Otriangle.MonoAnabelian.SpectralResidue
 import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.FixedFieldSystem
 import Otriangle.MonoAnabelian.FixedFieldComparison
+import Otriangle.MonoAnabelian.ReconstructedObject
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -142,7 +143,7 @@ injectivity of fixed-field inclusions after moving two representatives to a
 common index.
 :::
 
-:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm")
+:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison")
 %%%
 source := {
   document := "hoshi"
