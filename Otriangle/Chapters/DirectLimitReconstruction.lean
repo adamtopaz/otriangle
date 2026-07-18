@@ -4,6 +4,7 @@ import VersoBlueprint
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.TransferSystem
+import Otriangle.MonoAnabelian.DirectLimit
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -80,6 +81,32 @@ nonnegative-valuation submonoids.  Transitivity of transfer supplies the
 direct-system laws; naturality under group isomorphisms supplies functoriality.
 :::
 
+:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mulEquiv")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "25--26"
+    text := some { path := "source/hoshi.txt", startLine := 1151, endLine := 1235 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-22.png" }
+  }]
+}
+%%%
+
+A natural family of homomorphisms between two filtered systems of monoids
+induces a homomorphism between their direct limits.  If every component is a
+multiplicative equivalence, then the induced map of direct limits is a
+multiplicative equivalence.
+:::
+
+:::proof "filtered_colimit_comparison" (uses := "transfer_direct_system")
+Mathlib's `DirectLimit.map` descends the component maps through the quotient
+relation by their naturality squares.  Preservation of the unit and product is
+proved on representatives.  Applying the same construction to the inverse
+component equivalences gives an inverse map; the two inverse laws again reduce
+to the corresponding laws on representatives.
+:::
+
 :::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm")
 %%%
 source := {
@@ -98,7 +125,7 @@ $`\mathcal O^{\triangleright}(G)` corresponding, for $`G=G_K`, to
 $`\mathcal O_{\overline K}^{\triangleright}`.
 :::
 
-:::proof "integral_mono_reconstruction" (uses := "one_field_multiplicative_reconstruction, transfer_direct_system")
+:::proof "integral_mono_reconstruction" (uses := "one_field_multiplicative_reconstruction, transfer_direct_system, filtered_colimit_comparison")
 Apply one-field reconstruction to every open subgroup $`H\leq G`.  Transfer
 gives the transition maps.  Their filtered colimit reconstructs the integral
 multiplicative monoid in the algebraic closure, and conjugation of open
