@@ -7,6 +7,8 @@ import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
 import Otriangle.MonoAnabelian.OpenSubgroups
+import Otriangle.MonoAnabelian.FixedFields
+import Otriangle.MonoAnabelian.FieldColimit
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -50,7 +52,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv")
 %%%
 source := {
   document := "hoshi"
@@ -71,8 +73,10 @@ source := {
 
 As $`H` ranges over open subgroups of $`G`, transfer carries the one-field
 reconstructed monoids covariantly from smaller finite extensions to larger
-ones.  These injective transition maps form a directed system, functorial in
-isomorphisms of $`G`.
+ones.  The open subgroup's fixed field is finite over the base field, and its
+absolute Galois group in the chosen algebraic closure is identified with that
+open subgroup.  These injective transition maps form a directed system,
+functorial in isomorphisms of $`G`.
 :::
 
 :::proof "transfer_direct_system" (uses := "local_reciprocity_input, one_field_multiplicative_reconstruction")
@@ -84,7 +88,7 @@ inclusions transport through the nodewise reciprocity equivalences to give the
 direct-system laws; naturality under group isomorphisms supplies functoriality.
 :::
 
-:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv")
+:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv")
 %%%
 source := {
   document := "hoshi"
@@ -100,7 +104,10 @@ A natural family of homomorphisms between two filtered systems of monoids,
 possibly over different monotonically related index types, induces a
 homomorphism between their direct limits.  If the indices are order-isomorphic
 and every component is a multiplicative equivalence, then the induced map of
-direct limits is a multiplicative equivalence.
+direct limits is a multiplicative equivalence.  On the field side, the fixed
+fields of open subgroups cover the algebraic closure.  Consequently, the
+direct limit of their nonzero integral monoids is multiplicatively equivalent
+to $`\mathcal O_{\overline K}^{\triangleright}`.
 :::
 
 :::proof "filtered_colimit_comparison" (uses := "transfer_direct_system")
@@ -108,7 +115,11 @@ Mathlib's `DirectLimit.map` descends the component maps through the quotient
 relation by their naturality squares.  Preservation of the unit and product is
 proved on representatives.  Applying the same construction to the inverse
 component equivalences gives an inverse map; the two inverse laws again reduce
-to the corresponding laws on representatives.
+to the corresponding laws on representatives.  For the field-side system,
+every integral element lies in some finite fixed field, which proves
+surjectivity of the canonical colimit map; injectivity follows from the
+injectivity of fixed-field inclusions after moving two representatives to a
+common index.
 :::
 
 :::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm")

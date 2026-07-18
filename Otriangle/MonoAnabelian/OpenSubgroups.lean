@@ -99,6 +99,10 @@ namespace LocalGaloisGroup
 abbrev OpenSubgroupIndex (G : LocalGaloisGroup.{u}) :=
   (OpenSubgroup G.toProfiniteGrp)ᵒᵈ
 
+instance openSubgroupIndexNonempty (G : LocalGaloisGroup.{u}) :
+    Nonempty G.OpenSubgroupIndex :=
+  ⟨OrderDual.toDual ⊤⟩
+
 /-- A group isomorphism transports the reverse-inclusion open-subgroup index. -/
 noncomputable def openSubgroupIndexEquiv {G H : LocalGaloisGroup.{u}} (f : G ⟶ H) :
     G.OpenSubgroupIndex ≃o H.OpenSubgroupIndex :=
