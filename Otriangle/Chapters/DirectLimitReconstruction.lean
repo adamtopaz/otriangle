@@ -10,6 +10,7 @@ import Otriangle.MonoAnabelian.OpenSubgroups
 import Otriangle.MonoAnabelian.FixedFields
 import Otriangle.MonoAnabelian.FieldColimit
 import Otriangle.MonoAnabelian.SpectralLocalField
+import Otriangle.MonoAnabelian.SpectralResidue
 import Otriangle.MonoAnabelian.FixedFieldLocal
 
 set_option linter.hashCommand false
@@ -54,7 +55,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure")
 %%%
 source := {
   document := "hoshi"
@@ -93,7 +94,9 @@ Formally, a finite fixed field is equipped with the spectral norm over the
 presented local field.  The spectral norm is nonarchimedean, its norm topology
 is its valuative topology, and finite-dimensionality makes it locally compact.
 The tower identity for spectral norms proves compatibility with the spectral
-valuation on the common algebraic closure.  Thus the fixed field is genuinely
+valuation on the common algebraic closure.  Spectral-norm invariance also
+restricts every automorphism to the valuation ring and hence defines its
+canonical residue action.  Thus the fixed field is genuinely
 a finite valued local extension with that common algebraic closure, rather than
 this arithmetic fact being added as an assumption on the diagram.
 :::

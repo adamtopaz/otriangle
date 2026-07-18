@@ -1,5 +1,5 @@
 import Otriangle.MonoAnabelian.FixedFields
-import Otriangle.MonoAnabelian.SpectralLocalField
+import Otriangle.MonoAnabelian.SpectralResidue
 
 /-!
 # Local-field structures on open-subgroup fixed fields
