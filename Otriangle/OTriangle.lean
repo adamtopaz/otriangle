@@ -10,6 +10,20 @@ namespace OTriangle
 
 universe u
 
+/-- A `ValuativeExtension` of fields supplies the equivalent `Valuation.HasExtension` interface
+used by the valuation-ring and residue-field APIs. -/
+noncomputable instance valuativeExtensionHasExtension
+    {K L : Type*} [Field K] [Field L] [ValuativeRel K] [ValuativeRel L]
+    [Algebra K L] [ValuativeExtension K L] :
+    (valuation K).HasExtension (valuation L) := by
+  constructor
+  rw [Valuation.isEquiv_iff_val_le_one]
+  intro x
+  simp only [Valuation.comap_apply]
+  rw [← map_one (valuation K), ← map_one (valuation L), ← map_one (algebraMap K L)]
+  rw [← Valuation.Compatible.vle_iff_le, ← Valuation.Compatible.vle_iff_le]
+  exact (ValuativeExtension.vle_iff_vle (A := K) (B := L) x 1).symm
+
 /-- A pointed mixed-characteristic nonarchimedean local field: a local field together with a
 fixed algebraic closure equipped with a valuation extending that of the base field. The mixed
 characteristic is recorded as characteristic zero for the field and positive prime characteristic
@@ -36,6 +50,21 @@ structure PointedMixedCharLocalField where
   /-- The valuation on the algebraic closure extends the valuation on the base field. -/
   [valuativeExtension : ValuativeExtension carrier algebraicClosure]
   [isAlgClosure : IsAlgClosure carrier algebraicClosure]
+  /-- The canonical action of the absolute Galois group on the residue field of the chosen
+  algebraic closure.  Recording it with the pointing avoids making every consumer redevelop the
+  uniqueness of the extended valuation. -/
+  residueGaloisMap :
+    (algebraicClosure ≃ₐ[carrier] algebraicClosure) →*
+      (𝓀[algebraicClosure] ≃ₐ[𝓀[carrier]] 𝓀[algebraicClosure])
+  /-- Every automorphism of the algebraic residue extension lifts to the chosen algebraic
+  closure. -/
+  residueGaloisMap_surjective : Function.Surjective residueGaloisMap
+  /-- The residue action is continuous for the two Krull topologies. -/
+  residueGaloisMap_continuous : Continuous residueGaloisMap
+  /-- The absolute Galois group of the finite residue field is commutative. -/
+  residueGaloisMap_commutes :
+    ∀ σ τ : (𝓀[algebraicClosure] ≃ₐ[𝓀[carrier]] 𝓀[algebraicClosure]),
+      σ * τ = τ * σ
 
 attribute [instance] PointedMixedCharLocalField.field PointedMixedCharLocalField.valuativeRel
   PointedMixedCharLocalField.topologicalSpace PointedMixedCharLocalField.isLocalField
