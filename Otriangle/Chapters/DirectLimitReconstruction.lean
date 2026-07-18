@@ -14,6 +14,7 @@ import Otriangle.MonoAnabelian.SpectralIntegers
 import Otriangle.MonoAnabelian.SpectralResidue
 import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.FixedFieldSystem
+import Otriangle.MonoAnabelian.FixedFieldComparison
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -107,7 +108,7 @@ to which the assumed reciprocity family applies, rather than this arithmetic
 fact being added as data on the diagram.
 :::
 
-:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv")
+:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv")
 %%%
 source := {
   document := "hoshi"
