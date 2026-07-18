@@ -198,6 +198,46 @@ theorem completeSpace (K : PointedMixedCharLocalField.{u}) :
   letI := K.nontriviallyNormedField
   exact IsNonarchimedeanLocalField.instCompleteSpace K
 
+/-- The norm constructed from the pointing records exactly the original valuative relation. -/
+theorem norm_le_norm_iff_vle (K : PointedMixedCharLocalField.{u}) (x y : K) :
+    letI := K.nontriviallyNormedField
+    ‖x‖ ≤ ‖y‖ ↔ x ≤ᵥ y := by
+  letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
+  letI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
+  letI : Valued K (ValueGroupWithZero K) := inferInstance
+  letI : (Valued.v : Valuation K (ValueGroupWithZero K)).RankOne :=
+    { hom' := ValuativeRel.IsRankLeOne.nonempty.some.emb (R := K).comp
+        MonoidWithZeroHom.ValueGroup₀.embedding
+      strictMono' := ValuativeRel.IsRankLeOne.nonempty.some.strictMono.comp
+        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
+  letI := K.nontriviallyNormedField
+  rw [Valued.toNormedField.norm_le_iff]
+  exact (valuation K).vle_iff_le.symm
+
+/-- The spectral valuation on an algebraic extension extends the original valuative relation of a
+pointed local field. -/
+theorem spectralValuativeExtension (K : PointedMixedCharLocalField.{u})
+    (L : Type v) [Field L] [Algebra K L] [Algebra.IsAlgebraic K L] :
+    letI := K.nontriviallyNormedField
+    letI := K.isUltrametricDist
+    letI := K.completeSpace
+    letI := SpectralLocalField.nontriviallyNormedField K L
+    letI := SpectralLocalField.isUltrametricDist K L
+    letI := SpectralLocalField.valuativeRel K L
+    ValuativeExtension K L := by
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  letI := K.completeSpace
+  letI := SpectralLocalField.nontriviallyNormedField K L
+  letI := SpectralLocalField.isUltrametricDist K L
+  letI : ValuativeRel L := SpectralLocalField.valuativeRel K L
+  constructor
+  intro x y
+  change spectralNorm K L (algebraMap K L x) ≤
+      spectralNorm K L (algebraMap K L y) ↔ x ≤ᵥ y
+  rw [spectralNorm_extends, spectralNorm_extends]
+  exact K.norm_le_norm_iff_vle x y
+
 end PointedMixedCharLocalField
 end OTriangle
 end Anabelian

@@ -55,7 +55,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_surjective, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_continuous, Anabelian.OTriangle.SpectralLocalField.finiteBaseGalois_commutes, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtensionFromPresentation, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldPointed")
 %%%
 source := {
   document := "hoshi"
@@ -96,9 +96,13 @@ is its valuative topology, and finite-dimensionality makes it locally compact.
 The tower identity for spectral norms proves compatibility with the spectral
 valuation on the common algebraic closure.  Spectral-norm invariance also
 restricts every automorphism to the valuation ring and hence defines its
-canonical residue action.  Thus the fixed field is genuinely
-a finite valued local extension with that common algebraic closure, rather than
-this arithmetic fact being added as an assumption on the diagram.
+canonical residue action.  Profinite invariant theory proves that every
+residue automorphism lifts, and integral lifts of finite residue generators
+prove continuity for the Krull topologies.  Commutativity reduces elementwise
+to the cyclic Galois group of a finite-field extension.  Thus every fixed
+field, with the common algebraic closure, is genuinely a pointed local field
+to which the assumed reciprocity family applies, rather than this arithmetic
+fact being added as data on the diagram.
 :::
 
 :::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv")

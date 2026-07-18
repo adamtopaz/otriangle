@@ -15,6 +15,8 @@ namespace Anabelian
 namespace OTriangle
 namespace LocalGaloisGroup
 
+open ValuativeRel
+
 universe u
 
 variable (G : LocalGaloisGroup.{u})
@@ -141,6 +143,74 @@ theorem fixedFieldIsAlgClosure (U : G.OpenSubgroupIndex) :
   exact
     { isAlgClosed := IsAlgClosure.isAlgClosed G.presentation
       isAlgebraic := inferInstance }
+
+/-- The spectral valuation on a fixed field extends the original valuation on the presented local
+field, not merely the norm-derived copy of that valuation. -/
+theorem fixedFieldValuativeExtensionFromPresentation (U : G.OpenSubgroupIndex) :
+    letI := G.fixedFieldNontriviallyNormedField U
+    letI := G.fixedFieldIsUltrametricDist U
+    letI := G.fixedFieldValuativeRel U
+    ValuativeExtension G.presentation (G.fixedField U) := by
+  letI := G.presentation.nontriviallyNormedField
+  letI := G.presentation.isUltrametricDist
+  letI := G.presentation.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField U
+  letI := G.fixedFieldIsUltrametricDist U
+  letI : ValuativeRel (G.fixedField U) := G.fixedFieldValuativeRel U
+  exact G.presentation.spectralValuativeExtension (G.fixedField U)
+
+/-- A finite fixed field, with the common algebraic closure and the canonical spectral residue
+action, is a pointed mixed-characteristic local field. -/
+noncomputable def fixedFieldPointed (U : G.OpenSubgroupIndex) :
+    PointedMixedCharLocalField.{u} := by
+  letI := G.presentation.nontriviallyNormedField
+  letI := G.presentation.isUltrametricDist
+  letI := G.presentation.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField U
+  letI := G.fixedFieldIsUltrametricDist U
+  letI : ValuativeRel (G.fixedField U) := G.fixedFieldValuativeRel U
+  letI : TopologicalSpace (G.fixedField U) := G.fixedFieldTopologicalSpace U
+  letI : IsNonarchimedeanLocalField (G.fixedField U) :=
+    G.fixedFieldIsNonarchimedeanLocalField U
+  letI : ValuativeExtension G.presentation (G.fixedField U) :=
+    G.fixedFieldValuativeExtensionFromPresentation U
+  letI := G.spectralAlgebraicClosureNontriviallyNormedField
+  letI := G.spectralAlgebraicClosureIsUltrametricDist
+  letI : ValuativeRel G.presentation.algebraicClosure :=
+    G.spectralAlgebraicClosureValuativeRel
+  letI : ValuativeExtension (G.fixedField U) G.presentation.algebraicClosure :=
+    G.fixedFieldValuativeExtension U
+  letI : IsAlgClosure (G.fixedField U) G.presentation.algebraicClosure :=
+    G.fixedFieldIsAlgClosure U
+  letI : IsGalois (G.fixedField U) G.presentation.algebraicClosure := by
+    infer_instance
+  letI : Algebra.IsIntegral 𝒪[G.fixedField U] 𝒪[G.presentation.algebraicClosure] :=
+    SpectralLocalField.integer_isIntegral G.presentation
+      (G.fixedField U) G.presentation.algebraicClosure
+  letI : Algebra.IsIntegral 𝓀[G.fixedField U] 𝓀[G.presentation.algebraicClosure] :=
+    SpectralLocalField.residueField_isIntegral (R := 𝒪[G.fixedField U])
+      (S := 𝒪[G.presentation.algebraicClosure])
+  letI : Algebra.IsAlgebraic 𝓀[G.fixedField U] 𝓀[G.presentation.algebraicClosure] :=
+    ⟨fun x => IsIntegral.isAlgebraic (Algebra.IsIntegral.isIntegral x)⟩
+  letI : CharZero (G.fixedField U) :=
+    charZero_of_injective_algebraMap
+      (algebraMap G.presentation (G.fixedField U)).injective
+  letI : CharP 𝓀[G.fixedField U] G.presentation.residueChar :=
+    charP_of_injective_algebraMap
+      (algebraMap 𝓀[G.presentation] 𝓀[G.fixedField U]).injective
+      G.presentation.residueChar
+  refine
+    { carrier := G.fixedField U
+      residueChar := G.presentation.residueChar
+      algebraicClosure := G.presentation.algebraicClosure
+      residueGaloisMap := SpectralLocalField.residueGaloisMap G.presentation
+        (G.fixedField U) G.presentation.algebraicClosure
+      residueGaloisMap_surjective := SpectralLocalField.residueGaloisMap_surjective
+        G.presentation (G.fixedField U) G.presentation.algebraicClosure
+      residueGaloisMap_continuous := SpectralLocalField.residueGaloisMap_continuous
+        G.presentation (G.fixedField U) G.presentation.algebraicClosure
+      residueGaloisMap_commutes := fun σ τ =>
+        SpectralLocalField.finiteBaseGalois_commutes _ _ σ τ }
 
 end LocalGaloisGroup
 end OTriangle
