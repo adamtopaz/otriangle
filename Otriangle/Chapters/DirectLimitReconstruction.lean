@@ -2,6 +2,7 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import Otriangle.MonoAnabelian.Interface
+import Otriangle.MonoAnabelian.OneField
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -13,7 +14,7 @@ open Informal
 
 #doc (Manual) "One-field and direct-limit reconstruction" =>
 
-:::theorem "one_field_multiplicative_reconstruction" (parent := "integral_mono_anabelian")
+:::theorem "one_field_multiplicative_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityMap.injective, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv")
 %%%
 source := {
   document := "hoshi"
