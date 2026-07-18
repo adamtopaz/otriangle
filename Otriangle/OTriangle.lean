@@ -1,5 +1,5 @@
 import Otriangle.OTriangle.Core
-import Otriangle.LCFT
+import Otriangle.MonoAnabelian.Package
 
 /-!
 # Full faithfulness for the O-triangle forgetful functor

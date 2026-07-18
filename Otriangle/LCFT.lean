@@ -8,10 +8,8 @@ import Mathlib.Topology.Algebra.Group.TopologicalAbelianization
 # Specification of local reciprocity
 
 This file records the characterization of the local reciprocity maps for mixed-characteristic
-local fields and the integral reconstruction interface used in Hoshi's mono-anabelian theorem.
-The existence of the arithmetic reconstruction package and uniqueness of the reciprocity family
-remain the two admitted inputs; the surrounding residue, inertia, Frobenius, and functorial
-constructions are implemented here.
+local fields.  The reconstruction interfaces and their implementation are kept in the
+`Otriangle.MonoAnabelian` modules, downstream of this unchanged arithmetic input.
 
 The three defining properties are:
 
@@ -442,6 +440,12 @@ private theorem continuous_restrictScalars
 
 namespace FiniteExtension
 
+/-- The inclusion `Kˣ → Lˣ` induced by a finite extension `L/K`. -/
+noncomputable def fieldUnitsMap {K L : PointedMixedCharLocalField.{u}}
+    (E : FiniteExtension K L) : Kˣ →* Lˣ := by
+  letI := E.algebra
+  exact Units.map (algebraMap K L)
+
 /-- The norm homomorphism `Lˣ → Kˣ` of a finite extension. -/
 noncomputable def norm {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtension K L) :
     Lˣ →* Kˣ := by
@@ -481,135 +485,20 @@ structure LocalReciprocityFamily where
   norm_naturality : ∀ (K L : PointedMixedCharLocalField.{u}) (E : FiniteExtension K L),
     (map K).toMonoidHom.comp E.norm =
       E.abelianizedGaloisMap.comp (map L).toMonoidHom
+  /-- The group-theoretic transfer on abelianizations. -/
+  transferMap : ∀ (K L : PointedMixedCharLocalField.{u}),
+    FiniteExtension K L →
+      AbelianizedAbsoluteGaloisGroup K →* AbelianizedAbsoluteGaloisGroup L
+  /-- Hoshi's transfer square: transfer corresponds under reciprocity to the inclusion
+  `Kˣ → Lˣ`. -/
+  transfer_naturality : ∀ (K L : PointedMixedCharLocalField.{u}) (E : FiniteExtension K L),
+    (transferMap K L E).comp (map K).toMonoidHom =
+      (map L).toMonoidHom.comp E.fieldUnitsMap
 
-/-- A commutative monoid reconstructed from an absolute Galois group, together with its Galois
-action.  This bundles the output denoted `𝒪^▹(G)` in Hoshi's Summary 4.3. -/
-@[pp_with_univ]
-structure ReconstructedIntegralMonoid (G : LocalGaloisGroup.{u}) where
-  /-- The reconstructed multiplicative monoid. -/
-  carrier : Type u
-  [commMonoid : CommMonoid carrier]
-  /-- The action reconstructed from the group structure. -/
-  [action : MulDistribMulAction G.toProfiniteGrp carrier]
-
-attribute [instance] ReconstructedIntegralMonoid.commMonoid
-  ReconstructedIntegralMonoid.action
-
-instance (G : LocalGaloisGroup.{u}) :
-    CoeSort (ReconstructedIntegralMonoid G) (Type u) where
-  coe M := M.carrier
-
-/-- The functorial integral mono-anabelian reconstruction and its canonical Kummer comparison.
-
-The fields `obj`, `reconstructMap`, and their laws encode Hoshi's Summary 4.3.  The fields
-`comparison` and `comparison_natural` encode the integral (`MLF^▹`) case of the Kummer
-poly-isomorphism from Definition 7.4.  Its index group is trivial, so the comparison is a single
-natural isomorphism rather than a nontrivial orbit of isomorphisms. -/
-@[pp_with_univ]
-structure IntegralReconstruction where
-  /-- The compatible reciprocity family from which the reconstruction is built. -/
-  reciprocity : LocalReciprocityFamily.{u}
-  /-- The integral monoid reconstructed from an absolute Galois group. -/
-  obj : (G : LocalGaloisGroup.{u}) → ReconstructedIntegralMonoid G
-  /-- Functorial transport of reconstructed monoids along Galois-group isomorphisms. -/
-  reconstructMap : ∀ {G H : LocalGaloisGroup.{u}}, (G ⟶ H) → obj G ≃* obj H
-  /-- The reconstructed transport is equivariant. -/
-  reconstructMap_action : ∀ {G H : LocalGaloisGroup.{u}} (f : G ⟶ H)
-      (σ : G.toProfiniteGrp) (x : obj G),
-    reconstructMap f (σ • x) = f.equiv σ • reconstructMap f x
-  /-- Reconstruction maps identity isomorphisms to identity monoid isomorphisms. -/
-  reconstructMap_id : ∀ (G : LocalGaloisGroup.{u}),
-    reconstructMap (CategoryStruct.id G) = MulEquiv.refl (obj G)
-  /-- Reconstruction respects composition. -/
-  reconstructMap_comp : ∀ {G H I : LocalGaloisGroup.{u}} (f : G ⟶ H) (g : H ⟶ I),
-    reconstructMap (f ≫ g) = (reconstructMap f).trans (reconstructMap g)
-  /-- The canonical Kummer comparison from a model integral monoid to its reconstruction. -/
-  comparison : (X : LocalGaloisMonoid.{u}) →
-    X.integerMonoid ≃* obj X.toLocalGaloisGroup
-  /-- The Kummer comparison is equivariant. -/
-  comparison_action : ∀ (X : LocalGaloisMonoid.{u})
-      (σ : X.toProfiniteGrp) (x : X.integerMonoid),
-    comparison X (X.galoisAct σ x) = σ • comparison X x
-  /-- Naturality of the unique integral Kummer comparison. -/
-  comparison_natural : ∀ {X Y : LocalGaloisMonoid.{u}} (f : X ⟶ Y),
-    (comparison X).trans (reconstructMap f.groupHom) =
-      f.monoidIso.trans (comparison Y)
-
-namespace IntegralReconstruction
-
-/-- Transport a model integral Galois monoid along a Galois-group isomorphism by conjugating the
-functorial reconstruction map with the two Kummer comparisons. -/
-noncomputable def lift (R : IntegralReconstruction.{u})
-    {X Y : LocalGaloisMonoid.{u}}
-    (f : X.toLocalGaloisGroup ⟶ Y.toLocalGaloisGroup) : X ⟶ Y where
-  groupHom := f
-  monoidIso := (R.comparison X).trans ((R.reconstructMap f).trans (R.comparison Y).symm)
-  action_compatible := by
-    intro σ x
-    simp only [MulEquiv.trans_apply]
-    rw [R.comparison_action, R.reconstructMap_action]
-    apply (R.comparison Y).injective
-    rw [R.comparison_action, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
-
-@[simp]
-theorem lift_groupHom (R : IntegralReconstruction.{u})
-    {X Y : LocalGaloisMonoid.{u}}
-    (f : X.toLocalGaloisGroup ⟶ Y.toLocalGaloisGroup) :
-    (R.lift f).groupHom = f := rfl
-
-/-- In the integral case, naturality of the unique Kummer comparison makes the group component
-injective on pair isomorphisms. -/
-theorem hom_ext (R : IntegralReconstruction.{u})
-    {X Y : LocalGaloisMonoid.{u}} (f g : X ⟶ Y)
-    (h : f.groupHom = g.groupHom) : f = g := by
-  have hcomp : f.monoidIso.trans (R.comparison Y) =
-      g.monoidIso.trans (R.comparison Y) := by
-    calc
-      f.monoidIso.trans (R.comparison Y) =
-          (R.comparison X).trans (R.reconstructMap f.groupHom) :=
-        (R.comparison_natural f).symm
-      _ = (R.comparison X).trans (R.reconstructMap g.groupHom) := by rw [h]
-      _ = g.monoidIso.trans (R.comparison Y) := R.comparison_natural g
-  have hmonoid : f.monoidIso = g.monoidIso := by
-    apply MulEquiv.ext
-    intro x
-    apply (R.comparison Y).injective
-    exact DFunLike.congr_fun hcomp x
-  exact LocalGaloisMonoid.Hom.ext h hmonoid
-
-end IntegralReconstruction
-
-/-- The admitted arithmetic package used by the present formalization.
-
-Its reciprocity component is Hoshi's Lemma 1.7.  Its reconstruction component packages the
-functorial algorithm of Summary 4.3 and the unique integral Kummer comparison used in the proof of
-Theorem 7.6(iv).  These are the deep local-class-field-theoretic and Kummer-theoretic inputs; the
-categorical full-faithfulness argument is proved from this interface in `Otriangle.OTriangle`. -/
-structure MonoAnabelianReconstructionPackage where
-  integral : IntegralReconstruction.{u}
-
-/-- Existence of the local reciprocity and integral mono-anabelian reconstruction package.  This
-is intentionally left as the principal arithmetic interface assumption. -/
-theorem monoAnabelianReconstructionPackage_exists :
-    Nonempty (MonoAnabelianReconstructionPackage.{u}) := by
+/-- Existence of the family of local reciprocity maps.  This is the sole existence statement that
+is allowed to remain as an arithmetic interface assumption. -/
+theorem localReciprocityFamily_exists : Nonempty (LocalReciprocityFamily.{u}) := by
   sorry -- Note: Leave this as a sorry!
-
-/-- The reconstruction package selected by the specification. -/
-noncomputable def monoAnabelianReconstructionPackage :
-    MonoAnabelianReconstructionPackage.{u} :=
-  monoAnabelianReconstructionPackage_exists.some
-
-/-- Existence of the family of local reciprocity maps. -/
-theorem localReciprocityFamily_exists : Nonempty (LocalReciprocityFamily.{u}) :=
-  ⟨monoAnabelianReconstructionPackage.integral.reciprocity⟩
-
-/-- The family of local reciprocity maps selected by the specification. -/
-noncomputable def localReciprocityFamily : LocalReciprocityFamily.{u} :=
-  monoAnabelianReconstructionPackage.integral.reciprocity
-
-/-- The integral mono-anabelian reconstruction selected by the specification. -/
-noncomputable def integralReconstruction : IntegralReconstruction.{u} :=
-  monoAnabelianReconstructionPackage.integral
 
 /-- The three properties characterize the whole family of local reciprocity maps. -/
 theorem localReciprocityFamily_unique (r s : LocalReciprocityFamily.{u}) : r = s := by
