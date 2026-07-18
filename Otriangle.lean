@@ -8,6 +8,8 @@ import Otriangle.MonoAnabelian.FiniteExtensionSystem
 import Otriangle.MonoAnabelian.OpenSubgroups
 import Otriangle.MonoAnabelian.FixedFields
 import Otriangle.MonoAnabelian.FieldColimit
+import Otriangle.MonoAnabelian.SpectralLocalField
+import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport
 import Otriangle.MonoAnabelian.Package
