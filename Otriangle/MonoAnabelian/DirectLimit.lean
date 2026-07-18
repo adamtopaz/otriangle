@@ -106,6 +106,98 @@ theorem mulEquiv_mk (e : ∀ i, A i ≃* B i)
       (⟦⟨i, e i x⟩⟧ : DirectLimit B fB) :=
   rfl
 
+section ChangeIndex
+
+universe x y z
+
+variable {κ : Type x} [Preorder κ] [IsDirectedOrder κ] [Nonempty κ]
+variable {C : ι → Type y} {D : κ → Type z}
+variable [∀ i, Monoid (C i)] [∀ k, Monoid (D k)]
+variable (fC : ∀ i j, i ≤ j → C i →* C j)
+variable (fD : ∀ i j, i ≤ j → D i →* D j)
+variable [DirectedSystem C (fC · · ·)] [DirectedSystem D (fD · · ·)]
+
+/-- A monotone map of indices and a natural family of node maps induce a map of direct limits.
+
+Unlike `mapMonoidHom`, the source and target diagrams may have different index types. -/
+noncomputable def mapMonoidHomAlong (φ : ι → κ) (hφ : Monotone φ)
+    (g : ∀ i, C i →* D (φ i))
+    (natural : ∀ i j (h : i ≤ j),
+      (g j).comp (fC i j h) = (fD (φ i) (φ j) (hφ h)).comp (g i)) :
+    DirectLimit C fC →* DirectLimit D fD where
+  toFun := DirectLimit.lift fC
+    (fun i x ↦ (⟦⟨φ i, g i x⟩⟧ : DirectLimit D fD))
+    (fun i j h x ↦ Quotient.sound ⟨φ j, hφ h, le_rfl, by
+      rw [DirectedSystem.map_self']
+      exact (DFunLike.congr_fun (natural i j h) x).symm⟩)
+  map_one' := by
+    let ⟨i⟩ := ‹Nonempty ι›
+    rw [DirectLimit.one_def i, DirectLimit.lift_def, map_one, ← DirectLimit.one_def (φ i)]
+  map_mul' := by
+    intro x y
+    induction x, y using DirectLimit.induction₂ with
+    | _ i x y =>
+      rw [DirectLimit.mul_def, DirectLimit.lift_def, map_mul,
+        DirectLimit.lift_def, DirectLimit.lift_def, DirectLimit.mul_def]
+
+@[simp]
+theorem mapMonoidHomAlong_mk (φ : ι → κ) (hφ : Monotone φ)
+    (g : ∀ i, C i →* D (φ i))
+    (natural : ∀ i j (h : i ≤ j),
+      (g j).comp (fC i j h) = (fD (φ i) (φ j) (hφ h)).comp (g i))
+    (i : ι) (x : C i) :
+    mapMonoidHomAlong fC fD φ hφ g natural (⟦⟨i, x⟩⟧ : DirectLimit C fC) =
+      (⟦⟨φ i, g i x⟩⟧ : DirectLimit D fD) :=
+  rfl
+
+/-- A natural family of node equivalences over an order isomorphism of indices induces an
+equivalence of direct limits. -/
+noncomputable def mulEquivAlongOrderIso (r : ι ≃o κ)
+    (e : ∀ i, C i ≃* D (r i))
+    (natural : ∀ i j (h : i ≤ j),
+      (e j).toMonoidHom.comp (fC i j h) =
+        (fD (r i) (r j) (r.monotone h)).comp (e i).toMonoidHom) :
+    DirectLimit C fC ≃* DirectLimit D fD := by
+  let forward := mapMonoidHomAlong fC fD r r.monotone
+    (fun i ↦ (e i).toMonoidHom) natural
+  apply MulEquiv.ofBijective forward
+  constructor
+  · intro x y hxy
+    induction x, y using DirectLimit.induction₂ with
+    | _ i x y =>
+      change (⟦⟨r i, e i x⟩⟧ : DirectLimit D fD) = ⟦⟨r i, e i y⟩⟧ at hxy
+      obtain ⟨k, hxk, hyk, hxy⟩ := Quotient.eq.mp hxy
+      obtain ⟨j, rfl⟩ := r.surjective k
+      have hij : i ≤ j := r.le_iff_le.mp hxk
+      have hxnat := DFunLike.congr_fun (natural i j hij) x
+      have hynat := DFunLike.congr_fun (natural i j hij) y
+      have hnode : e j (fC i j hij x) = e j (fC i j hij y) := by
+        calc
+          e j (fC i j hij x) = fD (r i) (r j) hxk (e i x) := by simpa using hxnat
+          _ = fD (r i) (r j) hyk (e i y) := hxy
+          _ = e j (fC i j hij y) := by simpa using hynat.symm
+      exact Quotient.sound ⟨j, hij, hij, (e j).injective hnode⟩
+  · intro y
+    induction y using DirectLimit.induction with
+    | _ k y =>
+      obtain ⟨i, rfl⟩ := r.surjective k
+      refine ⟨(⟦⟨i, (e i).symm y⟩⟧ : DirectLimit C fC), ?_⟩
+      change (⟦⟨r i, e i ((e i).symm y)⟩⟧ : DirectLimit D fD) = ⟦⟨r i, y⟩⟧
+      rw [(e i).apply_symm_apply]
+
+@[simp]
+theorem mulEquivAlongOrderIso_mk (r : ι ≃o κ)
+    (e : ∀ i, C i ≃* D (r i))
+    (natural : ∀ i j (h : i ≤ j),
+      (e j).toMonoidHom.comp (fC i j h) =
+        (fD (r i) (r j) (r.monotone h)).comp (e i).toMonoidHom)
+    (i : ι) (x : C i) :
+    mulEquivAlongOrderIso fC fD r e natural (⟦⟨i, x⟩⟧ : DirectLimit C fC) =
+      (⟦⟨r i, e i x⟩⟧ : DirectLimit D fD) :=
+  rfl
+
+end ChangeIndex
+
 end FilteredColimit
 end LCFT
 end Anabelian

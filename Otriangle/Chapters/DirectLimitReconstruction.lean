@@ -84,7 +84,7 @@ inclusions transport through the nodewise reciprocity equivalences to give the
 direct-system laws; naturality under group isomorphisms supplies functoriality.
 :::
 
-:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv")
+:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv")
 %%%
 source := {
   document := "hoshi"
@@ -96,10 +96,11 @@ source := {
 }
 %%%
 
-A natural family of homomorphisms between two filtered systems of monoids
-induces a homomorphism between their direct limits.  If every component is a
-multiplicative equivalence, then the induced map of direct limits is a
-multiplicative equivalence.
+A natural family of homomorphisms between two filtered systems of monoids,
+possibly over different monotonically related index types, induces a
+homomorphism between their direct limits.  If the indices are order-isomorphic
+and every component is a multiplicative equivalence, then the induced map of
+direct limits is a multiplicative equivalence.
 :::
 
 :::proof "filtered_colimit_comparison" (uses := "transfer_direct_system")
