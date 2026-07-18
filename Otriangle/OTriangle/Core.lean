@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.CategoryTheory.Equivalence
+import Mathlib.FieldTheory.Galois.Profinite
+import Mathlib.NumberTheory.LocalField.Basic
+import Mathlib.RingTheory.Valuation.Extension
 
 /-!
 # Core definitions for the O-triangle formalization

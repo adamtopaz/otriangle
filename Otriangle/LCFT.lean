@@ -1,5 +1,8 @@
 import Otriangle.OTriangle.Core
+import Mathlib.FieldTheory.Finite.Basic
 import Mathlib.RingTheory.Norm.Basic
+import Mathlib.RingTheory.Valuation.Integral
+import Mathlib.Topology.Algebra.Group.TopologicalAbelianization
 
 /-!
 # Specification of local reciprocity

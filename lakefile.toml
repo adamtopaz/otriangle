@@ -25,3 +25,9 @@ rev = "v4.32.0"
 
 [[lean_lib]]
 name = "Otriangle"
+globs = ["Otriangle", "Otriangle.Basic", "Otriangle.LCFT", "Otriangle.OTriangle", "Otriangle.OTriangle.Core"]
+
+[[lean_lib]]
+name = "OtriangleBlueprint"
+roots = ["Otriangle.Blueprint"]
+globs = ["Otriangle.Blueprint", "Otriangle.Chapters.+"]

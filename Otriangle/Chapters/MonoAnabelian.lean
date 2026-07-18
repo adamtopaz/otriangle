@@ -79,9 +79,12 @@ source := {
 
 Local reciprocity embeds $`K^\times` into $`G_K^{\mathrm{ab}}`, identifies
 $`\mathcal O_K^\times` with inertia, sends a uniformizer to arithmetic
-Frobenius modulo inertia, and is compatible with norm and transfer along
-finite extensions.  We use existence and uniqueness of this compatible family
-as the admitted local-class-field-theory input.
+Frobenius modulo inertia, and is compatible with norms along finite
+extensions.  Hoshi's Lemma 1.7 also records the transfer and change-of-field
+squares.  The Lean structure `Anabelian.LCFT.LocalReciprocityFamily`
+records the units, Frobenius, and norm conditions; the complete reconstruction
+that uses the other squares is isolated in the admitted arithmetic package of
+Theorem 2.3.
 :::
 
 :::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.monoAnabelianReconstructionPackage_exists")
@@ -123,6 +126,10 @@ abelianization, Frobenius, and transfer, a group isomorphism $`\alpha : G_0
 $$`\mathcal O^{\triangleright}(\alpha) :
 \mathcal O^{\triangleright}(G_0) \simeq
 \mathcal O^{\triangleright}(G_1).`
+
+In Lean, this deep arithmetic construction is precisely the admitted
+`Anabelian.LCFT.IntegralReconstruction` interface; the categorical uses
+of its functoriality below are proved without further admissions.
 :::
 
 :::theorem "integral_kummer_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralReconstruction.comparison_natural")

@@ -22,7 +22,14 @@ Build the Lean project and render the Blueprint site:
 ```
 
 The rendered site is written to `_out/site/html-multi/`. For a local preview,
-run `lake exe vbp build --serve`.
+run:
+
+```bash
+python3 -m http.server --directory _out/site/html-multi 8000
+```
+
+The standard Blueprint query commands remain available, for example
+`lake exe vbp query metadata` and `lake exe vbp check`.
 
 ## GitHub Pages
 
