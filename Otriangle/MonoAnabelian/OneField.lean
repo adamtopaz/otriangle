@@ -226,6 +226,97 @@ theorem LocalReciprocityMap.injective {K : PointedMixedCharLocalField.{u}}
 noncomputable def baseIntegerMonoid (K : PointedMixedCharLocalField.{u}) : Submonoid Kˣ :=
   Submonoid.comap (Units.coeHom K) (valuation K).integer.toSubmonoid
 
+/-- A field unit coming from a valuation-ring unit has valuation one. -/
+theorem fieldUnitValuation_eq_one_of_mem_integerUnitSubgroup
+    (K : PointedMixedCharLocalField.{u}) (x : Kˣ)
+    (hx : x ∈ integerUnitSubgroup K) : fieldUnitValuation K x = 1 := by
+  obtain ⟨a, rfl⟩ := hx
+  apply Units.ext
+  change valuation K (algebraMap 𝒪[K] K a) = 1
+  exact (Valuation.Integers.isUnit_iff_valuation_eq_one
+    (Valuation.integer.integers (valuation K))).mp a.isUnit
+
+/-- A nonzero element is integral exactly when it is a nonnegative power of a uniformizer times
+a valuation-ring unit. -/
+theorem mem_baseIntegerMonoid_iff_exists_uniformizer_pow_mul_integerUnit
+    (K : PointedMixedCharLocalField.{u}) (x : Kˣ) :
+    x ∈ baseIntegerMonoid K ↔
+      ∃ (n : ℕ) (u : Kˣ), u ∈ integerUnitSubgroup K ∧
+        x = uniformizerUnit K ^ n * u := by
+  constructor
+  · intro hx
+    obtain ⟨z, u, hu, hxu⟩ := exists_uniformizer_zpow_mul_integerUnit K x
+    have hxval : valuation K (x : K) ≤ 1 := hx
+    have hxunitval := congrArg (fieldUnitValuation K) hxu
+    rw [map_mul, map_zpow,
+      fieldUnitValuation_eq_one_of_mem_integerUnitSubgroup K u hu, mul_one] at hxunitval
+    have hxvaleq : valuation K (x : K) =
+        valuation K (uniformizerUnit K : K) ^ z := by
+      simpa [fieldUnitValuation] using congrArg Units.val hxunitval
+    rw [uniformizerUnit_isUniformizer] at hxvaleq
+    rw [hxvaleq] at hxval
+    let e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K
+    have he : e (uniformizer K ^ z) ≤ e 1 := (map_le_map_iff e).mpr hxval
+    rw [map_zpow₀, valueGroupWithZeroIsoInt_uniformizer, map_one] at he
+    have hz : 0 ≤ z := by
+      have heexp : WithZero.exp (z • (-1 : ℤ)) ≤ WithZero.exp (0 : ℤ) := by
+        simpa only [WithZero.exp_zsmul, WithZero.exp_zero] using he
+      have hadd := WithZero.exp_le_exp.mp heexp
+      change z * (-1 : ℤ) ≤ 0 at hadd
+      omega
+    obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hz
+    exact ⟨n, u, hu, by simpa using hxu⟩
+  · rintro ⟨n, u, hu, rfl⟩
+    apply (baseIntegerMonoid K).mul_mem
+    · apply (baseIntegerMonoid K).pow_mem
+      change valuation K ((uniformizerUnit K : Kˣ) : K) ≤ 1
+      rw [uniformizerUnit_isUniformizer]
+      exact (uniformizer_lt_one (R := K)).le
+    · change valuation K (u : K) ≤ 1
+      exact (congrArg Units.val
+        (fieldUnitValuation_eq_one_of_mem_integerUnitSubgroup K u hu)).le
+
+/-- Projection of the abelianized absolute Galois group to its unramified quotient, identified
+with the residue-field absolute Galois group. -/
+noncomputable def unramifiedProjection (K : PointedMixedCharLocalField.{u}) :
+    AbelianizedAbsoluteGaloisGroup K →* ResidueAbsoluteGaloisGroup K :=
+  (unramifiedQuotientEquiv K).toMonoidHom.comp
+    (QuotientGroup.mk' (inertiaSubgroup K))
+
+/-- Hoshi's intrinsic monoid `O^B(G_K)`: the inverse image of the nonnegative powers of
+arithmetic Frobenius in the unramified quotient. -/
+noncomputable def intrinsicBaseIntegerMonoid (K : PointedMixedCharLocalField.{u}) :
+    Submonoid (AbelianizedAbsoluteGaloisGroup K) :=
+  Submonoid.comap (unramifiedProjection K) (Submonoid.powers (residueFrobenius K))
+
+theorem unramifiedProjection_eq_one_iff (K : PointedMixedCharLocalField.{u})
+    (y : AbelianizedAbsoluteGaloisGroup K) :
+    unramifiedProjection K y = 1 ↔ y ∈ inertiaSubgroup K := by
+  rw [unramifiedProjection, MonoidHom.comp_apply]
+  constructor
+  · intro h
+    have hq : (QuotientGroup.mk' (inertiaSubgroup K)) y = 1 := by
+      apply (unramifiedQuotientEquiv K).injective
+      simpa using h
+    exact (QuotientGroup.eq_one_iff _).mp hq
+  · intro h
+    have hq : (QuotientGroup.mk' (inertiaSubgroup K)) y = 1 :=
+      (QuotientGroup.eq_one_iff _).mpr h
+    rw [hq, map_one]
+
+theorem LocalReciprocityMap.unramifiedProjection_uniformizer
+    {K : PointedMixedCharLocalField.{u}} (rec : LocalReciprocityMap K)
+    (π : Kˣ) (hπ : IsUniformizer K π) :
+    unramifiedProjection K (rec.toMonoidHom π) = residueFrobenius K :=
+  rec.mapsUniformizers π hπ
+
+theorem LocalReciprocityMap.unramifiedProjection_integerUnit
+    {K : PointedMixedCharLocalField.{u}} (rec : LocalReciprocityMap K)
+    (u : Kˣ) (hu : u ∈ integerUnitSubgroup K) :
+    unramifiedProjection K (rec.toMonoidHom u) = 1 := by
+  rw [unramifiedProjection_eq_one_iff]
+  exact integerUnitSubgroup_le_comap_inertia rec.mapsUnits hu
+
 namespace LocalReciprocityFamily
 
 /-- Restriction of reciprocity to `𝒪_K^▹`. -/
@@ -241,16 +332,76 @@ theorem integerMonoidHom_injective (reciprocity : LocalReciprocityFamily.{u})
 
 /-- The reconstructed one-field integral monoid, realized inside `G_K^ab`. -/
 noncomputable def reconstructedBaseIntegerMonoid
-    (reciprocity : LocalReciprocityFamily.{u}) (K : PointedMixedCharLocalField.{u}) :
+    (_reciprocity : LocalReciprocityFamily.{u}) (K : PointedMixedCharLocalField.{u}) :
     Submonoid (AbelianizedAbsoluteGaloisGroup K) :=
-  MonoidHom.mrange (reciprocity.integerMonoidHom K)
+  intrinsicBaseIntegerMonoid K
 
-/-- Restricted reciprocity identifies `𝒪_K^▹` with its reconstructed image. -/
+/-- Reciprocity restricted to the base integer monoid lands in the intrinsic Frobenius-positive
+cone. -/
+noncomputable def intrinsicIntegerMonoidHom
+    (reciprocity : LocalReciprocityFamily.{u}) (K : PointedMixedCharLocalField.{u}) :
+    baseIntegerMonoid K →* reciprocity.reconstructedBaseIntegerMonoid K := by
+  let r := reciprocity.map K
+  apply MonoidHom.codRestrict
+    (r.toMonoidHom.comp (baseIntegerMonoid K).subtype)
+    (reciprocity.reconstructedBaseIntegerMonoid K)
+  intro x
+  obtain ⟨n, u, hu, hxu⟩ :=
+    (mem_baseIntegerMonoid_iff_exists_uniformizer_pow_mul_integerUnit K x.1).mp x.property
+  change unramifiedProjection K (r.toMonoidHom x.1) ∈
+    Submonoid.powers (residueFrobenius K)
+  simp only [hxu, map_mul, map_pow]
+  rw [r.unramifiedProjection_uniformizer
+      (uniformizerUnit K) (uniformizerUnit_isUniformizer K),
+    r.unramifiedProjection_integerUnit u hu, mul_one]
+  exact ⟨n, rfl⟩
+
+theorem intrinsicIntegerMonoidHom_surjective
+    (reciprocity : LocalReciprocityFamily.{u}) (K : PointedMixedCharLocalField.{u}) :
+    Function.Surjective (reciprocity.intrinsicIntegerMonoidHom K) := by
+  let r := reciprocity.map K
+  rintro ⟨y, hy⟩
+  change unramifiedProjection K y ∈ Submonoid.powers (residueFrobenius K) at hy
+  obtain ⟨n, hn⟩ := (Submonoid.mem_powers_iff _ _).mp hy
+  let π : Kˣ := uniformizerUnit K
+  let δ : AbelianizedAbsoluteGaloisGroup K := y * (r.toMonoidHom (π ^ n))⁻¹
+  have hδproj : unramifiedProjection K δ = 1 := by
+    simp only [δ, map_mul, map_inv, map_pow]
+    rw [r.unramifiedProjection_uniformizer π (uniformizerUnit_isUniformizer K),
+      ← hn, mul_inv_cancel]
+  have hδ : δ ∈ inertiaSubgroup K := (unramifiedProjection_eq_one_iff K δ).mp hδproj
+  obtain ⟨a, ha⟩ := r.mapsUnits.unitsEquiv.surjective ⟨δ, hδ⟩
+  have harec : r.toMonoidHom (integerUnitsToFieldUnits K a) = δ := by
+    have hcompat := DFunLike.congr_fun r.mapsUnits.compatibility a
+    exact hcompat.symm.trans (congrArg Subtype.val ha)
+  let xunit : Kˣ := integerUnitsToFieldUnits K a
+  have hxunit : xunit ∈ integerUnitSubgroup K := ⟨a, rfl⟩
+  let x : Kˣ := π ^ n * xunit
+  have hxint : x ∈ baseIntegerMonoid K :=
+    (mem_baseIntegerMonoid_iff_exists_uniformizer_pow_mul_integerUnit K x).mpr
+      ⟨n, xunit, hxunit, rfl⟩
+  refine ⟨⟨x, hxint⟩, ?_⟩
+  apply Subtype.ext
+  change r.toMonoidHom x = y
+  simp only [x, map_mul]
+  rw [harec]
+  simp only [δ]
+  simp [mul_left_comm]
+
+/-- Restricted reciprocity identifies `𝒪_K^▹` with Hoshi's intrinsic Frobenius-positive cone. -/
 noncomputable def baseIntegerMonoidEquiv
     (reciprocity : LocalReciprocityFamily.{u}) (K : PointedMixedCharLocalField.{u}) :
     baseIntegerMonoid K ≃* reciprocity.reconstructedBaseIntegerMonoid K :=
-  MulEquiv.ofLeftInverse' (reciprocity.integerMonoidHom K)
-    (Function.leftInverse_invFun (reciprocity.integerMonoidHom_injective K))
+  MulEquiv.ofBijective (reciprocity.intrinsicIntegerMonoidHom K)
+    ⟨(by
+      intro x y h
+      apply Subtype.ext
+      apply (reciprocity.map K).injective
+      have h' := congrArg Subtype.val h
+      change (reciprocity.map K).toMonoidHom x.1 =
+        (reciprocity.map K).toMonoidHom y.1 at h'
+      exact h'),
+      reciprocity.intrinsicIntegerMonoidHom_surjective K⟩
 
 end LocalReciprocityFamily
 

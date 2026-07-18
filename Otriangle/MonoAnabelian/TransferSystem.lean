@@ -53,46 +53,41 @@ end FiniteExtension
 
 namespace LocalReciprocityFamily
 
-/-- Transfer restricts to the one-field reconstructed integral monoids. -/
+/-- The transition on intrinsic Frobenius-positive cones, obtained by conjugating field inclusion
+through the one-field reciprocity equivalences. -/
 noncomputable def reconstructedBaseIntegerMonoidMap
     (reciprocity : LocalReciprocityFamily.{u})
     {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtension K L) :
     reciprocity.reconstructedBaseIntegerMonoid K →*
-      reciprocity.reconstructedBaseIntegerMonoid L := by
-  apply MonoidHom.codRestrict
-    ((reciprocity.transferMap K L E).comp
-      (reciprocity.reconstructedBaseIntegerMonoid K).subtype)
-    (reciprocity.reconstructedBaseIntegerMonoid L)
-  rintro ⟨y, x, rfl⟩
-  refine ⟨E.baseIntegerMonoidMap x, ?_⟩
-  change (reciprocity.map L).toMonoidHom (E.fieldUnitsMap x.1) =
-    reciprocity.transferMap K L E ((reciprocity.map K).toMonoidHom x.1)
-  exact (DFunLike.congr_fun (reciprocity.transfer_naturality K L E) x.1).symm
+      reciprocity.reconstructedBaseIntegerMonoid L :=
+  (reciprocity.baseIntegerMonoidEquiv L).toMonoidHom.comp
+    (E.baseIntegerMonoidMap.comp
+      (reciprocity.baseIntegerMonoidEquiv K).symm.toMonoidHom)
+
+/-- The intrinsic transition is the restriction of group-theoretic transfer. -/
+theorem reconstructedBaseIntegerMonoidMap_coe
+    (reciprocity : LocalReciprocityFamily.{u})
+    {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtension K L)
+    (x : reciprocity.reconstructedBaseIntegerMonoid K) :
+    (reciprocity.reconstructedBaseIntegerMonoidMap E x).1 =
+      reciprocity.transferMap K L E x.1 := by
+  let y := (reciprocity.baseIntegerMonoidEquiv K).symm x
+  have hxy : (reciprocity.map K).toMonoidHom y.1 = x.1 := by
+    have h := congrArg Subtype.val
+      ((reciprocity.baseIntegerMonoidEquiv K).apply_symm_apply x)
+    exact h
+  change (reciprocity.map L).toMonoidHom (E.fieldUnitsMap y.1) =
+    reciprocity.transferMap K L E x.1
+  rw [← hxy]
+  exact (DFunLike.congr_fun (reciprocity.transfer_naturality K L E) y.1).symm
 
 theorem reconstructedBaseIntegerMonoidMap_injective
     (reciprocity : LocalReciprocityFamily.{u})
     {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtension K L) :
     Function.Injective (reciprocity.reconstructedBaseIntegerMonoidMap E) := by
-  intro a b h
-  rcases a with ⟨a, ha⟩
-  rcases b with ⟨b, hb⟩
-  obtain ⟨x, hx⟩ := ha
-  obtain ⟨y, hy⟩ := hb
-  subst a
-  subst b
-  have h' := congrArg (fun z : reciprocity.reconstructedBaseIntegerMonoid L ↦ z.1) h
-  change reciprocity.transferMap K L E ((reciprocity.map K).toMonoidHom x.1) =
-    reciprocity.transferMap K L E ((reciprocity.map K).toMonoidHom y.1) at h'
-  have hxnat := DFunLike.congr_fun (reciprocity.transfer_naturality K L E) x.1
-  have hynat := DFunLike.congr_fun (reciprocity.transfer_naturality K L E) y.1
-  have hrecL : (reciprocity.map L).toMonoidHom (E.fieldUnitsMap x.1) =
-      (reciprocity.map L).toMonoidHom (E.fieldUnitsMap y.1) := by
-    exact hxnat.symm.trans (h'.trans hynat)
-  apply Subtype.ext
-  apply congrArg (reciprocity.map K).toMonoidHom
-  apply E.fieldUnitsMap_injective
-  apply (reciprocity.map L).injective
-  exact hrecL
+  exact (reciprocity.baseIntegerMonoidEquiv L).injective.comp
+    (E.baseIntegerMonoidMap_injective.comp
+      (reciprocity.baseIntegerMonoidEquiv K).symm.injective)
 
 /-- The one-field reciprocity equivalences commute with inclusion and transfer. -/
 theorem baseIntegerMonoidEquiv_natural
@@ -102,9 +97,9 @@ theorem baseIntegerMonoidEquiv_natural
       (reciprocity.reconstructedBaseIntegerMonoidMap E).comp
         (reciprocity.baseIntegerMonoidEquiv K).toMonoidHom := by
   ext x
-  change (reciprocity.map L).toMonoidHom (E.fieldUnitsMap x.1) =
-    reciprocity.transferMap K L E ((reciprocity.map K).toMonoidHom x.1)
-  exact (DFunLike.congr_fun (reciprocity.transfer_naturality K L E) x.1).symm
+  exact congrArg Subtype.val <| congrArg
+    (fun y ↦ reciprocity.baseIntegerMonoidEquiv L (E.baseIntegerMonoidMap y))
+    ((reciprocity.baseIntegerMonoidEquiv K).symm_apply_apply x).symm
 
 end LocalReciprocityFamily
 end LCFT
