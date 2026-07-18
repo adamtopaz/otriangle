@@ -161,6 +161,7 @@ theorem fixedFieldValuativeExtensionFromPresentation (U : G.OpenSubgroupIndex) :
 
 /-- A finite fixed field, with the common algebraic closure and the canonical spectral residue
 action, is a pointed mixed-characteristic local field. -/
+@[implicit_reducible]
 noncomputable def fixedFieldPointed (U : G.OpenSubgroupIndex) :
     PointedMixedCharLocalField.{u} := by
   letI := G.presentation.nontriviallyNormedField

@@ -10,8 +10,10 @@ import Otriangle.MonoAnabelian.OpenSubgroups
 import Otriangle.MonoAnabelian.FixedFields
 import Otriangle.MonoAnabelian.FieldColimit
 import Otriangle.MonoAnabelian.SpectralLocalField
+import Otriangle.MonoAnabelian.SpectralIntegers
 import Otriangle.MonoAnabelian.SpectralResidue
 import Otriangle.MonoAnabelian.FixedFieldLocal
+import Otriangle.MonoAnabelian.FixedFieldSystem
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -55,7 +57,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_surjective, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_continuous, Anabelian.OTriangle.SpectralLocalField.finiteBaseGalois_commutes, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtensionFromPresentation, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldPointed")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_surjective, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_continuous, Anabelian.OTriangle.SpectralLocalField.finiteBaseGalois_commutes, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegral, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegralAlgebra, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtensionFromPresentation, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldPointed, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtensionSystem")
 %%%
 source := {
   document := "hoshi"
