@@ -16,4 +16,6 @@ permissions:
 jobs:
   pages:
     uses: ./.github/workflows/blueprint-pages.yml
+    with:
+      warm_dependency_cache: true
     secrets: inherit
