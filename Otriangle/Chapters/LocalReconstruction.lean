@@ -134,7 +134,34 @@ a contradiction.  The surviving Frobenius class has order $`\ell` and
 generates the quotient.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "unramified_torsion_free_rank")
+:::theorem "principal_unit_prime_to_p_divisibility" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.principalUnit_pow_surjective_of_ne_residueChar")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "11--12"
+    text := some { path := "source/hoshi.txt", startLine := 380, endLine := 417 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+  }]
+}
+%%%
+
+For every prime $`\ell\ne p_K`, the $`\ell`th-power endomorphism of the
+principal-unit group $`U_K^1` is surjective.  This supplies the
+prime-to-$`p_K` divisibility input in the decomposition of $`K^\times` from
+Hoshi's Lemma 1.2: no prime-to-$`p_K` rank can arise from principal units.
+:::
+
+:::proof "principal_unit_prime_to_p_divisibility"
+For $`u\in U_K^1`, apply Hensel's lemma in $`\mathcal O_K` to
+$`X^\ell-u` at $`X=1`.  Its value at $`1` lies in the maximal ideal, while
+its derivative there is $`\ell`, which is a unit because
+$`\ell\ne p_K`.  The lifted root remains congruent to $`1` modulo the
+maximal ideal, so it is itself a principal unit and its $`\ell`th power is
+$`u`.
+:::
+
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "unramified_torsion_free_rank, principal_unit_prime_to_p_divisibility")
 %%%
 source := {
   document := "hoshi"
