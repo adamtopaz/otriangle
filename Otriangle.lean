@@ -18,6 +18,7 @@ import Otriangle.MonoAnabelian.ClassicalRamification
 import Otriangle.MonoAnabelian.RamificationComparison
 import Otriangle.MonoAnabelian.DiagramTransport
 import Otriangle.MonoAnabelian.ReconstructedObject
+import Otriangle.MonoAnabelian.Algorithm
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport
 import Otriangle.MonoAnabelian.Package

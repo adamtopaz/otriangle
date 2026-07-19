@@ -124,6 +124,13 @@ theorem openSubgroupIndexEquiv_id (G : LocalGaloisGroup.{u}) :
   intro x
   rfl
 
+@[simp]
+theorem openSubgroupIndexEquiv_id_apply (G : LocalGaloisGroup.{u})
+    (U : G.OpenSubgroupIndex) :
+    openSubgroupIndexEquiv (𝟙 G) U = U :=
+  congrArg (fun r : G.OpenSubgroupIndex ≃o G.OpenSubgroupIndex ↦ r U)
+    (G.openSubgroupIndexEquiv_id)
+
 /-- Transport of open-subgroup indices respects composition of group isomorphisms. -/
 theorem openSubgroupIndexEquiv_comp {G H I : LocalGaloisGroup.{u}}
     (f : G ⟶ H) (g : H ⟶ I) :
@@ -135,12 +142,27 @@ theorem openSubgroupIndexEquiv_comp {G H I : LocalGaloisGroup.{u}}
   intro x
   rfl
 
+@[simp]
+theorem openSubgroupIndexEquiv_comp_apply {G H I : LocalGaloisGroup.{u}}
+    (f : G ⟶ H) (g : H ⟶ I) (U : G.OpenSubgroupIndex) :
+    openSubgroupIndexEquiv (f ≫ g) U =
+      openSubgroupIndexEquiv g (openSubgroupIndexEquiv f U) :=
+  congrArg (fun r : G.OpenSubgroupIndex ≃o I.OpenSubgroupIndex ↦ r U)
+    (G.openSubgroupIndexEquiv_comp f g)
+
 /-- The ambient group isomorphism restricts to the corresponding open subgroups. -/
 noncomputable def openSubgroupEquiv {G H : LocalGaloisGroup.{u}} (f : G ⟶ H)
     (U : G.OpenSubgroupIndex) :
     (OrderDual.ofDual U).toSubgroup ≃ₜ*
       (OrderDual.ofDual (openSubgroupIndexEquiv f U)).toSubgroup :=
   Anabelian.OTriangle.OpenSubgroupIndex.subgroupEquiv f.equiv (OrderDual.ofDual U)
+
+/-- Identity transport on an open subgroup is heterogeneously equal to the original element. -/
+theorem openSubgroupEquiv_id_apply_heq (G : LocalGaloisGroup.{u})
+    (U : G.OpenSubgroupIndex) (x : (OrderDual.ofDual U).toSubgroup) :
+    HEq (G.openSubgroupEquiv (𝟙 G) U x) x := by
+  apply (Subtype.heq_iff_coe_eq (fun y ↦ by rfl)).2
+  rfl
 
 end LocalGaloisGroup
 end OTriangle

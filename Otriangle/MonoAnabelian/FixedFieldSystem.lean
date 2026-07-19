@@ -53,7 +53,7 @@ noncomputable def fixedFieldFiniteExtension
 
 /-- The pointed fixed fields and their inclusions form the finite-extension system indexed by open
 subgroups. -/
-noncomputable def fixedFieldFiniteExtensionSystem :
+noncomputable abbrev fixedFieldFiniteExtensionSystem :
     LCFT.FiniteExtensionSystem.{u} G.OpenSubgroupIndex where
   field := G.fixedFieldPointed
   extension := fun _ _ h => G.fixedFieldFiniteExtension h

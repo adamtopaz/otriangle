@@ -17,6 +17,7 @@ import Otriangle.MonoAnabelian.FixedFieldSystem
 import Otriangle.MonoAnabelian.FixedFieldComparison
 import Otriangle.MonoAnabelian.ConjugationSystem
 import Otriangle.MonoAnabelian.DiagramTransport
+import Otriangle.MonoAnabelian.Algorithm
 import Otriangle.MonoAnabelian.ReconstructedObject
 
 set_option linter.hashCommand false
@@ -119,7 +120,7 @@ to which the assumed reciprocity family applies, rather than this arithmetic
 fact being added as data on the diagram.
 :::
 
-:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv")
+:::theorem "filtered_colimit_comparison" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FilteredColimit.mapMonoidHom, Anabelian.LCFT.FilteredColimit.mapMonoidHomAlong, Anabelian.LCFT.FilteredColimit.mulEquiv, Anabelian.LCFT.FilteredColimit.mulEquivAlongOrderIso, Anabelian.LCFT.FiniteExtensionSystem.directLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.exists_mem_fixedField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_mk")
 %%%
 source := {
   document := "hoshi"
@@ -151,6 +152,14 @@ every integral element lies in some finite fixed field, which proves
 surjectivity of the canonical colimit map; injectivity follows from the
 injectivity of fixed-field inclusions after moving two representatives to a
 common index.
+
+For an arbitrary continuous group equivalence, transport of open subgroups is
+an order isomorphism.  The nodewise Hoshi equivalences and their transfer
+naturality square therefore satisfy the hypotheses of the change-of-index
+colimit theorem.  The induced equivalence sends the class of $`(U,x)` to the
+class of the transported subgroup together with the transported node element;
+this representative formula is the starting point for the identity,
+composition, and action calculations.
 :::
 
 :::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.conjugationIndex, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitAction, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv_action, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison_action")
