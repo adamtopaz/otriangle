@@ -162,7 +162,7 @@ this representative formula is the starting point for the identity,
 composition, and action calculations.
 :::
 
-:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.conjugationIndex, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitAction, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv_action, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison_action")
+:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (uses := "hoshi_ramification_identification") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.conjugationIndex, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitAction, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv_action, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison_action, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_id, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_comp, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_conjugation, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_action, Anabelian.OTriangle.integralMonoAnabelianAlgorithmOfHoshiComparison")
 %%%
 source := {
   document := "hoshi"
@@ -180,7 +180,7 @@ $`\mathcal O^{\triangleright}(G)` corresponding, for $`G=G_K`, to
 $`\mathcal O_{\overline K}^{\triangleright}`.
 :::
 
-:::proof "integral_mono_reconstruction" (uses := "one_field_multiplicative_reconstruction, transfer_direct_system, filtered_colimit_comparison")
+:::proof "integral_mono_reconstruction" (uses := "one_field_multiplicative_reconstruction, transfer_direct_system, filtered_colimit_comparison, hoshi_ramification_identification")
 Apply one-field reconstruction to every open subgroup $`H\leq G`.  Transfer
 gives the transition maps.  Their filtered colimit reconstructs the integral
 multiplicative monoid in the algebraic closure, and conjugation of open
@@ -194,9 +194,15 @@ therefore proves its identity and multiplication laws.
 An isomorphism $`\alpha:G_0\simeq G_1`
 maps the entire indexed diagram to the corresponding diagram for $`G_1`, so
 it induces an equivariant monoid equivalence.  Identity and composition laws
-hold because this construction is induced functorially on the diagrams.
+are proved on colimit representatives from the corresponding node equalities.
+For equivariance, transport along conjugation is identified with the
+conjugation action on the reconstructed diagram; the equality
+$`\alpha\,c_\sigma=c_{\alpha(\sigma)}\,\alpha` then gives the action square.
 
 The Lean structure `Anabelian.LCFT.IntegralMonoAnabelianAlgorithm` records
-exactly these outputs and laws; the implementation is split into one-field,
-transfer, and filtered-colimit modules.
+exactly these outputs and laws.  The constructor
+`integralMonoAnabelianAlgorithmOfHoshiComparison` now supplies every field of
+that structure, conditional only on the uniform ramification identification;
+the implementation is split into one-field, transfer, filtered-colimit,
+conjugation, and algorithm modules.
 :::

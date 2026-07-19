@@ -272,7 +272,50 @@ representatives and carry the chosen full Frobenius class to the same
 arithmetic Frobenius element.
 :::
 
-:::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge") (lean := "Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparison, Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily, Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")
+:::theorem "hoshi_ramification_identification" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, residue_characteristic_predicate, intrinsic_ramification_intersections, intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge") (lean := "Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparison, Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--21"
+    text := some { path := "source/hoshi.txt", startLine := 872, endLine := 986 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-19.png" }
+  }]
+}
+%%%
+
+For every presented local absolute Galois group, the unique intrinsic prime is
+the residue characteristic, the intrinsic inertia and wild-inertia
+intersections are the classical ramification subgroups, and the unique
+intrinsic Frobenius class is arithmetic Frobenius.  In Lean the conjunction
+needed downstream is named `HoshiRamificationComparison`; its uniform
+existence is `HoshiRamificationComparisonFamily`.
+:::
+
+:::proof "hoshi_ramification_identification" (uses := "local_reciprocity_input, residue_characteristic_predicate, intrinsic_ramification_intersections, intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge")
+Local reciprocity identifies the abstract topological abelianization with the
+dense reciprocity image of $`K^\times`.  The structure theorem for the
+multiplicative group of a mixed-characteristic local field gives
+$$`G_K^{\mathrm{ab}}\cong
+\mathbb Z/(q-1)\oplus \mathbb Z/p^a\oplus
+\mathbb Z_p^{[K:\mathbb Q_p]}\oplus\widehat{\mathbb Z}.`
+Its torsion-free mod-$`\ell` rank is at least two exactly for $`\ell=p`, and
+its rank and prime-to-$`p` torsion give the absolute and residue degrees.
+
+For a normal open subgroup $`N=G_L`, multiplicativity of ramification degree
+in $`L/K` shows that equality of the reconstructed ramification indices is
+equivalent to $`L/K` being unramified.  Intersecting all such $`N` recovers
+inertia.  Requiring a positive prime-to-$`p` relative factor similarly
+recovers wild inertia.  The tame relation
+$`\varphi\tau\varphi^{-1}=\tau^q` then gives existence and uniqueness of the
+class acting by the $`p^f`-power map and identifies it with arithmetic
+Frobenius.  These are exactly Lemma 3.4, Proposition 3.6, Lemma 3.7, and
+Proposition 3.9; formalizing the displayed local-unit structure and tame
+relation is the outstanding arithmetic implementation behind the named Lean
+proposition.
+:::
+
+:::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "hoshi_ramification_identification") (lean := "Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")
 %%%
 source := {
   document := "hoshi"
@@ -284,10 +327,7 @@ source := {
 }
 %%%
 
-Package the arithmetic assertions of Hoshi's Proposition 3.6, Lemma 3.7,
-and Proposition 3.9 as the statement that the intrinsic prime and inertia
-are the classical ones and that the uniquely characterized intrinsic
-Frobenius class is arithmetic Frobenius.  From this comparison, every
+From the uniform arithmetic comparison, every
 profinite-group isomorphism formally preserves the residue characteristic,
 full and abelianized inertia, and arithmetic Frobenius.
 
@@ -295,11 +335,11 @@ Consequently it maps the Frobenius-positive submonoid of one topological
 abelianization exactly onto the other.  The construction applies to the
 restricted isomorphism at each pair of corresponding fixed fields, giving a
 nodewise multiplicative equivalence of the reconstruction diagrams.  The
-uniform comparison is represented by a proposition, not installed as an
-assumption; constructing it remains the arithmetic proof obligation.
+uniform comparison is passed explicitly to the formal transport theorem, so
+the arithmetic dependency remains visible in every downstream declaration.
 :::
 
-:::proof "ramification_comparison_transport" (uses := "intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge")
+:::proof "ramification_comparison_transport" (uses := "hoshi_ramification_identification")
 The unique-prime predicates on source and target correspond, so their
 classical residue characteristics agree.  Intrinsic inertia transport then
 becomes classical inertia transport.  Quotienting gives a commutative square
