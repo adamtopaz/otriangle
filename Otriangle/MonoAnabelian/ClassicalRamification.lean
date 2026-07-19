@@ -129,5 +129,133 @@ theorem unramifiedQuotientEquiv_frobeniusClass (K : PointedMixedCharLocalField.{
     inertiaQuotientEquivResidue_frobeniusClass]
 
 end ClassicalRamification
+
+namespace LocalGaloisGroup
+
+/-- The classical residue action, with its domain expressed using the profinite-group structure
+carried by a `LocalGaloisGroup`. -/
+noncomputable def classicalResidueGaloisMap (G : LocalGaloisGroup.{u}) :
+    G.toProfiniteGrp →* LCFT.ResidueAbsoluteGaloisGroup G.presentation where
+  toFun := G.presentation.residueGaloisMap
+  map_one' := map_one G.presentation.residueGaloisMap
+  map_mul' := map_mul G.presentation.residueGaloisMap
+
+theorem classicalResidueGaloisMap_surjective (G : LocalGaloisGroup.{u}) :
+    Function.Surjective G.classicalResidueGaloisMap :=
+  G.presentation.residueGaloisMap_surjective
+
+/-- Classical inertia, expressed as a subgroup of the profinite group underlying a
+`LocalGaloisGroup`. -/
+noncomputable def classicalInertiaSubgroup (G : LocalGaloisGroup.{u}) :
+    Subgroup G.toProfiniteGrp :=
+  G.classicalResidueGaloisMap.ker
+
+instance classicalInertiaSubgroupNormal (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaSubgroup.Normal :=
+  G.classicalResidueGaloisMap.normal_ker
+
+/-- The classical unramified quotient, using the profinite-group presentation. -/
+abbrev classicalInertiaQuotient (G : LocalGaloisGroup.{u}) : Type u :=
+  G.toProfiniteGrp ⧸ G.classicalInertiaSubgroup
+
+/-- The classical unramified quotient is the residue-field absolute Galois group. -/
+noncomputable def classicalInertiaQuotientEquivResidue (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaQuotient ≃*
+      LCFT.ResidueAbsoluteGaloisGroup G.presentation :=
+  QuotientGroup.quotientKerEquivOfSurjective G.classicalResidueGaloisMap
+    G.classicalResidueGaloisMap_surjective
+
+@[simp]
+theorem classicalInertiaQuotientEquivResidue_mk (G : LocalGaloisGroup.{u})
+    (σ : G.toProfiniteGrp) :
+    G.classicalInertiaQuotientEquivResidue
+        ((QuotientGroup.mk' G.classicalInertiaSubgroup) σ) =
+      G.classicalResidueGaloisMap σ :=
+  rfl
+
+/-- The classical arithmetic Frobenius class, expressed in the profinite-group quotient. -/
+noncomputable def classicalFrobeniusClass (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaQuotient :=
+  G.classicalInertiaQuotientEquivResidue.symm
+    (LCFT.residueFrobenius G.presentation)
+
+@[simp]
+theorem classicalInertiaQuotientEquivResidue_frobeniusClass
+    (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaQuotientEquivResidue G.classicalFrobeniusClass =
+      LCFT.residueFrobenius G.presentation :=
+  G.classicalInertiaQuotientEquivResidue.apply_symm_apply _
+
+/-- The canonical map from the profinite Galois group to the topological abelianization used by
+its local-field presentation. -/
+noncomputable def toAbelianization (G : LocalGaloisGroup.{u}) :
+    G.toProfiniteGrp →* LCFT.AbelianizedAbsoluteGaloisGroup G.presentation :=
+  QuotientGroup.mk'
+    (Subgroup.topologicalClosure (commutator G.toProfiniteGrp))
+
+@[simp]
+theorem unramifiedProjection_toAbelianization (G : LocalGaloisGroup.{u})
+    (σ : G.toProfiniteGrp) :
+    LCFT.unramifiedProjection G.presentation (G.toAbelianization σ) =
+      G.classicalResidueGaloisMap σ :=
+  rfl
+
+/-- Classical full inertia maps exactly onto the presentation's abelianized inertia when the
+domain is expressed using the profinite-group structure. -/
+theorem map_classicalInertiaSubgroup_toAbelianization (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaSubgroup.map G.toAbelianization =
+      LCFT.inertiaSubgroup G.presentation := by
+  ext y
+  constructor
+  · rintro ⟨σ, hσ, rfl⟩
+    rw [← LCFT.unramifiedProjection_eq_one_iff]
+    exact hσ
+  · intro hy
+    obtain ⟨σ, rfl⟩ := QuotientGroup.mk'_surjective
+      (Subgroup.topologicalClosure (commutator G.toProfiniteGrp)) y
+    refine ⟨σ, ?_, rfl⟩
+    change G.classicalResidueGaloisMap σ = 1
+    exact (LCFT.unramifiedProjection_eq_one_iff G.presentation _).mpr hy
+
+/-- The full-to-abelian map descends through classical inertia. -/
+noncomputable def classicalInertiaQuotientToAbelianized (G : LocalGaloisGroup.{u}) :
+    G.classicalInertiaQuotient →*
+      (LCFT.AbelianizedAbsoluteGaloisGroup G.presentation ⧸
+        LCFT.inertiaSubgroup G.presentation) :=
+  QuotientGroup.map G.classicalInertiaSubgroup
+    (LCFT.inertiaSubgroup G.presentation) G.toAbelianization (by
+      rw [← Subgroup.map_le_iff_le_comap,
+        G.map_classicalInertiaSubgroup_toAbelianization])
+
+@[simp]
+theorem classicalInertiaQuotientToAbelianized_mk (G : LocalGaloisGroup.{u})
+    (σ : G.toProfiniteGrp) :
+    G.classicalInertiaQuotientToAbelianized
+        ((QuotientGroup.mk' G.classicalInertiaSubgroup) σ) =
+      (QuotientGroup.mk' (LCFT.inertiaSubgroup G.presentation))
+        (G.toAbelianization σ) :=
+  rfl
+
+/-- The profinite full-to-abelian quotient map commutes with identification with the residue-field
+absolute Galois group. -/
+theorem unramifiedQuotientEquiv_classicalInertiaQuotientToAbelianized
+    (G : LocalGaloisGroup.{u}) (x : G.classicalInertiaQuotient) :
+    LCFT.unramifiedQuotientEquiv G.presentation
+        (G.classicalInertiaQuotientToAbelianized x) =
+      G.classicalInertiaQuotientEquivResidue x := by
+  induction x using Quotient.inductionOn with
+  | _ σ => rfl
+
+/-- The profinite presentation's full Frobenius class maps to arithmetic Frobenius in the
+abelianized unramified quotient. -/
+theorem unramifiedQuotientEquiv_classicalFrobeniusClass
+    (G : LocalGaloisGroup.{u}) :
+    LCFT.unramifiedQuotientEquiv G.presentation
+        (G.classicalInertiaQuotientToAbelianized G.classicalFrobeniusClass) =
+      LCFT.residueFrobenius G.presentation := by
+  rw [G.unramifiedQuotientEquiv_classicalInertiaQuotientToAbelianized,
+    G.classicalInertiaQuotientEquivResidue_frobeniusClass]
+
+end LocalGaloisGroup
 end OTriangle
 end Anabelian

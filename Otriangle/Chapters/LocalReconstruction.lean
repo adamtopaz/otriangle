@@ -6,6 +6,7 @@ import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
 import Otriangle.MonoAnabelian.ClassicalRamification
+import Otriangle.MonoAnabelian.RamificationComparison
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -269,4 +270,49 @@ that the image of full inertia is all of abelianized inertia.  Both quotient
 identifications are induced by the same residue action, hence commute on
 representatives and carry the chosen full Frobenius class to the same
 arithmetic Frobenius element.
+:::
+
+:::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge") (lean := "Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparison, Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily, Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 916, endLine := 986 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-19.png" }
+  }]
+}
+%%%
+
+Package the arithmetic assertions of Hoshi's Proposition 3.6, Lemma 3.7,
+and Proposition 3.9 as the statement that the intrinsic prime and inertia
+are the classical ones and that the uniquely characterized intrinsic
+Frobenius class is arithmetic Frobenius.  From this comparison, every
+profinite-group isomorphism formally preserves the residue characteristic,
+full and abelianized inertia, and arithmetic Frobenius.
+
+Consequently it maps the Frobenius-positive submonoid of one topological
+abelianization exactly onto the other.  The construction applies to the
+restricted isomorphism at each pair of corresponding fixed fields, giving a
+nodewise multiplicative equivalence of the reconstruction diagrams.  The
+uniform comparison is represented by a proposition, not installed as an
+assumption; constructing it remains the arithmetic proof obligation.
+:::
+
+:::proof "ramification_comparison_transport" (uses := "intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge")
+The unique-prime predicates on source and target correspond, so their
+classical residue characteristics agree.  Intrinsic inertia transport then
+becomes classical inertia transport.  Quotienting gives a commutative square
+between intrinsic and classical unramified quotients; uniqueness of the
+Frobenius characterization forces the classical Frobenius classes to
+correspond.  A second commutative square passes this statement through
+topological abelianization.
+
+Finally, an abelianized element belongs to the reconstructed one-field monoid
+exactly when its unramified quotient class is a nonnegative power of the
+abelianized Frobenius class.  This characterization is preserved in both
+directions, so restriction of the abelianization equivalence gives the node
+equivalence.  Replacing the ambient groups by corresponding open subgroups
+and identifying them with fixed-field absolute Galois groups gives the stated
+fixed-field node transport.
 :::

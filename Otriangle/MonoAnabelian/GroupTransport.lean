@@ -180,6 +180,17 @@ noncomputable def abelianizationEquiv {G H : LocalGaloisGroup.{u}} (f : G ⟶ H)
       LCFT.AbelianizedAbsoluteGaloisGroup H.presentation :=
   TopologicalAbelianization.congr f.equiv
 
+/-- At every open subgroup, a morphism restricts to a morphism between the local Galois groups of
+the corresponding fixed fields. -/
+noncomputable def fixedFieldGroupHom
+    {G H : LocalGaloisGroup.{u}} (f : G ⟶ H) (U : G.OpenSubgroupIndex) :
+    LocalGaloisGroup.mk (G.fixedFieldPointed U) ⟶
+      LocalGaloisGroup.mk
+        (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)) where
+  equiv := (G.fixedFieldGaloisContinuousEquiv U).symm.trans
+    ((G.openSubgroupEquiv f U).trans
+      (H.fixedFieldGaloisContinuousEquiv (G.openSubgroupIndexEquiv f U)))
+
 /-- At every open subgroup, a morphism induces an equivalence between the abelianized absolute
 Galois groups of the corresponding fixed fields. -/
 noncomputable def fixedFieldAbelianizationEquiv
@@ -187,11 +198,7 @@ noncomputable def fixedFieldAbelianizationEquiv
     LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U) ≃*
       LCFT.AbelianizedAbsoluteGaloisGroup
         (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)) :=
-  (TopologicalAbelianization.congr
-      (G.fixedFieldGaloisContinuousEquiv U)).symm.trans
-    ((TopologicalAbelianization.congr (G.openSubgroupEquiv f U)).trans
-      (TopologicalAbelianization.congr
-        (H.fixedFieldGaloisContinuousEquiv (G.openSubgroupIndexEquiv f U))))
+  abelianizationEquiv (G.fixedFieldGroupHom f U)
 
 @[simp]
 theorem abelianizationEquiv_id (G : LocalGaloisGroup.{u}) :
