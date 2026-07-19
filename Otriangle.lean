@@ -12,6 +12,10 @@ import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.LocalArithmeticInvariants
 import Otriangle.MonoAnabelian.PrincipalCongruence
+import Otriangle.MonoAnabelian.FiniteIndexTorsionFree
+import Otriangle.MonoAnabelian.ExactUnitRank
+import Otriangle.MonoAnabelian.ExactFieldRank
+import Otriangle.MonoAnabelian.ExactReciprocityRank
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank

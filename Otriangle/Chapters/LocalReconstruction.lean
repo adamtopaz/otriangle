@@ -9,6 +9,10 @@ import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.LocalArithmeticInvariants
 import Otriangle.MonoAnabelian.PrincipalCongruence
+import Otriangle.MonoAnabelian.FiniteIndexTorsionFree
+import Otriangle.MonoAnabelian.ExactUnitRank
+import Otriangle.MonoAnabelian.ExactFieldRank
+import Otriangle.MonoAnabelian.ExactReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
@@ -335,6 +339,43 @@ power quotient with the additive group of $`A/pA`, whose exact cardinality
 was computed in the preceding node.
 :::
 
+:::theorem "finite_index_torsion_cancellation" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, exact_deep_principal_congruence_quotient") (lean := "Anabelian.LCFT.subgroupPowerRange, Anabelian.LCFT.torsionTimesSubgroupModPowerToPowerKernel, Anabelian.LCFT.torsionTimesSubgroupModPowerToPowerKernel_bijective, Anabelian.LCFT.ambientModPower_card_eq_powerTorsion_mul_subgroupModPower, Anabelian.LCFT.ambientPowerRange_inf_torsion_subgroupOf, Anabelian.LCFT.torsionFreeModPower_card_eq_subgroupModPower, Anabelian.LCFT.squarePrincipalCongruence_isMulTorsionFree, Anabelian.LCFT.subgroupPowerRange_squarePrincipal, Anabelian.LCFT.integerUnitTorsionFreeModPowerQuotient_card_eq_residueDegreeProduct")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "11, 19--20"
+    text := some { path := "source/hoshi.txt", startLine := 350, endLine := 417 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+  }]
+}
+%%%
+
+Let $`D\le U` be a finite-index torsion-free subgroup of a commutative group,
+and suppose $`U/D^n` is finite.  Then
+$$`\#\bigl((U/\operatorname{tor}U)/n(U/\operatorname{tor}U)\bigr)
+=\#(D/D^n).`
+Applied to $`U=\mathcal O_K^\times`, $`D=U[p^2]`, and $`n=p`, this yields
+the exact local-unit cardinality $`p^{ef}`.
+:::
+
+:::proof "finite_index_torsion_cancellation" (uses := "deep_principal_unit_torsion_freeness, exact_deep_principal_congruence_quotient")
+First quotient $`U` by $`D^n`.  The kernel of the induced $`n`th-power
+endomorphism consists uniquely of a product of an element of $`U[n]` and a
+class in $`D/D^n`: if $`x^n=d^n`, then $`xd^{-1}\in U[n]`; uniqueness uses
+torsion-freeness of $`D`.  Since the ambient quotient is finite, the kernel
+and cokernel of its power endomorphism have equal cardinality.  Thus
+$$`\#(U/U^n)=\#U[n]\,\#(D/D^n).`
+
+The intersection of $`U^n` with the torsion subgroup is exactly
+$`(\operatorname{tor}U)^n`: an $`n`th root of a torsion element is torsion.
+The finite torsion group's power endomorphism has cokernel and kernel of the
+same size $`\#U[n]`.  Passing from $`U/U^n` to the quotient by all torsion
+therefore cancels precisely that factor.  For local units, $`U[p^2]` is
+torsion-free, its $`p`th powers are $`U[p^3]`, and the finite residue-ring
+quotient proves the required finite-index hypotheses.
+:::
+
 :::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots, exact_deep_principal_congruence_quotient") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial, Anabelian.LCFT.cubeDeepPrincipalUnitGroup, Anabelian.LCFT.cubeDeepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.cubeDeepIntegerUnitGroup_le_powRange, Anabelian.LCFT.integerUnitsModPower_finite, Anabelian.LCFT.fieldModPowerParam_surjective, Anabelian.LCFT.fieldModPowerQuotient_finite, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_finite, Anabelian.LCFT.exists_integerUnit_not_isOfFinOrder, Anabelian.LCFT.integerUnitTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.integerUnitTorsionFreeModPowerQuotient_residueChar_nontrivial")
 %%%
 source := {
@@ -519,7 +560,52 @@ elements, while the image has exactly $`p_K`; the kernel--image cardinality
 formula gives the claimed $`p_K^2` lower bound.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank")
+:::theorem "exact_residue_characteristic_degree" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, residue_absolute_galois_torsion_free, finite_index_torsion_cancellation, abelianization_residue_characteristic_rank") (lean := "Anabelian.LCFT.fieldModPowerDiscreteValuationMod_ker_eq_integerUnit_range, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_card_eq_residueDegreeProduct_succ, Anabelian.LCFT.abelianizedModPowerToResidue_ker_eq_integerUnit_range, Anabelian.LCFT.abelianizedTorsionFreeModPowerQuotient_card_eq_residueDegreeProduct_succ")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[
+    {
+      page := "11--12"
+      text := some { path := "source/hoshi.txt", startLine := 350, endLine := 417 }
+      pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+    },
+    {
+      page := "19--21"
+      text := some { path := "source/hoshi.txt", startLine := 853, endLine := 933 }
+      pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-17.png" }
+    }
+  ]
+}
+%%%
+
+The lower-bound calculation sharpens to Hoshi's exact absolute-degree formula:
+$$`\#\left((G_K^{\mathrm{ab}}/\operatorname{tor})/
+p_K(G_K^{\mathrm{ab}}/\operatorname{tor})\right)
+=p_K^{e_Kf_K+1}.`
+The identical formula holds for $`K^\times`.  Hence the base-$`p_K`
+logarithm, minus the single unramified direction, is exactly
+$`d_K=e_Kf_K`.
+:::
+
+:::proof "exact_residue_characteristic_degree" (uses := "local_reciprocity_input, residue_absolute_galois_torsion_free, finite_index_torsion_cancellation")
+Discrete valuation modulo $`p_K` on the field quotient is surjective, and its
+kernel is exactly the image of the local-unit quotient.  For a class in the
+kernel, adjust a representative by a uniformizer power; the vanishing of its
+valuation modulo $`p_K` makes that adjustment a $`p_K`th power.  Multiplying
+the kernel cardinal $`p_K^{e_Kf_K}` by the unramified image cardinal $`p_K`
+gives the field formula.
+
+The reciprocity-side argument has the same shape.  If an abelianized class
+maps to a $`p_K`th power in the residue Galois group, lift the root through the
+unramified projection and divide by its $`p_K`th power.  The remainder lies
+in inertia and therefore comes from a local unit.  Torsion-freeness of the
+residue absolute Galois group removes the only possible discrepancy.  Thus
+the reciprocity-side kernel is precisely the unit image, and the same
+kernel--image product gives $`p_K^{e_Kf_K+1}`.
+:::
+
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank, exact_residue_characteristic_degree")
 %%%
 source := {
   document := "hoshi"
