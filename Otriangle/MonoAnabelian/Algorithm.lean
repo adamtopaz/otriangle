@@ -145,5 +145,25 @@ theorem reconstructedDirectLimitEquivOfHoshiComparison_action
           (H.conjugationHom (f.equiv σ)) reciprocity hoshi)
 
 end LocalGaloisGroup
+
+/-- The fixed-field transfer construction is a functorial integral mono-anabelian algorithm once
+Hoshi's local ramification comparison has been established uniformly. -/
+noncomputable def integralMonoAnabelianAlgorithmOfHoshiComparison
+    (reciprocity : LCFT.LocalReciprocityFamily.{u})
+    (hoshi : LocalGaloisGroup.HoshiRamificationComparisonFamily.{u}) :
+    LCFT.IntegralMonoAnabelianAlgorithm.{u} reciprocity where
+  obj G := G.reconstructedIntegralMonoid reciprocity
+  reconstructMap f :=
+    LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison
+      f reciprocity hoshi
+  reconstructMap_action f σ x :=
+    LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_action
+      f reciprocity hoshi σ x
+  reconstructMap_id G :=
+    G.reconstructedDirectLimitEquivOfHoshiComparison_id reciprocity hoshi
+  reconstructMap_comp f g :=
+    LocalGaloisGroup.reconstructedDirectLimitEquivOfHoshiComparison_comp
+      f g reciprocity hoshi
+
 end OTriangle
 end Anabelian
