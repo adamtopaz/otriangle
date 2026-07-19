@@ -67,7 +67,7 @@ records these exact compatibility squares; only existence, and optionally
 uniqueness, of the family is admitted.
 :::
 
-:::theorem "residue_frobenius_procyclic" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.residueFrobenius_restrictNormal, Anabelian.LCFT.residueFrobenius_zpowers_topologicalClosure")
+:::theorem "residue_frobenius_procyclic" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.residueFrobenius_restrictNormal, Anabelian.LCFT.residueFrobenius_zpowers_topologicalClosure, Anabelian.OTriangle.TopologicalProcyclic.modPower_card_le, Anabelian.LCFT.residueModPowerQuotient_card_le")
 %%%
 source := {
   document := "hoshi"
@@ -84,7 +84,10 @@ restricts on every finite Galois residue extension to the usual power-map
 Frobenius.  Its integral powers are dense in the residue absolute Galois group:
 $$`\overline{\langle\operatorname{Frob}_k\rangle}=G_k.`
 This makes precise the procyclic unramified factor that appears throughout
-Hoshi's local calculations.
+Hoshi's local calculations.  In particular, its quotient by $`n`th powers
+has at most $`n` elements: density descends to the quotient, while the image
+of Frobenius has exponent dividing $`n` and hence generates a finite closed
+subgroup.
 :::
 
 :::proof "residue_frobenius_procyclic"

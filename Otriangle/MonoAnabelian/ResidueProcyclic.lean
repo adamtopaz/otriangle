@@ -1,4 +1,5 @@
 import Otriangle.MonoAnabelian.OneField
+import Otriangle.MonoAnabelian.ProcyclicPowerQuotient
 import Mathlib.FieldTheory.Galois.Profinite
 
 /-!
@@ -21,6 +22,13 @@ namespace LCFT
 open OTriangle
 
 universe u
+
+/-- The residue absolute Galois group is commutative. -/
+instance residueAbsoluteGaloisGroupCommGroup
+    (K : PointedMixedCharLocalField.{u}) :
+    CommGroup (ResidueAbsoluteGaloisGroup K) :=
+  { (inferInstance : Group (ResidueAbsoluteGaloisGroup K)) with
+    mul_comm := K.residueGaloisMap_commutes }
 
 /-- The standard Frobenius automorphism of a finite residue extension. -/
 noncomputable def finiteResidueFrobenius
@@ -94,6 +102,16 @@ theorem residueFrobenius_zpowers_topologicalClosure
     simpa [mul_assoc] using hx
   exact ⟨residueFrobenius K ^ n.1, hpower_mem,
     Subgroup.npow_mem_zpowers (residueFrobenius K) n.1⟩
+
+/-- The residue absolute Galois group has at most `n` classes modulo `n`th powers. -/
+theorem residueModPowerQuotient_card_le
+    (K : PointedMixedCharLocalField.{u}) (n : ℕ) (hn : 0 < n) :
+    Nat.card (ResidueAbsoluteGaloisGroup K ⧸
+      (powMonoidHom (α := ResidueAbsoluteGaloisGroup K) n).range) ≤ n := by
+  letI := Fintype.ofFinite (ResidueField K)
+  letI : IsGalois (ResidueField K) (AlgebraicClosureResidueField K) := ⟨⟩
+  exact OTriangle.TopologicalProcyclic.modPower_card_le
+    (residueFrobenius K) (residueFrobenius_zpowers_topologicalClosure K) n hn
 
 end LCFT
 end Anabelian
