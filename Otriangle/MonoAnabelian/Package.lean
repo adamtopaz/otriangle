@@ -1,3 +1,4 @@
+import Otriangle.MonoAnabelian.KummerComparison
 import Otriangle.MonoAnabelian.Transport
 
 /-!
@@ -14,6 +15,18 @@ universe u
 /-- The algorithm of Summary 4.3 together with the integral Kummer comparison of Definition 7.4. -/
 structure MonoAnabelianReconstructionPackage (reciprocity : LocalReciprocityFamily.{u}) where
   integral : IntegralReconstruction.{u} reciprocity
+
+/-- Assemble the package from the uniform ramification comparison and integral Kummer
+naturality.  All fixed-field, transfer-colimit, coherence, and equivariance data are supplied by
+the construction in `Otriangle.MonoAnabelian`; the two hypotheses are precisely the arithmetic
+content of Hoshi's Propositions 3.6--3.9 and Sections 6--7. -/
+noncomputable def monoAnabelianReconstructionPackageOfComparisons
+    (reciprocity : LocalReciprocityFamily.{u})
+    (hoshi : OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily.{u})
+    (kummerNaturality : OTriangle.IntegralKummerNaturality reciprocity hoshi) :
+    MonoAnabelianReconstructionPackage.{u} reciprocity where
+  integral := OTriangle.integralReconstructionOfHoshiComparison
+    reciprocity hoshi kummerNaturality
 
 /-- Hoshi's mono-anabelian reconstruction package constructed from local reciprocity. -/
 theorem monoAnabelianReconstructionPackage_of_reciprocity
