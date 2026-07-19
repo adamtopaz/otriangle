@@ -8,6 +8,7 @@ import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
+import Otriangle.MonoAnabelian.ResidueUnitRank
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -232,7 +233,7 @@ fixed point solves $`y+H(y)=a`, and substitution into the expansion gives
 $`1+p^3a=(1+p^2y)^p`.
 :::
 
-:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial, Anabelian.LCFT.cubeDeepPrincipalUnitGroup, Anabelian.LCFT.cubeDeepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.cubeDeepIntegerUnitGroup_le_powRange, Anabelian.LCFT.integerUnitsModPower_finite, Anabelian.LCFT.fieldModPowerParam_surjective, Anabelian.LCFT.fieldModPowerQuotient_finite, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_finite")
+:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial, Anabelian.LCFT.cubeDeepPrincipalUnitGroup, Anabelian.LCFT.cubeDeepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.cubeDeepIntegerUnitGroup_le_powRange, Anabelian.LCFT.integerUnitsModPower_finite, Anabelian.LCFT.fieldModPowerParam_surjective, Anabelian.LCFT.fieldModPowerQuotient_finite, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_finite, Anabelian.LCFT.exists_integerUnit_not_isOfFinOrder, Anabelian.LCFT.integerUnitTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.integerUnitTorsionFreeModPowerQuotient_residueChar_nontrivial")
 %%%
 source := {
   document := "hoshi"
@@ -258,8 +259,9 @@ $`p_K^n`th power, repeated use of the geometric-sum identity places its
 difference from $`1` in the $`(n+1)`st power of the maximal ideal.  Hence a
 class divisible by every $`p_K^n` modulo torsion becomes torsion after raising
 to the order of the finite torsion subgroup: Krull intersection forces that
-power to equal $`1`.  Surjectivity of the $`p_K`th-power map would make every
-class infinitely divisible, contradicting the nontorsion uniformizer class.
+power to equal $`1`.  The explicit deep unit $`1+p_K^2` is nontorsion.
+Surjectivity of the $`p_K`th-power map on units modulo torsion would make its
+class infinitely divisible, giving the required contradiction.
 
 For finiteness, use the still deeper open subgroup cut out by
 $`v(u-1)<v(p_K^3)`.  Division by $`p_K^3` followed by the contraction result
