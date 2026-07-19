@@ -24,6 +24,7 @@ import Otriangle.MonoAnabelian.SpectralInertiaComparison
 import Otriangle.MonoAnabelian.FiniteInertiaRestriction
 import Otriangle.MonoAnabelian.FiniteTameRamification
 import Otriangle.MonoAnabelian.FiniteTameFixedField
+import Otriangle.MonoAnabelian.FiniteTameRestriction
 import Otriangle.MonoAnabelian.InertiaComparison
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
@@ -921,7 +922,7 @@ supergroup of inertia that still excludes the element.  Thus intrinsic inertia
 is exactly classical inertia.
 :::
 
-:::theorem "finite_tame_character" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia") (lean := "Anabelian.OTriangle.FiniteTameRamification.tameCharacter, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_injective_of_coprime_card, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_conjugate, Anabelian.OTriangle.FiniteTameRamification.conjugate_eq_pow_of_residue_frobenius, Anabelian.OTriangle.SpectralLocalField.integerMulSemiringAction_faithful, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteTameCharacter_injective")
+:::theorem "finite_tame_character" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia") (lean := "Anabelian.OTriangle.FiniteTameRamification.tameCharacter, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_injective_of_coprime_card, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_conjugate, Anabelian.OTriangle.FiniteTameRamification.conjugate_eq_pow_of_residue_frobenius, Anabelian.OTriangle.SpectralLocalField.integerMulSemiringAction_faithful, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteTameCharacter_injective, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom_ker, Anabelian.OTriangle.LocalGaloisGroup.restrict_conjugation_eq_pow_of_fixedField_residue_frobenius, Anabelian.OTriangle.LocalGaloisGroup.fixedField_residue_smul_eq_pow_of_spectralResidueFrobenius, Anabelian.OTriangle.LocalGaloisGroup.spectralFrobenius_isFrobeniusRepresentative")
 %%%
 source := {
   document := "hoshi"
@@ -973,6 +974,13 @@ $`\theta(\sigma\tau\sigma^{-1})=\overline\sigma(\theta(\tau))`.
 If $`\overline\sigma(z)=z^q`, injectivity identifies the conjugate with
 $`\tau^q`.  At a finite fixed field the finite inertia cardinality theorem
 replaces $`|I|` by $`e(L/K)`, exactly matching the prime-to-$`p` hypothesis.
+Restriction has kernel the original open subgroup.  Consequently, after
+testing the relation at every prime-to-$`p` neighborhood, the Frobenius
+commutator lies in their intersection $`P(G,p)`.  The residue-field cardinality
+formula and exact reciprocity identity
+$`f(G)=f_K` replace the finite exponent by $`p^{f(G)}`.  Thus every lift of
+arithmetic Frobenius for the spectral pointing is now proved to satisfy
+Hoshi's intrinsic representative predicate.
 :::
 
 :::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
