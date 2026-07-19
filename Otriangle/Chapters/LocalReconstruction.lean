@@ -3,6 +3,7 @@ import VersoManual
 import VersoBlueprint
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.ResidueProcyclic
+import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -103,7 +104,37 @@ $`\operatorname{Frob}_k` has the same restriction as $`\sigma`.  Their quotient
 lies in the fixing subgroup, placing that power in the original neighborhood.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "residue_frobenius_procyclic")
+:::theorem "unramified_torsion_free_rank" (parent := "integral_mono_anabelian") (uses := "residue_frobenius_procyclic") (lean := "Anabelian.LCFT.ResidueTorsionFreeQuotient, Anabelian.LCFT.ResidueTorsionFreeModPowerQuotient, Anabelian.LCFT.residueFrobenius_not_pow_mod_torsion, Anabelian.LCFT.residueModPowerToTorsionFreeModPower, Anabelian.LCFT.residueTorsionFreeModPowerQuotient_card_eq_prime")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--20"
+    text := some { path := "source/hoshi.txt", startLine := 854, endLine := 893 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-17.png" }
+  }]
+}
+%%%
+
+The unramified procyclic direction is not lost on passing to the torsion-free
+quotient.  For every prime $`\ell`,
+$$`\#\left((G_k^{\mathrm{res}}/\operatorname{tor})/
+  \ell(G_k^{\mathrm{res}}/\operatorname{tor})\right)=\ell.`
+Thus it contributes exactly one to Hoshi's mod-$`\ell` logarithmic rank.
+:::
+
+:::proof "unramified_torsion_free_rank" (uses := "residue_frobenius_procyclic")
+The upper bound descends from the size-$`\ell` quotient before removing
+torsion.  For the lower bound, suppose Frobenius were an $`\ell`th power
+modulo a torsion element $`t` of order dividing $`m`.  Restrict to the explicit
+degree-$`\ell m` residue extension.  Raising the alleged factorization to the
+$`m`th power makes both the torsion factor and the $`\ell m`th power vanish,
+forcing the degree-$`\ell m` Frobenius generator to have order dividing $`m`,
+a contradiction.  The surviving Frobenius class has order $`\ell` and
+generates the quotient.
+:::
+
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "unramified_torsion_free_rank")
 %%%
 source := {
   document := "hoshi"
