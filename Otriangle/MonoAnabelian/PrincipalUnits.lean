@@ -100,13 +100,15 @@ theorem principalUnit_pow_surjective_of_ne_residueChar
   apply Units.ext
   exact haPow
 
-/-- Every nonzero residue class has a root-of-unity lift in the valuation-ring unit group. -/
-theorem residueUnit_has_torsion_lift
+/-- Every nonzero residue class has a Teichmüller lift killed by the order of the residue-field
+multiplicative group. -/
+theorem residueUnit_has_card_sub_one_power_lift
     (K : PointedMixedCharLocalField.{u})
     (b : (IsLocalRing.ResidueField
       (valuation K).valuationSubring)ˣ) :
     ∃ t : (valuation K).valuationSubring.unitGroup,
-      IsOfFinOrder t ∧
+      t ^ (Nat.card (IsLocalRing.ResidueField
+        (valuation K).valuationSubring) - 1) = 1 ∧
         (valuation K).valuationSubring.unitGroupToResidueFieldUnits t = b := by
   letI := K.nontriviallyNormedField
   letI := K.isUltrametricDist
@@ -170,14 +172,35 @@ theorem residueUnit_has_torsion_lift
   have haUnit : IsUnit a := IsUnit.of_pow_eq_one haPow hn.ne'
   let t : A.unitGroup := A.unitGroupMulEquiv.symm haUnit.unit
   refine ⟨t, ?_, ?_⟩
-  · apply isOfFinOrder_iff_pow_eq_one.mpr
-    refine ⟨n, hn, ?_⟩
+  · rw [Nat.card_eq_fintype_card]
+    change t ^ n = 1
     apply A.unitGroupMulEquiv.injective
     rw [map_pow, map_one]
     apply Units.ext
     exact haPow
   · apply Units.ext
     exact haResidue
+
+/-- Every nonzero residue class has a root-of-unity lift in the valuation-ring unit group. -/
+theorem residueUnit_has_torsion_lift
+    (K : PointedMixedCharLocalField.{u})
+    (b : (IsLocalRing.ResidueField
+      (valuation K).valuationSubring)ˣ) :
+    ∃ t : (valuation K).valuationSubring.unitGroup,
+      IsOfFinOrder t ∧
+        (valuation K).valuationSubring.unitGroupToResidueFieldUnits t = b := by
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  let A : ValuationSubring K := (valuation K).valuationSubring
+  letI : Finite (IsLocalRing.ResidueField A) := by
+    change Finite (IsLocalRing.ResidueField (valuation K).integer)
+    infer_instance
+  obtain ⟨t, ht, hred⟩ := residueUnit_has_card_sub_one_power_lift K b
+  refine ⟨t, ?_, hred⟩
+  apply isOfFinOrder_iff_pow_eq_one.mpr
+  refine ⟨Nat.card (IsLocalRing.ResidueField
+      (valuation K).valuationSubring) - 1, ?_, ht⟩
+  exact Nat.sub_pos_of_lt Finite.one_lt_card
 
 /-- Away from the residue characteristic, every valuation-ring unit is a torsion unit times an
 `l`th power. -/
