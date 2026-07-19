@@ -213,6 +213,13 @@ noncomputable def fixedFieldPointed (U : G.OpenSubgroupIndex) :
       residueGaloisMap_commutes := fun σ τ =>
         SpectralLocalField.finiteBaseGalois_commutes _ _ σ τ }
 
+@[simp]
+theorem fixedFieldPointed_algebraMap_apply (U : G.OpenSubgroupIndex)
+    (x : G.fixedField U) :
+    @algebraMap (G.fixedField U) (G.fixedFieldPointed U).algebraicClosure
+      _ _ (G.fixedFieldPointed U).algebra x = x := by
+  rfl
+
 end LocalGaloisGroup
 end OTriangle
 end Anabelian
