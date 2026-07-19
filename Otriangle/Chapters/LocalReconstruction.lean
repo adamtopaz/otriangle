@@ -984,7 +984,7 @@ arithmetic Frobenius for the spectral pointing is now proved to satisfy
 Hoshi's intrinsic representative predicate.
 :::
 
-:::theorem "explicit_tame_kummer_extensions" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order") (lean := "Anabelian.LCFT.localUniformizer_X_pow_sub_C_irreducible, Anabelian.LCFT.tameKummerIntermediateField, Anabelian.LCFT.tameKummerFiniteGaloisIntermediateField, Anabelian.LCFT.tameKummerIntermediateField_finrank, Anabelian.LCFT.tameKummerRoot, Anabelian.LCFT.tameKummerRoot_pow, Anabelian.LCFT.tameKummerRoot_isIntegral, Anabelian.LCFT.tameKummerGeneratorAutomorphism, Anabelian.LCFT.tameKummerGeneratorAutomorphism_apply_root, Anabelian.LCFT.tameKummerOpenSubgroup, Anabelian.LCFT.tameKummer_fixedField_eq, Anabelian.LCFT.tameKummer_relativeRamificationIndex_eq")
+:::theorem "explicit_tame_kummer_extensions" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order, finite_tame_character") (lean := "Anabelian.LCFT.localUniformizer_X_pow_sub_C_irreducible, Anabelian.LCFT.tameKummerIntermediateField, Anabelian.LCFT.tameKummerFiniteGaloisIntermediateField, Anabelian.LCFT.tameKummerIntermediateField_finrank, Anabelian.LCFT.tameKummerRoot, Anabelian.LCFT.tameKummerRoot_pow, Anabelian.LCFT.tameKummerRoot_isIntegral, Anabelian.LCFT.tameKummerGeneratorAutomorphism, Anabelian.LCFT.tameKummerGeneratorAutomorphism_apply_root, Anabelian.LCFT.tameKummerOpenSubgroup, Anabelian.LCFT.tameKummer_fixedField_eq, Anabelian.LCFT.tameKummerFixedFieldEquiv, Anabelian.LCFT.tameKummerFixedRoot, Anabelian.LCFT.tameKummerFixedRoot_pow, Anabelian.LCFT.tameKummerFixedRoot_isIntegral, Anabelian.LCFT.tameKummerFixedIntegerRoot, Anabelian.LCFT.tameKummerFixedGeneratorAutomorphism, Anabelian.LCFT.tameKummerFixedGeneratorAutomorphism_apply_root, Anabelian.LCFT.tameKummer_relativeRamificationIndex_eq, Anabelian.LCFT.tameKummerFixedIntegerRoot_irreducible, Anabelian.LCFT.exists_tameKummerInertiaGenerator_tameCharacter")
 %%%
 source := {
   document := "hoshi"
@@ -1007,7 +1007,7 @@ Writing $`\alpha^n=\pi_K`, its cyclic Galois group has a distinguished
 generator $`\tau_n` satisfying $`\tau_n(\alpha)=\zeta\alpha`.
 :::
 
-:::proof "explicit_tame_kummer_extensions" (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order")
+:::proof "explicit_tame_kummer_extensions" (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order, finite_tame_character")
 The polynomial $`X^n-\pi_K` is Eisenstein: all non-leading coefficients lie
 in the maximal ideal, while its constant coefficient lies outside the square
 of that ideal.  Gauss's lemma therefore makes it irreducible over $`K`.
@@ -1019,12 +1019,24 @@ Embed this splitting field into the fixed algebraic closure and take its
 fixing subgroup $`U_n`.  Infinite Galois theory identifies the corresponding
 spectral fixed field with $`L_n`.  The distinguished root is integral over
 $`\mathcal O_K`; in the spectral valuation ring its equation implies
-$$`\mathfrak m_K\mathcal O_{L_n}\subseteq\mathfrak m_{L_n}^{,n}.`
+$$`\mathfrak m_K\mathcal O_{L_n}\subseteq\mathfrak m_{L_n}^{n}.`
 Comparing DVR coheights with the defining identity
 $`\mathfrak m_K\mathcal O_{L_n}=\mathfrak m_{L_n}^{e(L_n/K)}` gives
 $`n\le e(L_n/K)`.  On the other hand, finite Galois ramification identifies
 $`e(L_n/K)` with the order of a subgroup of $`\operatorname{Gal}(L_n/K)`,
 whose order is the degree $`n`.  Thus $`e(L_n/K)=n`.
+
+Transporting the splitting-field presentation across the fixed-field
+equality gives a literal element $`\alpha\in\overline K^{U_n}` and a literal
+automorphism $`\tau_n` of that fixed field.  Equality of the two ideal powers
+then shows that $`\alpha` generates the maximal ideal, so it is a
+uniformizer.  The arbitrary-uniformizer formula for the finite tame character
+therefore computes
+$$`
+  \theta(\tau_n)=\overline\zeta.
+`
+This is the finite faithful Kummer character that will detect the action of
+unramified classes on tame inertia.
 :::
 
 :::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
