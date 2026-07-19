@@ -198,3 +198,41 @@ because intersections of normal subgroups are normal.  Finally every
 equal-index neighborhood is a prime-to-$`p` neighborhood with relative
 factor one, proving $`P(G,p)\subseteq I(G,p)`.
 :::
+
+:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "21"
+    text := some { path := "source/hoshi.txt", startLine := 937, endLine := 976 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-19.png" }
+  }]
+}
+%%%
+
+A representative $`g\in G` satisfies the intrinsic Frobenius condition when
+conjugation by $`g` on $`I(G,p)/P(G,p)` is the $`p^f`-power map.  This
+condition is expressed directly in the ambient group, and therefore defines
+a predicate on classes of $`G/I(G,p)`.  Every continuous group equivalence
+preserves and reflects the representative predicate, the class predicate,
+and the assertion that there is a unique such class.  Conditional on that
+existence-and-uniqueness assertion, the selected Frobenius class is transported
+by the canonical quotient equivalence.
+
+This theorem isolates the formal functoriality from the arithmetic content of
+Hoshi's Lemma 3.7: proving that a local absolute Galois group actually has the
+unique characterized class remains an explicit later obligation.
+:::
+
+:::proof "intrinsic_frobenius_characterization" (uses := "intrinsic_ramification_intersections")
+The congruence
+$$`gxg^{-1}\equiv x^{p^f}\pmod {P(G,p)}`
+is preserved by a group equivalence because multiplication, inversion, powers,
+inertia membership, and wild-inertia membership are all preserved.  The
+equivalence also descends to $`G/I(G,p)`, and maps the class of $`g` to the
+class of its image.  Hence it bijects the classes satisfying the Frobenius
+predicate.  Existence and uniqueness are invariant under this bijection, and
+uniqueness identifies the chosen classes whenever the arithmetic hypothesis
+is available on both sides.
+:::

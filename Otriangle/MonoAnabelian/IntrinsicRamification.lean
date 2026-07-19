@@ -101,6 +101,44 @@ theorem wildInertiaSubgroup_le_inertiaSubgroup (p : ℕ) :
   apply hx U
   exact ⟨hU.1, 1, Nat.zero_lt_one, Nat.coprime_one_left p, by simpa using hU.2⟩
 
+instance inertiaSubgroupNormal (p : ℕ) : (inertiaSubgroup P p).Normal :=
+  inertiaSubgroup_normal P p
+
+instance wildInertiaSubgroupNormal (p : ℕ) : (wildInertiaSubgroup P p).Normal :=
+  wildInertiaSubgroup_normal P p
+
+/-- The intrinsic unramified quotient `G / I(G,p)`. -/
+abbrev inertiaQuotient (p : ℕ) : Type u :=
+  P ⧸ inertiaSubgroup P p
+
+/-- The representative-level characterization of arithmetic Frobenius from Hoshi's Lemma 3.7:
+conjugation on inertia modulo wild inertia is the `p ^ f` power map.  Expressing the condition in
+the ambient group avoids choosing representatives in the quotient `I/P`. -/
+def IsFrobeniusRepresentative (p f : ℕ) (g : P) : Prop :=
+  ∀ (x : P), x ∈ inertiaSubgroup P p →
+    g * x * g⁻¹ * (x ^ (p ^ f))⁻¹ ∈ wildInertiaSubgroup P p
+
+/-- A class in `G / I(G,p)` satisfies the intrinsic Frobenius characterization if it has a
+representative satisfying the conjugation condition.  Hoshi's Lemma 3.7 supplies existence and
+uniqueness for groups of mixed-characteristic-local-field type. -/
+def IsFrobeniusClass (p f : ℕ) (c : inertiaQuotient P p) : Prop :=
+  ∃ g : P, (QuotientGroup.mk' (inertiaSubgroup P p)) g = c ∧
+    IsFrobeniusRepresentative P p f g
+
+/-- The existence-and-uniqueness assertion isolated in Hoshi's Lemma 3.7(ii). -/
+def HasUniqueFrobeniusClass (p f : ℕ) : Prop :=
+  ∃! c : inertiaQuotient P p, IsFrobeniusClass P p f c
+
+/-- The unique intrinsic Frobenius class, conditional on the arithmetic existence-and-uniqueness
+statement. -/
+noncomputable def frobeniusClass (p f : ℕ) (h : HasUniqueFrobeniusClass P p f) :
+    inertiaQuotient P p :=
+  h.exists.choose
+
+theorem frobeniusClass_spec (p f : ℕ) (h : HasUniqueFrobeniusClass P p f) :
+    IsFrobeniusClass P p f (frobeniusClass P p f h) :=
+  h.exists.choose_spec
+
 section Transport
 
 variable {P : Type u} {Q : Type v}
@@ -217,6 +255,81 @@ theorem map_wildInertiaSubgroup (e : P ≃ₜ* Q) (p : ℕ) :
     have hmem := hy (OpenSubgroupIndex.map e U) hmap
     exact hmem
 
+theorem map_mem_inertiaSubgroup_iff (e : P ≃ₜ* Q) (p : ℕ) (x : P) :
+    e x ∈ inertiaSubgroup Q p ↔ x ∈ inertiaSubgroup P p := by
+  rw [← map_inertiaSubgroup e p, Subgroup.mem_map_equiv]
+  simp
+
+theorem map_mem_wildInertiaSubgroup_iff (e : P ≃ₜ* Q) (p : ℕ) (x : P) :
+    e x ∈ wildInertiaSubgroup Q p ↔ x ∈ wildInertiaSubgroup P p := by
+  rw [← map_wildInertiaSubgroup e p, Subgroup.mem_map_equiv]
+  simp
+
+/-- The representative-level Frobenius characterization is intrinsic under continuous group
+equivalence. -/
+theorem isFrobeniusRepresentative_map_iff (e : P ≃ₜ* Q) (p f : ℕ) (g : P) :
+    IsFrobeniusRepresentative Q p f (e g) ↔
+      IsFrobeniusRepresentative P p f g := by
+  constructor
+  · intro hg x hx
+    apply (map_mem_wildInertiaSubgroup_iff e p _).mp
+    simpa only [map_mul, map_inv, map_pow] using
+      hg (e x) ((map_mem_inertiaSubgroup_iff e p x).mpr hx)
+  · intro hg y hy
+    have hy' : e.symm y ∈ inertiaSubgroup P p :=
+      (map_mem_inertiaSubgroup_iff e p (e.symm y)).mp (by simpa using hy)
+    have hwild := hg (e.symm y) hy'
+    have hmapped := (map_mem_wildInertiaSubgroup_iff e p _).mpr hwild
+    simpa only [map_mul, map_inv, map_pow, e.apply_symm_apply] using hmapped
+
+/-- A continuous group equivalence induces the canonical equivalence of intrinsic unramified
+quotients. -/
+noncomputable def inertiaQuotientEquiv (e : P ≃ₜ* Q) (p : ℕ) :
+    inertiaQuotient P p ≃* inertiaQuotient Q p :=
+  QuotientGroup.congr (inertiaSubgroup P p) (inertiaSubgroup Q p)
+    e.toMulEquiv (map_inertiaSubgroup e p)
+
+@[simp]
+theorem inertiaQuotientEquiv_mk (e : P ≃ₜ* Q) (p : ℕ) (g : P) :
+    inertiaQuotientEquiv e p ((QuotientGroup.mk' (inertiaSubgroup P p)) g) =
+      (QuotientGroup.mk' (inertiaSubgroup Q p)) (e g) :=
+  QuotientGroup.congr_mk _ _ _ _ g
+
+/-- The intrinsic Frobenius-class predicate is preserved and reflected on the intrinsic
+unramified quotients. -/
+theorem isFrobeniusClass_map_iff (e : P ≃ₜ* Q) (p f : ℕ)
+    (c : inertiaQuotient P p) :
+    IsFrobeniusClass Q p f (inertiaQuotientEquiv e p c) ↔
+      IsFrobeniusClass P p f c := by
+  constructor
+  · rintro ⟨h, hh, hrep⟩
+    refine ⟨e.symm h, ?_, ?_⟩
+    · apply (inertiaQuotientEquiv e p).injective
+      rw [inertiaQuotientEquiv_mk, e.apply_symm_apply, hh]
+    · apply (isFrobeniusRepresentative_map_iff e p f (e.symm h)).mp
+      simpa using hrep
+  · rintro ⟨g, hg, hrep⟩
+    refine ⟨e g, ?_, (isFrobeniusRepresentative_map_iff e p f g).mpr hrep⟩
+    rw [← inertiaQuotientEquiv_mk, hg]
+
+/-- Existence and uniqueness of the intrinsically characterized Frobenius class are invariant
+under continuous group equivalence. -/
+theorem hasUniqueFrobeniusClass_congr (e : P ≃ₜ* Q) (p f : ℕ) :
+    HasUniqueFrobeniusClass P p f ↔ HasUniqueFrobeniusClass Q p f := by
+  exact (inertiaQuotientEquiv e p).toEquiv.existsUnique_congr fun c ↦
+    (isFrobeniusClass_map_iff e p f c).symm
+
+/-- Once existence and uniqueness are known, the selected Frobenius class is transported by the
+canonical equivalence of unramified quotients. -/
+theorem frobeniusClass_map (e : P ≃ₜ* Q) (p f : ℕ)
+    (hP : HasUniqueFrobeniusClass P p f) (hQ : HasUniqueFrobeniusClass Q p f) :
+    inertiaQuotientEquiv e p (frobeniusClass P p f hP) =
+      frobeniusClass Q p f hQ := by
+  apply hQ.unique
+  · apply (isFrobeniusClass_map_iff e p f _).mpr
+    exact frobeniusClass_spec P p f hP
+  · exact frobeniusClass_spec Q p f hQ
+
 end Transport
 
 end IntrinsicRamification
@@ -233,6 +346,23 @@ abbrev intrinsicWildInertiaSubgroup (G : LocalGaloisGroup.{u}) (p : ℕ) :
     Subgroup G.toProfiniteGrp :=
   IntrinsicRamification.wildInertiaSubgroup G.toProfiniteGrp p
 
+/-- The intrinsic unramified quotient attached to a residue-characteristic candidate. -/
+abbrev intrinsicUnramifiedQuotient (G : LocalGaloisGroup.{u}) (p : ℕ) : Type u :=
+  IntrinsicRamification.inertiaQuotient G.toProfiniteGrp p
+
+/-- Hoshi's Frobenius existence-and-uniqueness assertion, using the residue degree reconstructed
+from the group. -/
+def HasUniqueIntrinsicFrobeniusClass (G : LocalGaloisGroup.{u}) (p : ℕ) : Prop :=
+  IntrinsicRamification.HasUniqueFrobeniusClass G.toProfiniteGrp p
+    (G.groupTheoreticResidueDegree p)
+
+/-- The intrinsically characterized Frobenius class, conditional on Hoshi's arithmetic
+existence-and-uniqueness assertion. -/
+noncomputable def intrinsicFrobeniusClass (G : LocalGaloisGroup.{u}) (p : ℕ)
+    (h : G.HasUniqueIntrinsicFrobeniusClass p) : G.intrinsicUnramifiedQuotient p :=
+  IntrinsicRamification.frobeniusClass G.toProfiniteGrp p
+    (G.groupTheoreticResidueDegree p) h
+
 /-- A local Galois-group morphism carries intrinsic inertia exactly onto intrinsic inertia. -/
 theorem map_intrinsicInertiaSubgroup {G H : LocalGaloisGroup.{u}}
     (f : G ⟶ H) (p : ℕ) :
@@ -247,6 +377,23 @@ theorem map_intrinsicWildInertiaSubgroup {G H : LocalGaloisGroup.{u}}
     (G.intrinsicWildInertiaSubgroup p).map f.equiv.toMulEquiv.toMonoidHom =
       H.intrinsicWildInertiaSubgroup p :=
   IntrinsicRamification.map_wildInertiaSubgroup f.equiv p
+
+/-- The canonical equivalence of intrinsic unramified quotients induced by a local Galois-group
+morphism. -/
+noncomputable def intrinsicUnramifiedQuotientEquiv {G H : LocalGaloisGroup.{u}}
+    (f : G ⟶ H) (p : ℕ) :
+    G.intrinsicUnramifiedQuotient p ≃* H.intrinsicUnramifiedQuotient p :=
+  IntrinsicRamification.inertiaQuotientEquiv f.equiv p
+
+/-- Hoshi's Frobenius existence-and-uniqueness assertion is invariant under arbitrary local
+Galois-group isomorphisms. -/
+theorem hasUniqueIntrinsicFrobeniusClass_iff {G H : LocalGaloisGroup.{u}}
+    (f : G ⟶ H) (p : ℕ) :
+    G.HasUniqueIntrinsicFrobeniusClass p ↔ H.HasUniqueIntrinsicFrobeniusClass p := by
+  unfold HasUniqueIntrinsicFrobeniusClass
+  rw [G.groupTheoreticResidueDegree_eq f p]
+  exact IntrinsicRamification.hasUniqueFrobeniusClass_congr f.equiv p
+    (H.groupTheoreticResidueDegree p)
 
 end LocalGaloisGroup
 end OTriangle
