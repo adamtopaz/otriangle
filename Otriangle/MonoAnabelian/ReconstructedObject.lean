@@ -1,4 +1,4 @@
-import Otriangle.MonoAnabelian.FixedFieldComparison
+import Otriangle.MonoAnabelian.ConjugationSystem
 import Otriangle.MonoAnabelian.Interface
 
 /-!
@@ -62,16 +62,6 @@ open OTriangle
 
 variable (G : LocalGaloisGroup.{u})
 
-/-- The canonical action on the actual integral monoid, with its acting group expressed through
-the bundled profinite realization of `G`. -/
-@[implicit_reducible]
-noncomputable def actualAction :
-    MulDistribMulAction G.toProfiniteGrp G.presentation.integerMonoid := by
-  change MulDistribMulAction
-    (G.presentation.algebraicClosure ≃ₐ[G.presentation]
-      G.presentation.algebraicClosure) G.presentation.integerMonoid
-  exact PointedMixedCharLocalField.integerMonoidMulDistribMulAction G.presentation
-
 /-- Package any monoid equivalent to the actual integral monoid as a reconstructed monoid, by
 transporting the Galois action through the given equivalence. -/
 @[implicit_reducible]
@@ -105,24 +95,32 @@ namespace LocalGaloisGroup
 variable (G : LocalGaloisGroup.{u})
 variable (reciprocity : LCFT.LocalReciprocityFamily.{u})
 
-/-- The carrier reconstructed as the transfer colimit over open subgroups. -/
-abbrev reconstructedDirectLimit : Type u :=
-  DirectLimit ((G.fixedFieldFiniteExtensionSystem).reconstructedNode reciprocity)
-    ((G.fixedFieldFiniteExtensionSystem).reconstructedTransition reciprocity)
-
-/-- The transfer colimit, equipped with the Galois action identified by the fixed-field
-comparison. -/
+/-- The transfer colimit, equipped with the intrinsic action induced by conjugating its
+open-subgroup diagram. -/
 @[implicit_reducible]
 noncomputable def reconstructedIntegralMonoid : LCFT.ReconstructedIntegralMonoid G :=
-  LCFT.ReconstructedIntegralMonoid.ofMulEquiv G
-    (G.fixedFieldReconstructedDirectLimitEquiv reciprocity)
+  { carrier := G.reconstructedDirectLimit reciprocity
+    commMonoid := inferInstance
+    action := G.reconstructedDirectLimitAction reciprocity }
 
 /-- The fixed-field colimit comparison as an equivalence into the packaged reconstructed
 monoid. -/
 noncomputable def reconstructedIntegralMonoidComparison :
     G.presentation.integerMonoid ≃* G.reconstructedIntegralMonoid reciprocity :=
-  LCFT.ReconstructedIntegralMonoid.comparisonOfMulEquiv G
-    (G.fixedFieldReconstructedDirectLimitEquiv reciprocity)
+  G.fixedFieldReconstructedDirectLimitEquiv reciprocity
+
+/-- The reconstruction comparison intertwines the actual and intrinsically reconstructed Galois
+actions. -/
+theorem reconstructedIntegralMonoidComparison_action
+    (σ : G.toProfiniteGrp) (x : G.presentation.integerMonoid) :
+    G.reconstructedIntegralMonoidComparison reciprocity
+        ((LCFT.ReconstructedIntegralMonoid.actualAction G).smul σ x) =
+      σ • G.reconstructedIntegralMonoidComparison reciprocity x := by
+  change G.fixedFieldReconstructedDirectLimitEquiv reciprocity
+      ((LCFT.ReconstructedIntegralMonoid.actualAction G).smul σ x) =
+    (G.reconstructedDirectLimitAction reciprocity).smul σ
+      (G.fixedFieldReconstructedDirectLimitEquiv reciprocity x)
+  exact G.fixedFieldReconstructedDirectLimitEquiv_action reciprocity σ x
 
 end LocalGaloisGroup
 end OTriangle

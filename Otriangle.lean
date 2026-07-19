@@ -10,6 +10,8 @@ import Otriangle.MonoAnabelian.FixedFields
 import Otriangle.MonoAnabelian.FieldColimit
 import Otriangle.MonoAnabelian.SpectralLocalField
 import Otriangle.MonoAnabelian.FixedFieldLocal
+import Otriangle.MonoAnabelian.ConjugationSystem
+import Otriangle.MonoAnabelian.ReconstructedObject
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport
 import Otriangle.MonoAnabelian.Package

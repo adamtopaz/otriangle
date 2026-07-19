@@ -15,6 +15,7 @@ import Otriangle.MonoAnabelian.SpectralResidue
 import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.FixedFieldSystem
 import Otriangle.MonoAnabelian.FixedFieldComparison
+import Otriangle.MonoAnabelian.ConjugationSystem
 import Otriangle.MonoAnabelian.ReconstructedObject
 
 set_option linter.hashCommand false
@@ -143,7 +144,7 @@ injectivity of fixed-field inclusions after moving two representatives to a
 common index.
 :::
 
-:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison")
+:::theorem "integral_mono_reconstruction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.IntegralMonoAnabelianAlgorithm, Anabelian.OTriangle.LocalGaloisGroup.conjugationIndex, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseIntegerMonoidConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedNodeConjugationEquiv_natural, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimit, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitConjugationEquiv, Anabelian.OTriangle.LocalGaloisGroup.reconstructedDirectLimitAction, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedDirectLimitEquiv_action, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoid, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison, Anabelian.OTriangle.LocalGaloisGroup.reconstructedIntegralMonoidComparison_action")
 %%%
 source := {
   document := "hoshi"
@@ -165,7 +166,14 @@ $`\mathcal O_{\overline K}^{\triangleright}`.
 Apply one-field reconstruction to every open subgroup $`H\leq G`.  Transfer
 gives the transition maps.  Their filtered colimit reconstructs the integral
 multiplicative monoid in the algebraic closure, and conjugation of open
-subgroups supplies its $`G`-action.  An isomorphism $`\alpha:G_0\simeq G_1`
+subgroups supplies its $`G`-action.  Concretely, a Galois element carries each
+fixed field to that of the conjugate subgroup; invariance of the spectral norm
+restricts this map to the integral node.  These node maps commute with transfer,
+so they act on the colimit.  The fixed-field comparison identifies this action
+with the canonical action on $`\mathcal O_{\overline K}^{\triangleright}` and
+therefore proves its identity and multiplication laws.
+
+An isomorphism $`\alpha:G_0\simeq G_1`
 maps the entire indexed diagram to the corresponding diagram for $`G_1`, so
 it induces an equivariant monoid equivalence.  Identity and composition laws
 hold because this construction is induced functorially on the diagrams.
