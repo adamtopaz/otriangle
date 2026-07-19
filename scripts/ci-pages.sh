@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-# Build the mathematical declarations and the chapter that resolves their
-# external Lean references through Lake's dependency tracker.
-lake build Otriangle.OTriangle Otriangle.Chapters.MonoAnabelian
+# Build the mathematical declarations and all chapters imported by the
+# top-level Blueprint through Lake's dependency tracker.
+lake build Otriangle.OTriangle Otriangle.Chapters.Paper Otriangle.Chapters.MonoAnabelian
 
 # The top-level document imports both Verso and the local-field development.
 # Invoke Lean directly in the Lake environment so that its large environment
