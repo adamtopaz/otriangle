@@ -64,6 +64,49 @@ theorem residueUnramifiedOf_relativeRamificationIndex_eq_one
     (G.residueUnramifiedOpenSubgroupOf_normal E)]
   exact G.spectralInertiaSubgroup_le_residueUnramifiedOpenSubgroupOf E
 
+/-- A base uniformizer remains a uniformizer in the unramified fixed field attached to `E`. -/
+theorem residueUnramifiedOf_map_uniformizer_span
+    (E : G.ResidueFiniteGaloisIntermediateField)
+    (pi : LocalIntegerRing G.presentation)
+    (hpi : Ideal.span {pi} = localMaximalIdeal G.presentation) :
+    let U := G.residueUnramifiedOpenSubgroupOf E
+    let V : G.OpenSubgroupIndex := OrderDual.toDual U
+    let K := G.presentation
+    let L := G.fixedField V
+    letI := K.nontriviallyNormedField
+    letI := K.isUltrametricDist
+    letI := K.completeSpace
+    letI := G.fixedFieldNontriviallyNormedField V
+    letI := G.fixedFieldIsUltrametricDist V
+    letI : ValuativeRel L := G.fixedFieldValuativeRel V
+    letI : ValuativeExtension K L :=
+      G.fixedFieldValuativeExtensionFromPresentation V
+    Ideal.span {algebraMap (LocalIntegerRing K) 𝒪[L] pi} =
+      localMaximalIdeal (G.fixedFieldPointed V) := by
+  let U := G.residueUnramifiedOpenSubgroupOf E
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  let K := G.presentation
+  let L := G.fixedField V
+  let B := G.fixedFieldBaseExtension V
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  letI := K.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField V
+  letI := G.fixedFieldIsUltrametricDist V
+  letI : ValuativeRel L := G.fixedFieldValuativeRel V
+  letI : ValuativeExtension K L :=
+    G.fixedFieldValuativeExtensionFromPresentation V
+  calc
+    Ideal.span {algebraMap (LocalIntegerRing K) 𝒪[L] pi} =
+        (Ideal.span {pi}).map
+          (algebraMap (LocalIntegerRing K) 𝒪[L]) := by
+      rw [Ideal.map_span, Set.image_singleton]
+    _ = (localMaximalIdeal K).map
+          (algebraMap (LocalIntegerRing K) 𝒪[L]) := by rw [hpi]
+    _ = localMaximalIdeal (G.fixedFieldPointed V) :=
+      (B.relativeRamificationIndex_eq_one_iff.mp
+        (G.residueUnramifiedOf_relativeRamificationIndex_eq_one E))
+
 theorem residueUnramifiedOf_fixedField_finrank
     (E : G.ResidueFiniteGaloisIntermediateField) :
     Module.finrank G.presentation
@@ -79,6 +122,19 @@ theorem residueUnramifiedOf_fixedField_finrank
   rw [E.toIntermediateField.fixingSubgroup.index_comap_of_surjective
     G.presentation.spectralResidueGaloisMap_surjective]
   rw [← IntermediateField.finrank_eq_fixingSubgroup_index]
+
+/-- The unramified fixed field attached to `E`, bundled as a finite Galois intermediate field of
+the original algebraic closure. -/
+noncomputable def residueUnramifiedFiniteGaloisIntermediateFieldOf
+    (E : G.ResidueFiniteGaloisIntermediateField) :
+    FiniteGaloisIntermediateField G.presentation G.presentation.algebraicClosure := by
+  let U := G.residueUnramifiedOpenSubgroupOf E
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  let L := G.fixedField V
+  letI : FiniteDimensional G.presentation L := G.fixedField_finiteDimensional V
+  letI : IsGalois G.presentation L :=
+    G.fixedField_isGalois_of_normal U (G.residueUnramifiedOpenSubgroupOf_normal E)
+  exact { toIntermediateField := L }
 
 /-- The residue degree of the unramified fixed field is the degree of the selected residue
 intermediate field. -/

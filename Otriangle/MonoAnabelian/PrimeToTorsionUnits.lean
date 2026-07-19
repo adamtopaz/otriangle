@@ -265,6 +265,49 @@ theorem orderOf_unitGroupToResidueFieldUnits_eq_of_coprime
     (hcop.pow_right a).dvd_mul_right.mp hndmul
   apply Nat.dvd_antisymm hdn hnd
 
+/-- A residue-field unit has a Teichmüller lift of exactly the same order, and that order is
+prime to the residue characteristic. -/
+theorem exists_integerUnit_lift_orderOf_eq
+    (K : PointedMixedCharLocalField.{u}) (b : (LocalResidueField K)ˣ) :
+    ∃ t : (valuation K).valuationSubring.unitGroup,
+      (valuation K).valuationSubring.unitGroupToResidueFieldUnits t = b ∧
+      orderOf t = orderOf b ∧ Nat.Coprime (orderOf b) K.residueChar := by
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  let A : ValuationSubring K := (valuation K).valuationSubring
+  let k := IsLocalRing.ResidueField A
+  letI : Finite k := by
+    change Finite (IsLocalRing.ResidueField (valuation K).integer)
+    infer_instance
+  obtain ⟨t, ht, hred⟩ := residueUnit_has_card_sub_one_power_lift K b
+  let q := Nat.card k
+  have hq : q = K.residueChar ^ localResidueDegree K := by
+    exact residueField_card_eq_residueChar_pow_residueDegree K
+  have hcopq : Nat.Coprime (q - 1) K.residueChar := by
+    apply Nat.Coprime.symm
+    rw [(Fact.out : K.residueChar.Prime).coprime_iff_not_dvd]
+    intro hdvd
+    have hpowdvd : K.residueChar ∣ K.residueChar ^ localResidueDegree K :=
+      dvd_pow_self K.residueChar (localResidueDegree_pos K).ne'
+    have hone : K.residueChar ∣ 1 := by
+      rw [← hq] at hpowdvd
+      exact (Nat.dvd_sub_iff_right (Nat.one_le_iff_ne_zero.mpr (by
+        rw [hq]
+        exact pow_ne_zero _ (Fact.out : K.residueChar.Prime).ne_zero)) hpowdvd).mp hdvd
+    exact (Fact.out : K.residueChar.Prime).not_dvd_one hone
+  have htfin : IsOfFinOrder t := by
+    apply isOfFinOrder_iff_pow_eq_one.mpr
+    refine ⟨q - 1, Nat.sub_pos_of_lt Finite.one_lt_card, ?_⟩
+    exact ht
+  have horddvd : orderOf t ∣ q - 1 := orderOf_dvd_of_pow_eq_one ht
+  have hcoporder : Nat.Coprime (orderOf t) K.residueChar :=
+    Nat.Coprime.of_dvd_left horddvd hcopq
+  have horder := orderOf_unitGroupToResidueFieldUnits_eq_of_coprime
+    K t (orderOf t) (orderOf_pos_iff.mpr htfin) rfl hcoporder
+  rw [hred] at horder
+  refine ⟨t, hred, horder.symm, ?_⟩
+  exact horder.symm ▸ hcoporder
+
 /-- Reduction identifies the prime-to-`p` torsion quotient of local units with the residue
 field's multiplicative group. -/
 noncomputable def integerUnitPrimeToTorsionQuotientEquivResidueUnits
