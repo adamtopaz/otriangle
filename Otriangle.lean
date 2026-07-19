@@ -16,6 +16,9 @@ import Otriangle.MonoAnabelian.FiniteIndexTorsionFree
 import Otriangle.MonoAnabelian.ExactUnitRank
 import Otriangle.MonoAnabelian.ExactFieldRank
 import Otriangle.MonoAnabelian.ExactReciprocityRank
+import Otriangle.MonoAnabelian.PrimeToTorsionUnits
+import Otriangle.MonoAnabelian.PrimeToTorsionReciprocity
+import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank

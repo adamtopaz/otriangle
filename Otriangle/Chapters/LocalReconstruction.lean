@@ -13,6 +13,9 @@ import Otriangle.MonoAnabelian.FiniteIndexTorsionFree
 import Otriangle.MonoAnabelian.ExactUnitRank
 import Otriangle.MonoAnabelian.ExactFieldRank
 import Otriangle.MonoAnabelian.ExactReciprocityRank
+import Otriangle.MonoAnabelian.PrimeToTorsionUnits
+import Otriangle.MonoAnabelian.PrimeToTorsionReciprocity
+import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
@@ -605,7 +608,81 @@ the reciprocity-side kernel is precisely the unit image, and the same
 kernel--image product gives $`p_K^{e_Kf_K+1}`.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank, exact_residue_characteristic_degree")
+:::theorem "prime_to_torsion_residue_degree" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, principal_unit_prime_to_p_divisibility, residue_absolute_galois_torsion_free, local_arithmetic_invariants") (lean := "Anabelian.LCFT.principalUnitGroup_torsion_finite, Anabelian.LCFT.principalUnitTorsion_pow_injective_of_ne_residueChar, Anabelian.LCFT.principalUnitTorsion_orderOf_eq_residueChar_pow, Anabelian.LCFT.integerUnitTorsionReduction, Anabelian.LCFT.integerUnitTorsionReduction_ker, Anabelian.LCFT.integerUnitPrimeToTorsionQuotientEquivResidueUnits, Anabelian.LCFT.one_add_integerUnitPrimeToTorsionQuotient_card, Anabelian.LCFT.integerUnitTorsionEquivAbelianizedTorsion, Anabelian.LCFT.integerUnitPrimeToTorsionQuotientEquivAbelianized, Anabelian.LCFT.one_add_abelianizedPrimeToTorsionQuotient_card_eq_residueChar_pow_residueDegree")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--21"
+    text := some { path := "source/hoshi.txt", startLine := 853, endLine := 933 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-17.png" }
+  }]
+}
+%%%
+
+Reduction on finite-order valuation-ring units induces the exact equivalence
+$$`\operatorname{tor}(\mathcal O_K^\times)/
+  \operatorname{tor}(\mathcal O_K^\times)[p^\infty]
+  \simeq k_K^\times.`
+Consequently its cardinality is $`p_K^{f_K}-1`.  Local reciprocity identifies
+all torsion in $`G_K^{\mathrm{ab}}` with torsion local units, and hence
+$$`1+\#\left(
+  \operatorname{tor}(G_K^{\mathrm{ab}})/
+  \operatorname{tor}(G_K^{\mathrm{ab}})[p_K^\infty]
+  \right)=p_K^{f_K}.`
+This is the exact prime-to-$`p_K` torsion formula used to recover Hoshi's
+residue-degree integer.
+:::
+
+:::proof "prime_to_torsion_residue_degree" (uses := "local_reciprocity_input, principal_unit_prime_to_p_divisibility, residue_absolute_galois_torsion_free")
+Torsion in the principal-unit group is finite.  For every prime
+$`\ell\ne p_K`, Hensel divisibility makes its $`\ell`th-power endomorphism
+surjective and hence injective.  If $`\ell` divided the order of a torsion
+principal unit, raising that unit to the order divided by $`\ell` would
+produce a nontrivial element killed by this injective map.  Thus every
+torsion principal unit has $`p_K`-power order.
+
+Reduction from torsion units onto $`k_K^\times` is surjective by the
+root-of-unity lifting theorem.  Its kernel consists of torsion principal
+units and is therefore $`p_K`-primary.  Conversely a $`p_K`-primary unit
+reduces to one because Frobenius is injective on the finite residue field.
+The first isomorphism theorem gives the displayed equivalence.
+
+Finally, a torsion class in $`G_K^{\mathrm{ab}}` has torsion unramified
+projection.  The residue absolute Galois group is torsion-free, so that class
+lies in inertia.  The units--inertia equivalence supplies a unique local-unit
+preimage, and injectivity of reciprocity reflects its finite-order relation.
+This transports the prime-to-primary quotient and its exact cardinality.
+:::
+
+:::theorem "exact_group_theoretic_numerical_invariants" (parent := "integral_mono_anabelian") (uses := "exact_residue_characteristic_degree, prime_to_torsion_residue_degree") (lean := "Anabelian.LCFT.abelianizedTorsionFree_modPowerRank_eq_residueDegreeProduct_succ, Anabelian.LCFT.abelianized_groupTheoreticAbsoluteDegree_eq_residueDegreeProduct, Anabelian.LCFT.abelianized_groupTheoreticResidueDegree_eq_localResidueDegree, Anabelian.LCFT.abelianized_groupTheoreticRamificationIndex_eq_absoluteRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticAbsoluteDegree_eq_residueDegreeProduct, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticResidueDegree_eq_localResidueDegree, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticRamificationIndex_eq_absoluteRamificationIndex")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--21"
+    text := some { path := "source/hoshi.txt", startLine := 872, endLine := 949 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-18.png" }
+  }]
+}
+%%%
+
+At the detected residue characteristic, all three numerical expressions in
+Hoshi's Definition 3.5 have now been evaluated:
+$$`d(G_K)=e_Kf_K,\qquad f(G_K)=f_K,\qquad e(G_K)=e_K.`
+Thus the numerical ramification index used in the intrinsic intersection
+definitions agrees with the classical absolute ramification index.
+:::
+
+:::proof "exact_group_theoretic_numerical_invariants" (uses := "exact_residue_characteristic_degree, prime_to_torsion_residue_degree")
+The exact mod-$`p_K` cardinality is $`p_K^{e_Kf_K+1}`; taking its base-$`p_K`
+logarithm and subtracting the single unramified direction gives
+$`d(G_K)=e_Kf_K`.  The exact prime-to-primary torsion formula has logarithm
+$`f_K`, giving $`f(G_K)=f_K`.  Since $`f_K>0`, natural-number cancellation in
+$`e_Kf_K/f_K` gives $`e(G_K)=e_K`.
+:::
+
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank, exact_group_theoretic_numerical_invariants")
 %%%
 source := {
   document := "hoshi"
@@ -624,7 +701,7 @@ Frobenius $`\operatorname{Frob}(G)\in G/I(G)`.  For $`G=G_K` these agree
 with the classical local-field invariants.
 :::
 
-:::proof "group_theoretic_local_invariants" (uses := "local_reciprocity_input")
+:::proof "group_theoretic_local_invariants" (uses := "local_reciprocity_input, exact_group_theoretic_numerical_invariants")
 The torsion-free quotient of $`G^{\mathrm{ab}}` detects $`p(G)` as the unique
 prime whose mod-$`p` rank is at least two.  Its rank and prime-to-$`p` torsion
 recover $`d(G)` and $`f(G)`, hence $`e(G)=d(G)/f(G)`.  Intersections of normal
@@ -699,9 +776,10 @@ resulting quotient equivalence preserves cardinality, hence the logarithmic
 rank and the candidate predicate.  Equivalences likewise preserve the
 $`p`-primary component of torsion, so they preserve the prime-to-$`p`
 quotient and the formulas for absolute degree, residue degree, and
-ramification index.  The remaining local-field calculation of
-existence and uniqueness is precisely the arithmetic content of Hoshi's
-Lemma 3.4 and Proposition 3.6.
+ramification index.  The exact local-field calculations above identify these
+three expressions with $`e_Kf_K`, $`f_K`, and $`e_K`, respectively.  The
+remaining comparison is the subgroup-theoretic ramification and Frobenius
+content of Hoshi's Proposition 3.6 and Lemma 3.7.
 :::
 
 :::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
