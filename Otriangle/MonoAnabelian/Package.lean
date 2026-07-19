@@ -1,4 +1,4 @@
-import Otriangle.MonoAnabelian.KummerComparison
+import Otriangle.MonoAnabelian.IntegralKummerNaturality
 import Otriangle.MonoAnabelian.Transport
 
 /-!
@@ -32,7 +32,10 @@ noncomputable def monoAnabelianReconstructionPackageOfComparisons
 theorem monoAnabelianReconstructionPackage_of_reciprocity
     (reciprocity : LocalReciprocityFamily.{u}) :
     Nonempty (MonoAnabelianReconstructionPackage.{u} reciprocity) := by
-  sorry -- The construction is developed in the subsequent reconstruction modules.
+  let hoshi : OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily.{u} :=
+    OTriangle.LocalGaloisGroup.hoshiRamificationComparisonFamily_of_reciprocity reciprocity
+  exact ⟨monoAnabelianReconstructionPackageOfComparisons reciprocity hoshi
+    (OTriangle.integralKummerNaturality_of_reciprocity reciprocity hoshi)⟩
 
 /-- Existence of the reconstruction package follows from existence of local reciprocity. -/
 theorem monoAnabelianReconstructionPackage_exists

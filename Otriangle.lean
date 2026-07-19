@@ -63,5 +63,7 @@ import Otriangle.MonoAnabelian.ReconstructedObject
 import Otriangle.MonoAnabelian.Algorithm
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport
+import Otriangle.MonoAnabelian.IntegralKummerRigidity
+import Otriangle.MonoAnabelian.IntegralKummerNaturality
 import Otriangle.MonoAnabelian.Package
 import Otriangle.OTriangle
