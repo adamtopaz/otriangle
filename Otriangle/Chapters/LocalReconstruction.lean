@@ -1112,7 +1112,50 @@ $`\mathfrak m_K\mathcal O_L=\mathfrak m_L`, instead of relying on unrelated
 noncomputable choices of a uniformizer in $`K` and $`L`.
 :::
 
-:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character, canonical_unramified_fixed_fields, explicit_tame_kummer_extensions") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff, Anabelian.LCFT.LocalReciprocityFamily.map_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.exists_commonFrobeniusLift, Anabelian.OTriangle.LocalGaloisGroup.TameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.inverse_mul_tameConjugation_trivial_of_frobeniusRepresentatives, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.intrinsicFrobeniusClass_classicalImage_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_tameConjugationFaithful")
+:::theorem "tame_conjugation_faithful" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character, canonical_unramified_fixed_fields, explicit_tame_kummer_extensions") (lean := "Anabelian.OTriangle.LocalGaloisGroup.TameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.map_ne_of_isPrimitiveRoot_of_map_ne, Anabelian.OTriangle.LocalGaloisGroup.tameConjugationFaithful_of_reciprocity")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 900, endLine := 976 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-19.png" }
+  }]
+}
+%%%
+
+Conjugation of the unramified quotient on tame inertia is faithful: if
+$`g\in G_K` centralizes $`I_K/P_K`, then $`g\in I_K`.  This is the detector
+needed to turn the Frobenius power relation into uniqueness of an unramified
+class.
+:::
+
+:::proof "tame_conjugation_faithful" (uses := "intrinsic_ramification_intersections, finite_tame_character, canonical_unramified_fixed_fields, explicit_tame_kummer_extensions")
+Suppose $`g\notin I_K`.  Its residue automorphism is nontrivial, so it moves
+some nonzero element $`x` of the residue algebraic closure.  Adjoin $`x` to
+the finite residue field and take the corresponding canonical unramified
+fixed field $`L/K`.  If $`n` is the multiplicative order of $`x`, a
+Teichmüller lift gives a primitive $`n`th root $`\zeta\in L`; the order is
+prime to the residue characteristic.  Since every primitive $`n`th root is
+a power of every other one, the residue action of $`g` moves $`\zeta` as
+well.
+
+Now form the tame Kummer extension
+$$`
+  M=L(\pi_K^{1/n}).
+`
+It is Galois over $`K`, has relative ramification index $`n`, and its inertia
+contains the distinguished generator $`\tau` whose tame character is
+$`\overline\zeta`.  Lift $`\tau` to full inertia in $`G_K`.  The conjugation
+formula for the tame character sends the commutator
+$`g\tau g^{-1}\tau^{-1}` to
+$`g(\overline\zeta)\overline\zeta^{-1}\ne1`; hence its restriction to $`M`
+is nontrivial.  On the other hand, membership in intrinsic wild inertia
+places the same commutator in every prime-to-$`p` ramification neighborhood,
+including the subgroup fixing $`M`, a contradiction.  Therefore $`g\in I_K`.
+:::
+
+:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character, canonical_unramified_fixed_fields, explicit_tame_kummer_extensions, tame_conjugation_faithful") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff, Anabelian.LCFT.LocalReciprocityFamily.map_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.exists_commonFrobeniusLift, Anabelian.OTriangle.LocalGaloisGroup.TameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.tameConjugationFaithful_of_reciprocity, Anabelian.OTriangle.LocalGaloisGroup.inverse_mul_tameConjugation_trivial_of_frobeniusRepresentatives, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.intrinsicFrobeniusClass_classicalImage_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_tameConjugationFaithful")
 %%%
 source := {
   document := "hoshi"
@@ -1133,12 +1176,12 @@ and the assertion that there is a unique such class.  Conditional on that
 existence-and-uniqueness assertion, the selected Frobenius class is transported
 by the canonical quotient equivalence.
 
-This theorem isolates the formal functoriality from the arithmetic content of
-Hoshi's Lemma 3.7: proving that a local absolute Galois group actually has the
-unique characterized class remains an explicit later obligation.
+For a presented local absolute Galois group, tame-conjugation faithfulness and
+the common reciprocity Frobenius lift establish the existence and uniqueness
+assertion and identify the selected class with arithmetic Frobenius.
 :::
 
-:::proof "intrinsic_frobenius_characterization" (uses := "intrinsic_ramification_intersections, finite_tame_character, explicit_tame_kummer_extensions")
+:::proof "intrinsic_frobenius_characterization" (uses := "intrinsic_ramification_intersections, finite_tame_character, explicit_tame_kummer_extensions, tame_conjugation_faithful")
 The congruence
 $$`gxg^{-1}\equiv x^{p^f}\pmod {P(G,p)}`
 is preserved by a group equivalence because multiplication, inversion, powers,
@@ -1152,13 +1195,12 @@ is available on both sides.
 For the presented local group, reciprocity applied to a uniformizer gives a
 full Galois lift which is simultaneously arithmetic Frobenius for the
 recorded and spectral residue pointings.  The finite tame-character theorem
-proves that this lift has the required power action.  If conjugation on the
-tame quotient is faithful, any second representative with the same power
-action differs from it by inertia: after quotienting by wild inertia, the
-two power relations show directly that their quotient centralizes tame
-inertia.  Thus the entire existence, uniqueness, and classical-identification
-step is reduced to `TameConjugationFaithful`; the Kummer characters above
-provide its finite prime-to-$`p` detectors.
+proves that this lift has the required power action.  Given any second
+representative with the same power action, the two congruences show that its
+quotient with the chosen lift centralizes tame inertia.  The preceding
+faithfulness theorem places that quotient in inertia, proving uniqueness of
+the class.  Finally, the common lift maps to arithmetic Frobenius under the
+classical residue quotient, which identifies the intrinsic selected class.
 :::
 
 :::theorem "classical_inertia_frobenius_bridge" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input") (lean := "Anabelian.OTriangle.ClassicalRamification.inertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.unramifiedProjection_mk, Anabelian.OTriangle.ClassicalRamification.map_inertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.inertiaQuotient, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue_mk, Anabelian.OTriangle.ClassicalRamification.frobeniusClass, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue_frobeniusClass, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientToAbelianized, Anabelian.OTriangle.ClassicalRamification.unramifiedQuotientEquiv_inertiaQuotientToAbelianized, Anabelian.OTriangle.ClassicalRamification.unramifiedQuotientEquiv_frobeniusClass")
@@ -1194,7 +1236,7 @@ representatives and carry the chosen full Frobenius class to the same
 arithmetic Frobenius element.
 :::
 
-:::theorem "hoshi_ramification_identification" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, residue_characteristic_predicate, intrinsic_ramification_intersections, intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge") (lean := "Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparison, Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily")
+:::theorem "hoshi_ramification_identification" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, residue_characteristic_predicate, intrinsic_ramification_intersections, intrinsic_frobenius_characterization, classical_inertia_frobenius_bridge") (lean := "Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparison, Anabelian.OTriangle.LocalGaloisGroup.HoshiRamificationComparisonFamily, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_reciprocity, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparisonFamily_of_reciprocity")
 %%%
 source := {
   document := "hoshi"
@@ -1234,11 +1276,11 @@ $`\varphi\tau\varphi^{-1}=\tau^q` then gives existence and uniqueness of the
 class acting by the $`p^f`-power map and identifies it with arithmetic
 Frobenius.  These are exactly Lemma 3.4, Proposition 3.6, Lemma 3.7, and
 Proposition 3.9.  The finite tame relation is formalized at every
-prime-to-$`p` normal fixed field.  The outstanding arithmetic implementation
-behind the named Lean proposition is now confined to passing those finite
-characters to the full tame quotient, identifying the wild-inertia
-intersection, and proving that the resulting conjugation action distinguishes
-a unique unramified class.
+prime-to-$`p` normal fixed field.  Profinite intersection identifies inertia
+and wild inertia, while the explicit unramified Kummer composita promote the
+finite tame characters to a faithful detector on the full tame quotient.
+The theorem `hoshiRamificationComparisonFamily_of_reciprocity` packages these
+arguments uniformly for every presented local field.
 :::
 
 :::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "hoshi_ramification_identification") (lean := "Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")
