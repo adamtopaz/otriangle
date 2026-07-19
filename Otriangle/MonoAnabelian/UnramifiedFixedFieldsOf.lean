@@ -135,6 +135,7 @@ theorem residueUnramifiedOf_residueField_finrank
   exact hdegree.trans (G.residueUnramifiedOf_fixedField_finrank E)
 
 set_option maxHeartbeats 800000 in
+-- The dependent residue-field tower unfolds three spectral valuation structures.
 /-- The residue embedding from the unramified fixed field attached to `E` into the residue
 algebraic closure. -/
 noncomputable def residueUnramifiedOfResidueEmbedding
@@ -212,6 +213,7 @@ noncomputable def residueUnramifiedOfResidueEmbedding
   exact IsScalarTower.toAlgHom _ _ _
 
 set_option maxHeartbeats 1600000 in
+-- The field-range proof combines the dependent residue tower with infinite Galois fixed fields.
 /-- The residue field of the unramified fixed field attached to `E` is exactly `E` inside the
 chosen residue algebraic closure. -/
 theorem residueUnramifiedOfResidueEmbedding_fieldRange

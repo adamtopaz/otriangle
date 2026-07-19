@@ -2,6 +2,7 @@ import Otriangle.MonoAnabelian.FiniteTameRestriction
 import Otriangle.MonoAnabelian.ResidueCharacteristicCandidate
 import Otriangle.MonoAnabelian.RamificationComparison
 import Otriangle.MonoAnabelian.UnramifiedFixedFieldsOf
+import Otriangle.MonoAnabelian.UniformizerKummerRamification
 
 /-!
 # Uniqueness of the intrinsic Frobenius class
