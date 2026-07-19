@@ -16,6 +16,8 @@ import Otriangle.MonoAnabelian.ExactReciprocityRank
 import Otriangle.MonoAnabelian.PrimeToTorsionUnits
 import Otriangle.MonoAnabelian.PrimeToTorsionReciprocity
 import Otriangle.MonoAnabelian.ExactGroupInvariants
+import Otriangle.MonoAnabelian.LocalExtensionRamification
+import Otriangle.MonoAnabelian.FixedFieldRamification
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
@@ -782,7 +784,47 @@ remaining comparison is the subgroup-theoretic ramification and Frobenius
 content of Hoshi's Proposition 3.6 and Lemma 3.7.
 :::
 
-:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
+:::theorem "fixed_field_ramification_indices" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, exact_group_theoretic_numerical_invariants, topological_abelianized_transport") (lean := "Anabelian.LCFT.FiniteExtension.relativeRamificationIndex, Anabelian.LCFT.FiniteExtension.map_localMaximalIdeal_eq_pow, Anabelian.LCFT.FiniteExtension.relativeRamificationIndex_pos, Anabelian.LCFT.FiniteExtension.residueChar_eq, Anabelian.LCFT.FiniteExtension.map_residueCharIdeal, Anabelian.LCFT.FiniteExtension.absoluteRamificationIndex_eq_mul, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseExtension, Anabelian.OTriangle.LocalGaloisGroup.intrinsicRamificationIndex_eq_absoluteRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIntrinsicRamificationIndex_eq_fixedField, Anabelian.OTriangle.LocalGaloisGroup.isInertiaNeighborhood_iff_relativeRamificationIndex_eq_one, Anabelian.OTriangle.LocalGaloisGroup.isWildInertiaNeighborhood_iff_relativeRamificationIndex_coprime")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 900, endLine := 949 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-18.png" }
+  }]
+}
+%%%
+
+For a finite valued extension $`L/K`, define $`e(L/K)` by
+$$`\mathfrak m_K\mathcal O_L=\mathfrak m_L^{e(L/K)}.`
+The DVR ideal factorization gives the exact tower law
+$$`e_L=e_K e(L/K).`
+At an open subgroup $`U\leq G_K`, topological abelianization identifies
+Hoshi's numerical index with $`e_{\overline K^U}`.  Therefore an intrinsic
+inertia neighborhood is exactly a normal $`U` with
+$`e(\overline K^U/K)=1`, while a wild-inertia neighborhood is exactly a
+normal $`U` whose relative index is prime to $`p_K`.
+:::
+
+:::proof "fixed_field_ramification_indices" (uses := "local_reciprocity_input, exact_group_theoretic_numerical_invariants, topological_abelianized_transport")
+The image of the base maximal ideal is a nonzero proper ideal in the upstairs
+DVR, hence a unique power of its maximal ideal; this defines $`e(L/K)`.
+The residue characteristics agree because the induced embedding of residue
+fields preserves characteristic.  Mapping the identity
+$`p_K\mathcal O_K=\mathfrak m_K^{e_K}` into $`\mathcal O_L`, then substituting
+the relative maximal-ideal factorization, gives
+$`p_K\mathcal O_L=\mathfrak m_L^{e_Ke(L/K)}`.  Uniqueness of powers in a DVR
+proves the tower law.
+
+For an open subgroup, the continuous fixed-field Galois equivalence descends
+to topological abelianizations.  The exact reciprocity calculation evaluates
+the transported group-theoretic index as the fixed field's absolute index.
+Substitution of the tower law and cancellation by the positive integer $`e_K`
+give the two neighborhood characterizations.
+:::
+
+:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, fixed_field_ramification_indices") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
 %%%
 source := {
   document := "hoshi"
