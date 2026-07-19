@@ -144,6 +144,47 @@ def tameCharacter : inertia R G →* (IsLocalRing.ResidueField R)ˣ where
       IsLocalRing.residue R (g.1 • (tameUnit R G h : R)) = _
     rw [inertia_residue_smul]
 
+/-- The tame character may be computed with any chosen uniformizer, rather than the arbitrary
+uniformizer used in its definition. -/
+theorem tameCharacter_eq_residue_of_uniformizer_mul
+    (g : inertia R G) (pi : R) (hpi : Irreducible pi) (u : Rˣ)
+    (hu : pi * (u : R) = g.1 • pi) :
+    tameCharacter R G g = Units.map (IsLocalRing.residue R).toMonoidHom u := by
+  let v : Rˣ := (IsDiscreteValuationRing.associated_of_irreducible R
+    (uniformizer_irreducible R) hpi).choose
+  have hv : uniformizer R * (v : R) = pi :=
+    (IsDiscreteValuationRing.associated_of_irreducible R
+      (uniformizer_irreducible R) hpi).choose_spec
+  have hmain : (v : R) * (u : R) =
+      (tameUnit R G g : R) * (g.1 • (v : R)) := by
+    apply mul_left_cancel₀ (uniformizer_ne_zero R)
+    calc
+      uniformizer R * ((v : R) * (u : R)) = pi * (u : R) := by
+        rw [← mul_assoc, hv]
+      _ = g.1 • pi := hu
+      _ = g.1 • (uniformizer R * (v : R)) := by rw [hv]
+      _ = (g.1 • uniformizer R) * (g.1 • (v : R)) :=
+        map_mul (MulSemiringAction.toRingAut G R g.1) _ _
+      _ = (uniformizer R * (tameUnit R G g : R)) *
+          (g.1 • (v : R)) := by rw [uniformizer_mul_tameUnit]
+      _ = uniformizer R * ((tameUnit R G g : R) *
+          (g.1 • (v : R))) := mul_assoc _ _ _
+  apply Units.ext
+  change IsLocalRing.residue R (tameUnit R G g : R) =
+    IsLocalRing.residue R (u : R)
+  have hres := congrArg (IsLocalRing.residue R) hmain
+  simp only [map_mul] at hres
+  rw [inertia_residue_smul R G g] at hres
+  exact mul_left_cancel₀ (Units.ne_zero
+    (Units.map (IsLocalRing.residue R).toMonoidHom v)) (by
+      change IsLocalRing.residue R (v : R) *
+          IsLocalRing.residue R (tameUnit R G g : R) =
+        IsLocalRing.residue R (v : R) * IsLocalRing.residue R (u : R)
+      calc
+        _ = IsLocalRing.residue R (tameUnit R G g : R) *
+            IsLocalRing.residue R (v : R) := mul_comm _ _
+        _ = IsLocalRing.residue R (v : R) * IsLocalRing.residue R (u : R) := hres.symm)
+
 theorem tameCharacter_conjugate (s : G) (g : inertia R G) :
     tameCharacter R G (conjugate R G s g) =
       Units.map (residueAction R G s) (tameCharacter R G g) := by

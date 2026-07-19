@@ -260,6 +260,59 @@ theorem fixedFieldConjugationFiniteExtension_abelianizedGaloisMap_comp
   rw [G.fixedFieldGroupHom_conjugation_apply σ U τ]
   simp
 
+/-- Local reciprocity is equivariant for the field equivalence induced by conjugating a fixed
+field inside the common algebraic closure. -/
+theorem fixedField_reciprocity_conjugation
+    (reciprocity : LCFT.LocalReciprocityFamily.{u})
+    (σ : G.toProfiniteGrp) (U : G.OpenSubgroupIndex)
+    (a : (G.fixedField U)ˣ) :
+    G.fixedFieldAbelianizationEquiv (G.conjugationHom σ) U
+        ((reciprocity.map (G.fixedFieldPointed U)).toMonoidHom a) =
+      (reciprocity.map (G.fixedFieldPointed (G.conjugationIndex σ U))).toMonoidHom
+        ((G.fixedFieldConjugationFiniteExtension σ U).fieldUnitsMap a) := by
+  let K := G.fixedFieldPointed U
+  let L := G.fixedFieldPointed (G.conjugationIndex σ U)
+  let E₀ := G.fixedFieldFiniteExtension (U := U) (V := U) le_rfl
+  let E := G.fixedFieldConjugationFiniteExtension σ U
+  let eL := G.fixedFieldAbelianizationEquiv (G.conjugationHom σ) U
+  have hrestriction :
+      (MulEquiv.refl (LCFT.AbelianizedAbsoluteGaloisGroup K)).toMonoidHom.comp
+          E₀.abelianizedGaloisMap =
+        E.abelianizedGaloisMap.comp eL.toMonoidHom := by
+    rw [G.fixedFieldFiniteExtension_refl_abelianizedGaloisMap U,
+      G.fixedFieldConjugationFiniteExtension_abelianizedGaloisMap_comp σ U]
+    ext y
+    rfl
+  have htransport := reciprocity.transfer_equiv_naturality K K K L E₀ E
+    (MulEquiv.refl (LCFT.AbelianizedAbsoluteGaloisGroup K)) eL hrestriction
+  have hrefl := DFunLike.congr_fun (reciprocity.transfer_naturality K K E₀) a
+  have hconj := DFunLike.congr_fun (reciprocity.transfer_naturality K L E) a
+  have hE₀ : E₀.fieldUnitsMap a = a := by
+    apply Units.ext
+    rfl
+  have hrefl' : reciprocity.transferMap K K E₀
+      ((reciprocity.map K).toMonoidHom a) =
+        (reciprocity.map K).toMonoidHom a := by
+    simpa only [MonoidHom.comp_apply, hE₀] using hrefl
+  have hconj' : reciprocity.transferMap K L E
+      ((reciprocity.map K).toMonoidHom a) =
+        (reciprocity.map L).toMonoidHom (E.fieldUnitsMap a) := by
+    simpa only [MonoidHom.comp_apply] using hconj
+  have hx := DFunLike.congr_fun htransport
+    ((reciprocity.map K).toMonoidHom a)
+  change eL (reciprocity.transferMap K K E₀
+      ((reciprocity.map K).toMonoidHom a)) =
+    reciprocity.transferMap K L E ((reciprocity.map K).toMonoidHom a) at hx
+  change eL ((reciprocity.map K).toMonoidHom a) =
+    (reciprocity.map L).toMonoidHom (E.fieldUnitsMap a)
+  calc
+    eL ((reciprocity.map K).toMonoidHom a) =
+        eL (reciprocity.transferMap K K E₀
+          ((reciprocity.map K).toMonoidHom a)) := congrArg eL hrefl'.symm
+    _ = reciprocity.transferMap K L E
+          ((reciprocity.map K).toMonoidHom a) := hx
+    _ = (reciprocity.map L).toMonoidHom (E.fieldUnitsMap a) := hconj'
+
 /-- On the intrinsic Frobenius-positive cone, transfer along the degree-one conjugation
 extension is precisely abelianized subgroup conjugation. -/
 theorem fixedFieldAbelianizationEquiv_conjugation_eq_transfer

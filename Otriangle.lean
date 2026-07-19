@@ -50,6 +50,8 @@ import Otriangle.MonoAnabelian.FiniteInertiaRestriction
 import Otriangle.MonoAnabelian.FiniteTameRamification
 import Otriangle.MonoAnabelian.FiniteTameFixedField
 import Otriangle.MonoAnabelian.FiniteTameRestriction
+import Otriangle.MonoAnabelian.TameKummerExtension
+import Otriangle.MonoAnabelian.TameKummerRamification
 import Otriangle.MonoAnabelian.InertiaComparison
 import Otriangle.MonoAnabelian.RamificationComparison
 import Otriangle.MonoAnabelian.DiagramTransport
