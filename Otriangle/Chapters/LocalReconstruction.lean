@@ -5,6 +5,7 @@ import Otriangle.LCFT
 import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.DeepUnits
+import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
@@ -201,7 +202,36 @@ its order by the least prime divisor; the result has prime order and yields the
 same contradiction.
 :::
 
-:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial")
+:::theorem "deep_residue_characteristic_power_roots" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness") (lean := "Anabelian.LCFT.deepRootCorrection, Anabelian.LCFT.deepRootCorrection_identity, Anabelian.LCFT.deepRootCorrection_sub_norm_le, Anabelian.LCFT.deepRootMap_contracting, Anabelian.LCFT.exists_deepRootSolution, Anabelian.LCFT.one_add_residueChar_cube_is_pow")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "11--12"
+    text := some { path := "source/hoshi.txt", startLine := 380, endLine := 417 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+  }]
+}
+%%%
+
+Writing $`p=p_K`, every element of $`1+p^3\mathcal O_K` is a $`p`th power
+in $`\mathcal O_K`.  This explicit uniform depth supplies a finite-index
+subgroup of local units contained in the image of the $`p`th-power map.
+:::
+
+:::proof "deep_residue_characteristic_power_roots" (uses := "deep_principal_unit_torsion_freeness")
+Expand
+$$`(1+p^2y)^p=1+p^3(y+H(y))`,
+where every monomial of $`H` contains an additional factor of $`p`.  On the
+complete valuation ring, powers are nonexpanding and the ultrametric triangle
+inequality gives
+$$`\lVert H(x)-H(y)\rVert\le \lVert p\rVert\,\lVert x-y\rVert`.
+Since $`\lVert p\rVert<1`, the map $`y\mapsto a-H(y)` is a contraction.  Its
+fixed point solves $`y+H(y)=a`, and substitution into the expansion gives
+$`1+p^3a=(1+p^2y)^p`.
+:::
+
+:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial")
 %%%
 source := {
   document := "hoshi"
@@ -219,7 +249,7 @@ nonzero class modulo $`p_K`th powers.  This will be the second direction,
 independent of the uniformizer, in the candidate-prime calculation.
 :::
 
-:::proof "residue_characteristic_unit_direction" (uses := "deep_principal_unit_torsion_freeness")
+:::proof "residue_characteristic_unit_direction" (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots")
 The deep principal-unit subgroup is open in the compact unit group.  Since its
 intersection with torsion is trivial, all torsion in $`K^\times` injects into
 a finite quotient and is therefore finite.  If a principal unit is a

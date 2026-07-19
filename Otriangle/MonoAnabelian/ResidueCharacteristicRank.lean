@@ -1,4 +1,5 @@
 import Otriangle.MonoAnabelian.DeepUnits
+import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Mathlib.Topology.Algebra.OpenSubgroup
