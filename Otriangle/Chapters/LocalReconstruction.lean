@@ -983,7 +983,7 @@ supergroup of inertia that still excludes the element.  Thus intrinsic inertia
 is exactly classical inertia.
 :::
 
-:::theorem "finite_tame_character" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia") (lean := "Anabelian.OTriangle.FiniteTameRamification.tameCharacter, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_injective_of_coprime_card, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_conjugate, Anabelian.OTriangle.FiniteTameRamification.conjugate_eq_pow_of_residue_frobenius, Anabelian.OTriangle.SpectralLocalField.integerMulSemiringAction_faithful, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteTameCharacter_injective, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom_ker, Anabelian.OTriangle.LocalGaloisGroup.restrict_conjugation_eq_pow_of_fixedField_residue_frobenius, Anabelian.OTriangle.LocalGaloisGroup.fixedField_residue_smul_eq_pow_of_spectralResidueFrobenius, Anabelian.OTriangle.LocalGaloisGroup.spectralFrobenius_isFrobeniusRepresentative")
+:::theorem "finite_tame_character" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.FiniteTameRamification.tameCharacter, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_injective_of_coprime_card, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_conjugate, Anabelian.OTriangle.FiniteTameRamification.conjugate_eq_pow_of_residue_frobenius, Anabelian.OTriangle.SpectralLocalField.integerMulSemiringAction_faithful, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteTameCharacter_injective, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldRestrictNormalHom_ker, Anabelian.OTriangle.LocalGaloisGroup.restrict_conjugation_eq_pow_of_fixedField_residue_frobenius, Anabelian.OTriangle.LocalGaloisGroup.fixedField_residue_smul_eq_pow_of_spectralResidueFrobenius, Anabelian.OTriangle.LocalGaloisGroup.spectralFrobenius_isFrobeniusRepresentative")
 %%%
 source := {
   document := "hoshi"
@@ -1014,7 +1014,7 @@ the finite fixed-field tame character injective and yields the finite tame
 conjugation relation required by Lemma 1.5.
 :::
 
-:::proof "finite_tame_character" (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia")
+:::proof "finite_tame_character" (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia_order")
 Write $`\tau(\pi)=\pi u_\tau`.  Multiplication of automorphisms gives
 $`u_{\tau\upsilon}=u_\tau\tau(u_\upsilon)`, and inertia acts trivially after
 reduction, so $`\tau\mapsto\overline{u_\tau}` is a homomorphism.  If
