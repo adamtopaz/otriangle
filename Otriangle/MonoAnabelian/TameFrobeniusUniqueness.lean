@@ -1,8 +1,7 @@
 import Otriangle.MonoAnabelian.FiniteTameRestriction
 import Otriangle.MonoAnabelian.ResidueCharacteristicCandidate
 import Otriangle.MonoAnabelian.RamificationComparison
-import Otriangle.MonoAnabelian.UnramifiedFixedFieldsOf
-import Otriangle.MonoAnabelian.UniformizerKummerRamification
+import Otriangle.MonoAnabelian.TameConjugationFaithful
 
 /-!
 # Uniqueness of the intrinsic Frobenius class
@@ -21,15 +20,6 @@ namespace Anabelian.OTriangle.LocalGaloisGroup
 open LCFT
 
 universe u
-
-/-- Faithfulness of the conjugation action of the classical unramified quotient on the intrinsic
-tame quotient, stated without constructing the quotient action explicitly. -/
-def TameConjugationFaithful
-    (G : LocalGaloisGroup.{u}) (p : ℕ) : Prop :=
-  ∀ g : G.toProfiniteGrp,
-    (∀ x : G.toProfiniteGrp, x ∈ G.classicalInertiaSubgroup →
-      g * x * g⁻¹ * x⁻¹ ∈ G.intrinsicWildInertiaSubgroup p) →
-    g ∈ G.classicalInertiaSubgroup
 
 /-- Two representatives which induce the same prescribed power action on tame inertia have a
 quotient acting trivially on tame inertia. -/
@@ -170,5 +160,18 @@ theorem hoshiRamificationComparison_of_tameConjugationFaithful
   frobenius_eq :=
     G.intrinsicFrobeniusClass_classicalImage_of_tameConjugationFaithful
       reciprocity hfaith
+
+/-- Local reciprocity supplies every component of Hoshi's ramification comparison. -/
+theorem hoshiRamificationComparison_of_reciprocity
+    (G : LocalGaloisGroup.{u}) (reciprocity : LocalReciprocityFamily.{u}) :
+    G.HoshiRamificationComparison :=
+  G.hoshiRamificationComparison_of_tameConjugationFaithful reciprocity
+    (G.tameConjugationFaithful_of_reciprocity reciprocity)
+
+/-- Hoshi's ramification comparison, uniformly over all presented local fields. -/
+theorem hoshiRamificationComparisonFamily_of_reciprocity
+    (reciprocity : LocalReciprocityFamily.{u}) :
+    HoshiRamificationComparisonFamily.{u} :=
+  fun G ↦ G.hoshiRamificationComparison_of_reciprocity reciprocity
 
 end Anabelian.OTriangle.LocalGaloisGroup
