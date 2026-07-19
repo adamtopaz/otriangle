@@ -2,6 +2,7 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import Otriangle.LCFT
+import Otriangle.MonoAnabelian.GroupTransport
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -88,4 +89,38 @@ open subgroups having prescribed ramification index recover inertia and wild
 inertia.  Frobenius is then the unique class acting on $`I(G)/P(G)` by the
 $`p(G)^{f(G)}`-power map.  Hoshi's Proposition 3.6 and Lemma 3.7 identify
 these intrinsic definitions with the classical ones.
+:::
+
+:::theorem "topological_abelianized_transport" (parent := "integral_mono_anabelian") (uses := "group_theoretic_local_invariants") (lean := "Anabelian.OTriangle.TopologicalAbelianization.map, Anabelian.OTriangle.TopologicalAbelianization.congr, Anabelian.OTriangle.TopologicalAbelianization.congr_trans, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisContinuousEquiv, Anabelian.OTriangle.LocalGaloisGroup.abelianizationEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldAbelianizationEquiv, Anabelian.OTriangle.LocalGaloisGroup.abelianizationEquiv_comp")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "23--25"
+    text := some { path := "source/hoshi.txt", startLine := 1088, endLine := 1188 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-21.png" }
+  }]
+}
+%%%
+
+A continuous group isomorphism transports topological abelianizations and the
+reverse-inclusion poset of open subgroups.  At each open subgroup, the induced
+map agrees with an equivalence between the abelianized absolute Galois groups
+of the corresponding fixed fields.  These equivalences respect identity and
+composition before restriction to the Frobenius-positive integral cones.
+:::
+
+:::proof "topological_abelianized_transport" (uses := "group_theoretic_local_invariants")
+A continuous homomorphism maps the commutator subgroup into the commutator
+subgroup and, by continuity, maps its topological closure into the target
+closure.  It therefore descends to topological abelianizations; applying the
+construction to an isomorphism and its inverse yields a multiplicative
+equivalence, functorial under composition.
+
+For an open subgroup $`U\leq G_K`, infinite Galois theory identifies $`U`
+with the absolute Galois group of its fixed field.  Restriction of
+automorphisms is continuous for the Krull topologies.  Its inverse is
+continuous because the source is compact and the target Hausdorff.  Composing
+this identification with restricted subgroup transport gives the fixed-field
+abelianization equivalence used at every node of the reconstruction diagram.
 :::
