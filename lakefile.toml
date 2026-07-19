@@ -25,7 +25,15 @@ rev = "v4.32.0"
 
 [[lean_lib]]
 name = "Otriangle"
-globs = ["Otriangle", "Otriangle.Basic", "Otriangle.LCFT", "Otriangle.MonoAnabelian.+", "Otriangle.OTriangle", "Otriangle.OTriangle.Core"]
+globs = ["Otriangle", "Otriangle.Basic", "Otriangle.Comparator.Defs", "Otriangle.LCFT", "Otriangle.MonoAnabelian.+", "Otriangle.OTriangle", "Otriangle.OTriangle.Core"]
+
+# The comparator challenge and its solution.  Kept out of `defaultTargets` because
+# `Otriangle.Comparator.Challenge` is `sorry` by construction.  The definitions they share live in
+# `Otriangle.Comparator.Defs`, which belongs to the main library above.
+[[lean_lib]]
+name = "OtriangleComparator"
+roots = ["Otriangle.Comparator.Challenge", "Otriangle.Comparator.Solution"]
+globs = ["Otriangle.Comparator.Challenge", "Otriangle.Comparator.Solution"]
 
 [[lean_lib]]
 name = "OtriangleBlueprint"
