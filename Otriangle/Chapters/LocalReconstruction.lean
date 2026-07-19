@@ -67,7 +67,7 @@ records these exact compatibility squares; only existence, and optionally
 uniqueness, of the family is admitted.
 :::
 
-:::theorem "residue_frobenius_procyclic" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.residueFrobenius_restrictNormal, Anabelian.LCFT.residueFrobenius_zpowers_topologicalClosure, Anabelian.OTriangle.TopologicalProcyclic.modPower_card_le, Anabelian.LCFT.residueModPowerQuotient_card_le")
+:::theorem "residue_frobenius_procyclic" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.residueFiniteGaloisIntermediateField, Anabelian.LCFT.residueFiniteGaloisIntermediateField_finrank, Anabelian.LCFT.residueFrobenius_restrictNormal, Anabelian.LCFT.residueFrobenius_zpowers_topologicalClosure, Anabelian.OTriangle.TopologicalProcyclic.modPower_finite, Anabelian.OTriangle.TopologicalProcyclic.modPower_card_le, Anabelian.LCFT.residueFrobenius_not_mem_powRange, Anabelian.LCFT.residueModPowerQuotient_card_eq_prime")
 %%%
 source := {
   document := "hoshi"
@@ -87,7 +87,10 @@ This makes precise the procyclic unramified factor that appears throughout
 Hoshi's local calculations.  In particular, its quotient by $`n`th powers
 has at most $`n` elements: density descends to the quotient, while the image
 of Frobenius has exponent dividing $`n` and hence generates a finite closed
-subgroup.
+subgroup.  For prime $`n=\ell` the cardinality is exactly $`\ell`.  Indeed,
+the standard degree-$`\ell` finite-field extension embeds into the chosen
+residue algebraic closure; restriction to it proves that Frobenius is not an
+$`\ell`th power.
 :::
 
 :::proof "residue_frobenius_procyclic"

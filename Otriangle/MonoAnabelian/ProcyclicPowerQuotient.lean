@@ -18,13 +18,16 @@ namespace Anabelian
 namespace OTriangle
 namespace TopologicalProcyclic
 
-/-- A compact procyclic commutative group has at most `n` classes modulo `n`th powers. -/
-theorem modPower_card_le
+/-- The image of a topological generator generates the quotient by `n`th powers algebraically.
+Compactness makes the power subgroup closed, and the cyclic subgroup in the quotient is finite,
+so density forces it to be the whole quotient. -/
+theorem quotient_zpowers_eq_top
     {A : Type*} [CommGroup A] [TopologicalSpace A] [IsTopologicalGroup A]
     [CompactSpace A] [T2Space A] (generator : A)
     (dense : (Subgroup.zpowers generator).topologicalClosure = ⊤)
     (n : ℕ) (hn : 0 < n) :
-    Nat.card (A ⧸ (powMonoidHom (α := A) n).range) ≤ n := by
+    Subgroup.zpowers
+        ((QuotientGroup.mk' ((powMonoidHom (α := A) n).range)) generator) = ⊤ := by
   let H : Subgroup A := (powMonoidHom (α := A) n).range
   have hHclosed : IsClosed (H : Set A) := by
     change IsClosed (Set.range fun x : A ↦ x ^ n)
@@ -56,12 +59,59 @@ theorem modPower_card_le
     isOfFinOrder_iff_pow_eq_one.mpr ⟨n, hn, hgpow⟩
   have hzpClosed : IsClosed (Subgroup.zpowers g : Set Q) :=
     hgFinite.finite_zpowers.isClosed
-  have hzpTop : Subgroup.zpowers g = ⊤ := by
-    rw [SetLike.ext'_iff]
-    apply Set.Subset.antisymm (Set.subset_univ _)
-    have hclosure := hzpDense.closure_eq
-    rw [hzpClosed.closure_eq] at hclosure
-    simp [hclosure]
+  change Subgroup.zpowers g = ⊤
+  rw [SetLike.ext'_iff]
+  apply Set.Subset.antisymm (Set.subset_univ _)
+  have hclosure := hzpDense.closure_eq
+  rw [hzpClosed.closure_eq] at hclosure
+  simp [hclosure]
+
+/-- The quotient of a compact procyclic commutative group by `n`th powers is finite. -/
+theorem modPower_finite
+    {A : Type*} [CommGroup A] [TopologicalSpace A] [IsTopologicalGroup A]
+    [CompactSpace A] [T2Space A] (generator : A)
+    (dense : (Subgroup.zpowers generator).topologicalClosure = ⊤)
+    (n : ℕ) (hn : 0 < n) :
+    Finite (A ⧸ (powMonoidHom (α := A) n).range) := by
+  let H : Subgroup A := (powMonoidHom (α := A) n).range
+  let Q := A ⧸ H
+  let q : A →* Q := QuotientGroup.mk' H
+  let g : Q := q generator
+  have hgpow : g ^ n = 1 := by
+    change q (generator ^ n) = 1
+    change ((generator ^ n : A) : A ⧸ H) = 1
+    rw [QuotientGroup.eq_one_iff]
+    exact ⟨generator, rfl⟩
+  have hgFinite : IsOfFinOrder g :=
+    isOfFinOrder_iff_pow_eq_one.mpr ⟨n, hn, hgpow⟩
+  letI : Fintype (Subgroup.zpowers g) := hgFinite.finite_zpowers.fintype
+  apply Finite.of_surjective ((↑) : Subgroup.zpowers g → Q)
+  intro x
+  refine ⟨⟨x, ?_⟩, rfl⟩
+  have htop := quotient_zpowers_eq_top generator dense n hn
+  change x ∈ Subgroup.zpowers g
+  rw [htop]
+  exact Subgroup.mem_top x
+
+/-- A compact procyclic commutative group has at most `n` classes modulo `n`th powers. -/
+theorem modPower_card_le
+    {A : Type*} [CommGroup A] [TopologicalSpace A] [IsTopologicalGroup A]
+    [CompactSpace A] [T2Space A] (generator : A)
+    (dense : (Subgroup.zpowers generator).topologicalClosure = ⊤)
+    (n : ℕ) (hn : 0 < n) :
+    Nat.card (A ⧸ (powMonoidHom (α := A) n).range) ≤ n := by
+  letI := modPower_finite generator dense n hn
+  let H : Subgroup A := (powMonoidHom (α := A) n).range
+  let Q := A ⧸ H
+  let q : A →* Q := QuotientGroup.mk' H
+  let g : Q := q generator
+  have hgpow : g ^ n = 1 := by
+    change q (generator ^ n) = 1
+    change ((generator ^ n : A) : A ⧸ H) = 1
+    rw [QuotientGroup.eq_one_iff]
+    exact ⟨generator, rfl⟩
+  have hzpTop : Subgroup.zpowers g = ⊤ :=
+    quotient_zpowers_eq_top generator dense n hn
   rw [← orderOf_eq_card_of_zpowers_eq_top hzpTop]
   exact orderOf_le_of_pow_eq_one hn hgpow
 

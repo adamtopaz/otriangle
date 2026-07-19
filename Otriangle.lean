@@ -3,6 +3,7 @@ import Otriangle.OTriangle.Core
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.ProcyclicPowerQuotient
+import Otriangle.MonoAnabelian.ResidueFiniteExtensions
 import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
