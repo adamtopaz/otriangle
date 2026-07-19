@@ -7,6 +7,7 @@ import Otriangle.MonoAnabelian.ResidueFiniteExtensions
 import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.PrincipalUnits
+import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
