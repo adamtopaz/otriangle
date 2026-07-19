@@ -2,7 +2,6 @@ import Verso
 import VersoManual
 import VersoBlueprint
 import Otriangle.MonoAnabelian.Package
-import Otriangle.MonoAnabelian.KummerComparison
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -35,7 +34,7 @@ to the colimit.  Conjugation of fixed fields commutes with both colimit maps,
 which proves equivariance of the resulting comparison.
 :::
 
-:::theorem "cyclotomic_synchronization" (parent := "integral_mono_anabelian")
+:::theorem "cyclotomic_synchronization" (parent := "integral_mono_anabelian") (lean := "Anabelian.OTriangle.LocalGaloisGroup.restrictCentralIntegerMonoid_fix_primitiveRoot, Anabelian.OTriangle.LocalGaloisGroup.restrictCentralIntegerMonoid_fix_of_pow_eq_one")
 %%%
 source := {
   document := "hoshi"
@@ -51,7 +50,9 @@ The Frobenius-like cyclotome $`\Lambda(M)` extracted from an integral pair and
 the étale-like cyclotome $`\Lambda(G)` extracted from its group admit a
 functorial equivariant synchronization.  In the integral case the index group
 $`\operatorname{Ind}^{\triangleright}` is trivial, so this is a unique natural
-isomorphism rather than a nontrivial poly-isomorphism.
+isomorphism rather than a nontrivial poly-isomorphism.  Its formal integral
+specialization is the theorem that every equivariant ambiguity fixes all
+roots of unity.
 :::
 
 :::proof "cyclotomic_synchronization" (uses := "group_theoretic_local_invariants, integral_mono_reconstruction")
@@ -64,7 +65,7 @@ torsor functorial.  Definition 5.5 says the integral index group is trivial,
 so exactly one natural synchronization remains.
 :::
 
-:::theorem "kummer_restriction" (parent := "integral_mono_anabelian")
+:::theorem "kummer_restriction" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.eq_one_of_forall_exists_pow_eq, Anabelian.OTriangle.LocalGaloisGroup.centralIntegerMonoidEquiv_eq_refl")
 %%%
 source := {
   document := "hoshi"
@@ -79,7 +80,9 @@ source := {
 The Kummer embeddings of $`M` and
 $`\mathcal O^{\triangleright}(G)` into direct-limit cohomology are injective.
 The synchronized cohomology isomorphism maps one Kummer image onto the other
-and therefore restricts to an equivariant monoid isomorphism.
+and therefore restricts to an equivariant monoid isomorphism.  Formally, the
+same integral kernel calculation is expressed by the absence of nontrivial
+infinitely divisible local units and the resulting centralizer rigidity.
 :::
 
 :::proof "kummer_restriction" (uses := "cyclotomic_synchronization, integral_mono_reconstruction")

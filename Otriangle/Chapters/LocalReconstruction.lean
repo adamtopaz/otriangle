@@ -695,7 +695,7 @@ $`f_K`, giving $`f(G_K)=f_K`.  Since $`f_K>0`, natural-number cancellation in
 $`e_Kf_K/f_K` gives $`e(G_K)=e_K`.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank, exact_group_theoretic_numerical_invariants")
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank, exact_group_theoretic_numerical_invariants") (lean := "Anabelian.OTriangle.LocalGaloisGroup.isResidueCharacteristicCandidate_iff_reciprocity, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticAbsoluteDegree_eq_residueDegreeProduct, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticResidueDegree_eq_localResidueDegree, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticRamificationIndex_eq_absoluteRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_reciprocity")
 %%%
 source := {
   document := "hoshi"
