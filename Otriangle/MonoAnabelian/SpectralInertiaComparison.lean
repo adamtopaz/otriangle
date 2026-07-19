@@ -64,6 +64,23 @@ theorem spectralPointingExtension_abelianizedGaloisMap
     rw [hg, map_mul, map_mul, map_inv]
     simp [mul_comm]
 
+/-- Reciprocity does not depend on replacing the recorded residue pointing by the canonical
+spectral pointing on the same field and algebraic closure. -/
+theorem LocalReciprocityFamily.map_spectralPointing
+    (reciprocity : LocalReciprocityFamily.{u})
+    (K : PointedMixedCharLocalField.{u}) (x : Kˣ) :
+    (reciprocity.map K).toMonoidHom x =
+      (reciprocity.map K.spectralPointing).toMonoidHom x := by
+  let E := spectralPointingExtension K
+  have hx := DFunLike.congr_fun (reciprocity.norm_naturality
+    K K.spectralPointing E) x
+  change (reciprocity.map K).toMonoidHom (E.norm x) =
+    E.abelianizedGaloisMap
+      ((reciprocity.map K.spectralPointing).toMonoidHom x) at hx
+  rw [spectralPointingExtension_norm,
+    spectralPointingExtension_abelianizedGaloisMap] at hx
+  exact hx
+
 end Anabelian.LCFT
 
 namespace Anabelian.OTriangle
@@ -95,17 +112,6 @@ theorem ClassicalRamification.inertiaSubgroup_eq_spectralPointing
     (K : PointedMixedCharLocalField.{u}) :
     ClassicalRamification.inertiaSubgroup K =
       ClassicalRamification.inertiaSubgroup K.spectralPointing := by
-  let E := spectralPointingExtension K
-  have hrec (x : Kˣ) :
-      (reciprocity.map K).toMonoidHom x =
-        (reciprocity.map K.spectralPointing).toMonoidHom x := by
-    have hx := DFunLike.congr_fun (reciprocity.norm_naturality
-      K K.spectralPointing E) x
-    change (reciprocity.map K).toMonoidHom (E.norm x) =
-      E.abelianizedGaloisMap
-        ((reciprocity.map K.spectralPointing).toMonoidHom x) at hx
-    rw [spectralPointingExtension_norm, spectralPointingExtension_abelianizedGaloisMap] at hx
-    exact hx
   have hIab : LCFT.inertiaSubgroup K =
       LCFT.inertiaSubgroup K.spectralPointing := by
     ext y
@@ -128,7 +134,7 @@ theorem ClassicalRamification.inertiaSubgroup_eq_spectralPointing
       have hyrec : y = (reciprocity.map K).toMonoidHom
           (integerUnitsToFieldUnits K u) := by
         rw [← hKu, hu]
-      rw [hyrec, hrec]
+      rw [hyrec, reciprocity.map_spectralPointing]
       rw [show integerUnitsToFieldUnits K u =
         integerUnitsToFieldUnits K.spectralPointing u by rfl]
       rw [← hSu]
@@ -152,7 +158,7 @@ theorem ClassicalRamification.inertiaSubgroup_eq_spectralPointing
       have hyrec : y = (reciprocity.map K.spectralPointing).toMonoidHom
           (integerUnitsToFieldUnits K.spectralPointing u) := by
         rw [← hSu, hu]
-      rw [hyrec, ← hrec]
+      rw [hyrec, ← reciprocity.map_spectralPointing]
       rw [show integerUnitsToFieldUnits K.spectralPointing u =
         integerUnitsToFieldUnits K u by rfl]
       rw [← hKu]
@@ -175,5 +181,45 @@ theorem LocalGaloisGroup.classicalInertiaSubgroup_eq_spectral
       G.spectralInertiaSubgroup :=
   ClassicalRamification.inertiaSubgroup_eq_spectralPointing
     reciprocity G.presentation
+
+/-- A reciprocity image of a uniformizer admits a full Galois lift which is simultaneously
+arithmetic Frobenius for the recorded residue pointing and for the canonical spectral pointing. -/
+theorem LocalGaloisGroup.exists_commonFrobeniusLift
+    (G : LocalGaloisGroup.{u}) (reciprocity : LocalReciprocityFamily.{u}) :
+    ∃ sigma : G.toProfiniteGrp,
+      G.classicalResidueGaloisMap sigma =
+          residueFrobenius G.presentation ∧
+        G.presentation.spectralResidueGaloisMap sigma =
+          residueFrobenius G.presentation.spectralPointing := by
+  let K := G.presentation
+  let pi := uniformizerUnit K
+  let y := (reciprocity.map K).toMonoidHom pi
+  obtain ⟨sigma, hsigma⟩ := QuotientGroup.mk'_surjective
+    (Subgroup.topologicalClosure (commutator G.toProfiniteGrp)) y
+  have hrecorded := (reciprocity.map K).unramifiedProjection_uniformizer
+    pi (uniformizerUnit_isUniformizer K)
+  have hclassical : G.classicalResidueGaloisMap sigma = residueFrobenius K := by
+    rw [← G.unramifiedProjection_toAbelianization]
+    change unramifiedProjection K
+      ((QuotientGroup.mk'
+        (Subgroup.topologicalClosure (commutator G.toProfiniteGrp))) sigma) = _
+    rw [hsigma]
+    exact hrecorded
+  let Gsp := LocalGaloisGroup.mk K.spectralPointing
+  have hspectralRec :=
+    (reciprocity.map K.spectralPointing).unramifiedProjection_uniformizer
+      pi (uniformizerUnit_isUniformizer K)
+  have hsigmaSp : Gsp.toAbelianization sigma =
+      (reciprocity.map K.spectralPointing).toMonoidHom pi := by
+    change (QuotientGroup.mk'
+      (Subgroup.topologicalClosure (commutator G.toProfiniteGrp))) sigma = _
+    rw [hsigma]
+    exact reciprocity.map_spectralPointing K pi
+  have hspectral : K.spectralResidueGaloisMap sigma =
+      residueFrobenius K.spectralPointing := by
+    change Gsp.classicalResidueGaloisMap sigma = _
+    rw [← Gsp.unramifiedProjection_toAbelianization, hsigmaSp]
+    exact hspectralRec
+  exact ⟨sigma, hclassical, hspectral⟩
 
 end Anabelian.OTriangle

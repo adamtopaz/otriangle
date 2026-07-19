@@ -1,6 +1,7 @@
 import Otriangle.MonoAnabelian.TameKummerExtension
 import Otriangle.MonoAnabelian.FiniteGaloisRamification
 import Otriangle.MonoAnabelian.FiniteTameRamification
+import Otriangle.MonoAnabelian.PrimeToTorsionUnits
 
 /-!
 # Ramification of the explicit Kummer extensions
@@ -378,6 +379,8 @@ theorem exists_tameKummerInertiaGenerator_tameCharacter
     IsScalarTower.of_algebraMap_eq' rfl
   letI : MulSemiringAction (L ≃ₐ[K] L) 𝒪[L] :=
     SpectralLocalField.integerMulSemiringAction K K L
+  letI : CharP (IsLocalRing.ResidueField 𝒪[L]) K.residueChar :=
+    (G.fixedFieldPointed V).residueFieldCharP
   let I := (IsLocalRing.maximalIdeal 𝒪[G.fixedField V]).inertia
     ((G.fixedField V) ≃ₐ[K] (G.fixedField V))
   have hfinrank : Module.finrank K L = n := by
@@ -437,6 +440,78 @@ theorem exists_tameKummerInertiaGenerator_tameCharacter
   refine ⟨tau, zeta, hzeta_val, ?_⟩
   exact tameCharacter_eq_residue_of_uniformizer_mul 𝒪[L] (L ≃ₐ[K] L)
     tau alphaO halpha_irred zeta halpha_mul
+
+/-- When the Kummer degree is prime to the residue characteristic, the explicit generator has
+tame character of exact order `n`. -/
+theorem exists_tameKummerInertiaGenerator_tameCharacter_isPrimitiveRoot
+    (K : PointedMixedCharLocalField.{u}) (n : ℕ) (hn : 0 < n)
+    (hcop : Nat.Coprime n K.residueChar)
+    (hroot : (primitiveRoots n K).Nonempty) :
+    let G := OTriangle.LocalGaloisGroup.mk K
+    let U := tameKummerOpenSubgroup K n hn
+    let V : G.OpenSubgroupIndex := OrderDual.toDual U
+    let L := G.fixedField V
+    letI := G.presentation.nontriviallyNormedField
+    letI := G.presentation.isUltrametricDist
+    letI := G.presentation.completeSpace
+    letI := G.fixedFieldNontriviallyNormedField V
+    letI := G.fixedFieldIsUltrametricDist V
+    letI : ValuativeRel L := G.fixedFieldValuativeRel V
+    letI : TopologicalSpace L := G.fixedFieldTopologicalSpace V
+    letI : IsNonarchimedeanLocalField L := G.fixedFieldIsNonarchimedeanLocalField V
+    letI : ValuativeExtension K L := G.fixedFieldValuativeExtensionFromPresentation V
+    letI : FiniteDimensional K L := G.fixedField_finiteDimensional V
+    letI : Algebra.IsAlgebraic K L := by infer_instance
+    letI : IsGalois K L := G.fixedField_isGalois_of_normal U
+      (tameKummerOpenSubgroup_normal K n hn)
+    letI : IsScalarTower K K L := IsScalarTower.of_algebraMap_eq' rfl
+    letI : MulSemiringAction (L ≃ₐ[K] L) 𝒪[L] :=
+      SpectralLocalField.integerMulSemiringAction K K L
+    ∃ τ : (IsLocalRing.maximalIdeal 𝒪[L]).inertia (L ≃ₐ[K] L),
+      IsPrimitiveRoot (tameCharacter 𝒪[L] (L ≃ₐ[K] L) τ) n := by
+  let G := OTriangle.LocalGaloisGroup.mk K
+  let U := tameKummerOpenSubgroup K n hn
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  let L := G.fixedField V
+  letI := G.presentation.nontriviallyNormedField
+  letI := G.presentation.isUltrametricDist
+  letI := G.presentation.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField V
+  letI := G.fixedFieldIsUltrametricDist V
+  letI : ValuativeRel L := G.fixedFieldValuativeRel V
+  letI : TopologicalSpace L := G.fixedFieldTopologicalSpace V
+  letI : IsNonarchimedeanLocalField L := G.fixedFieldIsNonarchimedeanLocalField V
+  letI : ValuativeExtension K L := G.fixedFieldValuativeExtensionFromPresentation V
+  letI : FiniteDimensional K L := G.fixedField_finiteDimensional V
+  letI : Algebra.IsAlgebraic K L := by infer_instance
+  letI : IsGalois K L := G.fixedField_isGalois_of_normal U
+    (tameKummerOpenSubgroup_normal K n hn)
+  letI : IsScalarTower K K L := IsScalarTower.of_algebraMap_eq' rfl
+  letI : MulSemiringAction (L ≃ₐ[K] L) 𝒪[L] :=
+    SpectralLocalField.integerMulSemiringAction K K L
+  letI : CharP (IsLocalRing.ResidueField 𝒪[L]) K.residueChar :=
+    (G.fixedFieldPointed V).residueFieldCharP
+  obtain ⟨tau, zeta, hzeta, htame⟩ :=
+    exists_tameKummerInertiaGenerator_tameCharacter K n hn hroot
+  have hprimK : IsPrimitiveRoot hroot.choose n :=
+    (mem_primitiveRoots hn).mp hroot.choose_spec
+  have hprimL : IsPrimitiveRoot (algebraMap K L hroot.choose) n :=
+    hprimK.map_of_injective (algebraMap K L).injective
+  let coeToField : 𝒪[L]ˣ →* L :=
+    (valuation L).valuationSubring.subtype.toMonoidHom.comp (Units.coeHom 𝒪[L])
+  have hcoeToField : Function.Injective coeToField :=
+    Subtype.coe_injective.comp Units.val_injective
+  have hprimZeta : IsPrimitiveRoot zeta n := by
+    apply IsPrimitiveRoot.of_map_of_injective (f := coeToField) _ hcoeToField
+    change IsPrimitiveRoot ((zeta : 𝒪[L]) : L) n
+    rw [hzeta]
+    exact hprimL
+  have horder := orderOf_unitsMap_residue_eq_of_coprime
+    𝒪[L] K.residueChar n zeta hn
+      (IsPrimitiveRoot.iff_orderOf.mp hprimZeta) hcop
+  refine ⟨tau, IsPrimitiveRoot.iff_orderOf.mpr ?_⟩
+  rw [htame]
+  exact horder
 
 end LCFT
 end Anabelian

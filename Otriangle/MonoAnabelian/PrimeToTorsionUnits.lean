@@ -173,6 +173,98 @@ theorem integerUnitTorsionReduction_ker
     rw [← map_pow]
     exact congrArg (integerUnitTorsionReduction K) hn
 
+/-- A unit congruent to one cannot have prime-to-characteristic finite order.  This elementary
+geometric-sum form of the unramifiedness of prime-to-`p` roots works in any local domain. -/
+theorem unit_eq_one_of_pow_eq_one_of_residue_eq_one_of_coprime
+    (R : Type*) [CommRing R] [IsDomain R] [IsLocalRing R]
+    (p n : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField R) p]
+    (u : Rˣ) (hpow : u ^ n = 1)
+    (hres : Units.map (IsLocalRing.residue R).toMonoidHom u = 1)
+    (hcop : Nat.Coprime n p) : u = 1 := by
+  let s : R := ∑ i ∈ Finset.range n, (u : R) ^ i
+  have hresu : IsLocalRing.residue R (u : R) = 1 :=
+    congrArg Units.val hres
+  have hress : IsLocalRing.residue R s = (n : IsLocalRing.ResidueField R) := by
+    simp only [s, map_sum, map_pow, hresu, one_pow, Finset.sum_const,
+      Finset.card_range, nsmul_eq_mul, Nat.cast_ofNat, mul_one]
+  have hncast : (n : IsLocalRing.ResidueField R) ≠ 0 := by
+    intro hnzero
+    have hpn : p ∣ n :=
+      (CharP.cast_eq_zero_iff (IsLocalRing.ResidueField R) p n).mp hnzero
+    exact (Fact.out : p.Prime).ne_one (hcop.symm.eq_one_of_dvd hpn)
+  have hsunit : IsUnit s :=
+    (IsLocalRing.residue_ne_zero_iff_isUnit s).mp (hress.symm ▸ hncast)
+  have hgeom : ((u : R) - 1) * s = 0 := by
+    rw [mul_geom_sum]
+    have huval : (u : R) ^ n = 1 := congrArg Units.val hpow
+    rw [huval, sub_self]
+  have huval : (u : R) = 1 := sub_eq_zero.mp
+    ((mul_eq_zero.mp hgeom).resolve_right hsunit.ne_zero)
+  exact Units.ext huval
+
+/-- Reduction preserves the exact order of any unit whose order is prime to the residue
+characteristic. -/
+theorem orderOf_unitsMap_residue_eq_of_coprime
+    (R : Type*) [CommRing R] [IsDomain R] [IsLocalRing R]
+    (p n : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField R) p]
+    (zeta : Rˣ) (hn : 0 < n) (hzeta : orderOf zeta = n)
+    (hcop : Nat.Coprime n p) :
+    orderOf (Units.map (IsLocalRing.residue R).toMonoidHom zeta) = n := by
+  let d := orderOf (Units.map (IsLocalRing.residue R).toMonoidHom zeta)
+  have hdn : d ∣ n := by
+    calc
+      d ∣ orderOf zeta :=
+        orderOf_map_dvd (Units.map (IsLocalRing.residue R).toMonoidHom) zeta
+      _ = n := hzeta
+  have hrespow : Units.map (IsLocalRing.residue R).toMonoidHom (zeta ^ d) = 1 := by
+    rw [map_pow, pow_orderOf_eq_one]
+  have hzetapow : zeta ^ n = 1 := by
+    rw [← orderOf_dvd_iff_pow_eq_one, hzeta]
+  have hpow : (zeta ^ d) ^ n = 1 := by
+    rw [pow_right_comm, hzetapow, one_pow]
+  have hzone : zeta ^ d = 1 :=
+    unit_eq_one_of_pow_eq_one_of_residue_eq_one_of_coprime
+      R p n (zeta ^ d) hpow hrespow hcop
+  have hnd : n ∣ d := by
+    rw [← hzeta]
+    exact orderOf_dvd_of_pow_eq_one hzone
+  exact Nat.dvd_antisymm hdn hnd
+
+/-- Reduction preserves the exact order of a torsion unit whose order is prime to the residue
+characteristic.  Equivalently, prime-to-`p` roots of unity do not collide modulo the maximal
+ideal. -/
+theorem orderOf_unitGroupToResidueFieldUnits_eq_of_coprime
+    (K : PointedMixedCharLocalField.{u})
+    (zeta : (valuation K).valuationSubring.unitGroup) (n : ℕ)
+    (hn : 0 < n) (hzeta : orderOf zeta = n)
+    (hcop : Nat.Coprime n K.residueChar) :
+    orderOf
+        ((valuation K).valuationSubring.unitGroupToResidueFieldUnits zeta) = n := by
+  let A := (valuation K).valuationSubring
+  let T := CommGroup.torsion A.unitGroup
+  let t : T := ⟨zeta, orderOf_pos_iff.mp (hzeta.symm ▸ hn)⟩
+  let d := orderOf (integerUnitTorsionReduction K t)
+  have hdn : d ∣ n := by
+    calc
+      d ∣ orderOf t := orderOf_map_dvd (integerUnitTorsionReduction K) t
+      _ = orderOf zeta := (Subgroup.orderOf_coe t).symm
+      _ = n := hzeta
+  have htker : t ^ d ∈ (integerUnitTorsionReduction K).ker := by
+    rw [MonoidHom.mem_ker, map_pow, pow_orderOf_eq_one]
+  rw [integerUnitTorsionReduction_ker K,
+    CommGroup.mem_primaryComponent] at htker
+  obtain ⟨a, ha⟩ := htker
+  have hpow : t ^ (d * K.residueChar ^ a) = 1 := by
+    simpa only [pow_mul] using ha
+  have hndmul : n ∣ d * K.residueChar ^ a := by
+    calc
+      n = orderOf zeta := hzeta.symm
+      _ = orderOf t := Subgroup.orderOf_coe t
+      _ ∣ d * K.residueChar ^ a := orderOf_dvd_of_pow_eq_one hpow
+  have hnd : n ∣ d :=
+    (hcop.pow_right a).dvd_mul_right.mp hndmul
+  apply Nat.dvd_antisymm hdn hnd
+
 /-- Reduction identifies the prime-to-`p` torsion quotient of local units with the residue
 field's multiplicative group. -/
 noncomputable def integerUnitPrimeToTorsionQuotientEquivResidueUnits
