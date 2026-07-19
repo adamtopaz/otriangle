@@ -2,6 +2,7 @@ import Otriangle.Basic
 import Otriangle.OTriangle.Core
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.OneField
+import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
