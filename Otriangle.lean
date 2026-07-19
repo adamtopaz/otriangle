@@ -14,6 +14,7 @@ import Otriangle.MonoAnabelian.ConjugationSystem
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
+import Otriangle.MonoAnabelian.ClassicalRamification
 import Otriangle.MonoAnabelian.ReconstructedObject
 import Otriangle.MonoAnabelian.Interface
 import Otriangle.MonoAnabelian.Transport

@@ -5,6 +5,7 @@ import Otriangle.LCFT
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
+import Otriangle.MonoAnabelian.ClassicalRamification
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -235,4 +236,37 @@ class of its image.  Hence it bijects the classes satisfying the Frobenius
 predicate.  Existence and uniqueness are invariant under this bijection, and
 uniqueness identifies the chosen classes whenever the arithmetic hypothesis
 is available on both sides.
+:::
+
+:::theorem "classical_inertia_frobenius_bridge" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input") (lean := "Anabelian.OTriangle.ClassicalRamification.inertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.unramifiedProjection_mk, Anabelian.OTriangle.ClassicalRamification.map_inertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.inertiaQuotient, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue_mk, Anabelian.OTriangle.ClassicalRamification.frobeniusClass, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientEquivResidue_frobeniusClass, Anabelian.OTriangle.ClassicalRamification.inertiaQuotientToAbelianized, Anabelian.OTriangle.ClassicalRamification.unramifiedQuotientEquiv_inertiaQuotientToAbelianized, Anabelian.OTriangle.ClassicalRamification.unramifiedQuotientEquiv_frobeniusClass")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "13--14"
+    text := some { path := "source/hoshi.txt", startLine := 489, endLine := 541 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-11.png" }
+  }]
+}
+%%%
+
+For the presented local field $`K`, classical full inertia is the kernel of
+the residue action $`G_K\to G_{\kappa_K}`.  Its image in the topological
+abelianization is exactly the abelianized inertia subgroup used in local
+reciprocity.  The quotient $`G_K/I_K` is canonically the absolute Galois
+group of the residue field, and its distinguished class is the inverse image
+of arithmetic Frobenius.  Passing this class to the abelianized unramified
+quotient still gives arithmetic Frobenius.
+:::
+
+:::proof "classical_inertia_frobenius_bridge" (uses := "local_reciprocity_input")
+The residue action is surjective, so the first isomorphism theorem identifies
+its quotient by the kernel with the residue-field Galois group.  The residue
+action factors through the topological abelianization because the target is
+abelian.  A class in the abelianization lies in the resulting kernel exactly
+when any full-group representative has trivial residue action; this proves
+that the image of full inertia is all of abelianized inertia.  Both quotient
+identifications are induced by the same residue action, hence commute on
+representatives and carry the chosen full Frobenius class to the same
+arithmetic Frobenius element.
 :::
