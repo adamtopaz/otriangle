@@ -118,10 +118,11 @@ Cyclotomic synchronization compares this with the module reconstructed from
 $`G`; restriction gives $`\kappa_{G,M}`.  Naturality of Kummer theory and of
 synchronization makes the comparison square commute.  Triviality of the
 integral index group turns the poly-isomorphism into one canonical comparison.
-Formal implementation requires continuous degree-one cohomology, the Kummer
-injection, and the cyclotomic synchronization theorem; these are not currently
-provided by Mathlib and constitute the outstanding implementation of this
-node.
+Mathlib provides a generic continuous-cohomology complex and functoriality,
+but the required Kummer injections, compatibility with the open-subgroup
+direct limit, local Brauer invariant calculation, and cyclotomic
+synchronization theorem are not available.  Formalizing those arithmetic
+results constitutes the outstanding implementation of this node.
 :::
 
 :::theorem "integral_kummer_comparison" (parent := "integral_mono_anabelian") (uses := "integral_kummer_naturality") (lean := "Anabelian.LCFT.IntegralKummerComparison, Anabelian.OTriangle.integralKummerComparisonOfHoshiComparison, Anabelian.OTriangle.integralReconstructionOfHoshiComparison")
