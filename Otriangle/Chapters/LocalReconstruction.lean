@@ -3,6 +3,7 @@ import VersoManual
 import VersoBlueprint
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.GroupTransport
+import Otriangle.MonoAnabelian.GroupInvariants
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -123,4 +124,40 @@ automorphisms is continuous for the Krull topologies.  Its inverse is
 continuous because the source is compact and the target Hausdorff.  Composing
 this identification with restricted subgroup transport gives the fixed-field
 abelianization equivalence used at every node of the reconstruction diagram.
+:::
+
+:::theorem "residue_characteristic_predicate" (parent := "integral_mono_anabelian") (uses := "topological_abelianized_transport") (lean := "Anabelian.OTriangle.GroupTheoreticInvariants.torsionFreeQuotient, Anabelian.OTriangle.GroupTheoreticInvariants.torsionFreeQuotientEquiv, Anabelian.OTriangle.GroupTheoreticInvariants.modPowerQuotient, Anabelian.OTriangle.GroupTheoreticInvariants.modPowerQuotientEquiv, Anabelian.OTriangle.GroupTheoreticInvariants.modPowerRank, Anabelian.OTriangle.GroupTheoreticInvariants.isResidueCharacteristicCandidate_congr, Anabelian.OTriangle.GroupTheoreticInvariants.torsionEquiv, Anabelian.OTriangle.GroupTheoreticInvariants.primeToTorsionQuotient, Anabelian.OTriangle.GroupTheoreticInvariants.primeToTorsionQuotientEquiv, Anabelian.OTriangle.GroupTheoreticInvariants.absoluteDegree, Anabelian.OTriangle.GroupTheoreticInvariants.residueDegree, Anabelian.OTriangle.GroupTheoreticInvariants.ramificationIndex, Anabelian.OTriangle.GroupTheoreticInvariants.ramificationIndex_congr, Anabelian.OTriangle.LocalGaloisGroup.torsionFreeAbelianization, Anabelian.OTriangle.LocalGaloisGroup.abelianizationModPowerRank, Anabelian.OTriangle.LocalGaloisGroup.IsResidueCharacteristicCandidate, Anabelian.OTriangle.LocalGaloisGroup.isResidueCharacteristicCandidate_iff, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticAbsoluteDegree, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticResidueDegree, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.groupTheoreticRamificationIndex_eq")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--20"
+    text := some { path := "source/hoshi.txt", startLine := 872, endLine := 921 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-17.png" }
+  }]
+}
+%%%
+
+For a prime $`p`, form the torsion-free quotient of $`G^{\mathrm{ab}}`
+and then quotient by its subgroup of $`p`th powers.  The predicate that
+this finite quotient have base-$`p` logarithmic cardinality at least two is
+preserved by every isomorphism of local absolute Galois groups.  Hoshi's
+Lemma 3.4 identifies the unique prime satisfying this predicate with the
+residue characteristic.  At a candidate prime, the same abelianization also
+defines $`d(G)` from the mod-power rank, $`f(G)` from prime-to-$`p` torsion,
+and $`e(G)=d(G)/f(G)`; all three expressions are invariant under group
+isomorphism.
+:::
+
+:::proof "residue_characteristic_predicate" (uses := "topological_abelianized_transport")
+An equivalence of commutative groups maps torsion onto torsion and therefore
+descends to the torsion-free quotients.  It also maps the range of the
+$`p`th-power homomorphism onto the corresponding range in the target.  The
+resulting quotient equivalence preserves cardinality, hence the logarithmic
+rank and the candidate predicate.  Equivalences likewise preserve the
+$`p`-primary component of torsion, so they preserve the prime-to-$`p`
+quotient and the formulas for absolute degree, residue degree, and
+ramification index.  The remaining local-field calculation of
+existence and uniqueness is precisely the arithmetic content of Hoshi's
+Lemma 3.4 and Proposition 3.6.
 :::
