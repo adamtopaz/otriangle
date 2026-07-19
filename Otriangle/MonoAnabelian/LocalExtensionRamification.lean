@@ -1,6 +1,7 @@
 import Otriangle.MonoAnabelian.LocalArithmeticInvariants
 import Otriangle.LCFT
 import Mathlib.NumberTheory.RamificationInertia.Ramification
+import Mathlib.RingTheory.RamificationInertia.Ramification
 
 /-!
 # Ramification indices in finite local extensions
@@ -118,6 +119,30 @@ theorem FiniteExtension.relativeRamificationIndex_eq_one_iff
     change localMaximalIdeal L ^ E.relativeRamificationIndex =
       localMaximalIdeal L ^ 1
     rw [← E.map_localMaximalIdeal_eq_pow, h, pow_one]
+
+/-- The intrinsic relative ramification index agrees with Mathlib's localization-theoretic
+ramification index of the upstairs maximal ideal.  This is the bridge from the elementary DVR
+factorization used here to the finite Galois inertia-cardinality theorem. -/
+theorem FiniteExtension.relativeRamificationIndex_eq_ramificationIdx
+    {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtension K L) :
+    letI := E.algebra
+    letI := E.valuativeExtension
+    (localMaximalIdeal L).ramificationIdx (LocalIntegerRing K) =
+      E.relativeRamificationIndex := by
+  letI := E.algebra
+  letI := E.valuativeExtension
+  rw [← Ideal.ramificationIdx'_eq_ramificationIdx
+    (p := localMaximalIdeal K) (q := localMaximalIdeal L)
+    (localMaximalIdeal_ne_bot K)]
+  apply Ideal.ramificationIdx'_spec
+  · rw [E.map_localMaximalIdeal_eq_pow]
+  · intro h
+    rw [E.map_localMaximalIdeal_eq_pow] at h
+    have heq : localMaximalIdeal L ^ E.relativeRamificationIndex =
+        localMaximalIdeal L ^ (E.relativeRamificationIndex + 1) :=
+      le_antisymm h (Ideal.pow_le_pow_right (Nat.le_succ _))
+    have := localMaximalIdeal_pow_injective L heq
+    omega
 
 /-- A finite valued extension has the same residue characteristic as its base field. -/
 theorem FiniteExtension.residueChar_eq

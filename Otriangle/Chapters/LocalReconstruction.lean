@@ -18,6 +18,7 @@ import Otriangle.MonoAnabelian.PrimeToTorsionReciprocity
 import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.LocalExtensionRamification
 import Otriangle.MonoAnabelian.FixedFieldRamification
+import Otriangle.MonoAnabelian.FiniteGaloisRamification
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
@@ -784,7 +785,7 @@ remaining comparison is the subgroup-theoretic ramification and Frobenius
 content of Hoshi's Proposition 3.6 and Lemma 3.7.
 :::
 
-:::theorem "fixed_field_ramification_indices" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, exact_group_theoretic_numerical_invariants, topological_abelianized_transport") (lean := "Anabelian.LCFT.FiniteExtension.relativeRamificationIndex, Anabelian.LCFT.FiniteExtension.map_localMaximalIdeal_eq_pow, Anabelian.LCFT.FiniteExtension.relativeRamificationIndex_pos, Anabelian.LCFT.FiniteExtension.residueChar_eq, Anabelian.LCFT.FiniteExtension.map_residueCharIdeal, Anabelian.LCFT.FiniteExtension.absoluteRamificationIndex_eq_mul, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseExtension, Anabelian.OTriangle.LocalGaloisGroup.intrinsicRamificationIndex_eq_absoluteRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIntrinsicRamificationIndex_eq_fixedField, Anabelian.OTriangle.LocalGaloisGroup.isInertiaNeighborhood_iff_relativeRamificationIndex_eq_one, Anabelian.OTriangle.LocalGaloisGroup.isWildInertiaNeighborhood_iff_relativeRamificationIndex_coprime")
+:::theorem "fixed_field_ramification_indices" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, exact_group_theoretic_numerical_invariants, topological_abelianized_transport") (lean := "Anabelian.LCFT.FiniteExtension.relativeRamificationIndex, Anabelian.LCFT.FiniteExtension.map_localMaximalIdeal_eq_pow, Anabelian.LCFT.FiniteExtension.relativeRamificationIndex_pos, Anabelian.LCFT.FiniteExtension.relativeRamificationIndex_eq_ramificationIdx, Anabelian.LCFT.FiniteExtension.residueChar_eq, Anabelian.LCFT.FiniteExtension.map_residueCharIdeal, Anabelian.LCFT.FiniteExtension.absoluteRamificationIndex_eq_mul, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldBaseExtension, Anabelian.OTriangle.LocalGaloisGroup.intrinsicRamificationIndex_eq_absoluteRamificationIndex, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIntrinsicRamificationIndex_eq_fixedField, Anabelian.OTriangle.LocalGaloisGroup.isInertiaNeighborhood_iff_relativeRamificationIndex_eq_one, Anabelian.OTriangle.LocalGaloisGroup.isWildInertiaNeighborhood_iff_relativeRamificationIndex_coprime")
 %%%
 source := {
   document := "hoshi"
@@ -824,7 +825,39 @@ Substitution of the tower law and cancellation by the positive integer $`e_K`
 give the two neighborhood characterizations.
 :::
 
-:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, fixed_field_ramification_indices") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
+:::theorem "finite_fixed_field_inertia_order" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices") (lean := "Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteInertia_card")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 900, endLine := 949 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-18.png" }
+  }]
+}
+%%%
+
+Let $`U\triangleleft G_K` be open and put $`L=\overline K^U`.  For the
+canonical spectral valuation on $`L`, the finite Galois inertia group has
+order
+$$`\# I(L/K)=e(L/K).`
+In particular $`L/K` is unramified exactly when this finite inertia group is
+trivial.  This is the finite-level bridge needed to turn the relative-index
+criterion into containment of the full inertia subgroup in $`U`.
+:::
+
+:::proof "finite_fixed_field_inertia_order" (uses := "fixed_field_ramification_indices")
+Normality of $`U` makes the fixed extension $`L/K` Galois.  The spectral
+valuation is invariant under every $`K`-automorphism, so the action restricts
+to $`\mathcal O_L` and descends to its residue field.  The integral closure
+of $`\mathcal O_K` in $`L` is $`\mathcal O_L`; finite Galois ramification
+theory therefore identifies the cardinality of the kernel of the residue
+action with Mathlib's ramification index of $`\mathfrak m_L` over
+$`\mathcal O_K`.  The maximal-ideal factorization theorem identifies that
+index with the previously constructed integer $`e(L/K)`.
+:::
+
+:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
 %%%
 source := {
   document := "hoshi"

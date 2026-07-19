@@ -21,6 +21,7 @@ import Otriangle.MonoAnabelian.PrimeToTorsionReciprocity
 import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.LocalExtensionRamification
 import Otriangle.MonoAnabelian.FixedFieldRamification
+import Otriangle.MonoAnabelian.FiniteGaloisRamification
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
