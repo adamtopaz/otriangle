@@ -5,6 +5,7 @@ import Otriangle.MonoAnabelian.OneField
 import Otriangle.MonoAnabelian.ProcyclicPowerQuotient
 import Otriangle.MonoAnabelian.ResidueFiniteExtensions
 import Otriangle.MonoAnabelian.ResidueProcyclic
+import Otriangle.MonoAnabelian.ResidueTorsionFree
 import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.PrincipalUnits
 import Otriangle.MonoAnabelian.DeepUnits
