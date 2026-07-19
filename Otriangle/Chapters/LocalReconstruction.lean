@@ -11,6 +11,7 @@ import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicFieldRank
+import Otriangle.MonoAnabelian.ResidueCharacteristicReciprocityRank
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -408,7 +409,45 @@ $`\ell` by the local multiplicative calculation, so surjectivity and this
 nontrivial image make the target cyclic of the same prime order.
 :::
 
-:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank")
+:::theorem "abelianization_residue_characteristic_rank" (parent := "integral_mono_anabelian") (uses := "local_reciprocity_input, residue_absolute_galois_torsion_free, local_multiplicative_residue_characteristic_rank, abelianization_prime_to_p_rank") (lean := "Anabelian.LCFT.integerUnitModPowerToAbelianizedModPower, Anabelian.LCFT.integerUnitModPowerToAbelianizedModPower_injective, Anabelian.LCFT.abelianizedModPowerToResidue_residueChar_surjective, Anabelian.LCFT.abelianizedModPowerToResidue_integerUnit, Anabelian.LCFT.abelianizedTorsionFreeModPowerQuotient_card_ge_residueChar_sq")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "19--20"
+    text := some { path := "source/hoshi.txt", startLine := 853, endLine := 893 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-17.png" }
+  }]
+}
+%%%
+
+At $`p=p_K`, local reciprocity preserves both the local-unit and unramified
+directions.  Consequently
+$$`p_K^2\le
+  \#\left((G_K^{\mathrm{ab}}/\operatorname{tor})/
+  p_K(G_K^{\mathrm{ab}}/\operatorname{tor})\right).`
+Together with the prime-to-$`p_K` calculation, this proves the existence and
+uniqueness portion of Hoshi's residue-characteristic predicate.
+:::
+
+:::proof "abelianization_residue_characteristic_rank" (uses := "local_reciprocity_input, residue_absolute_galois_torsion_free, local_multiplicative_residue_characteristic_rank, abelianization_prime_to_p_rank")
+Suppose a local-unit class becomes a $`p_K`th power after applying reciprocity
+and quotienting by torsion.  Lift a putative root to $`G_K^{\mathrm{ab}}`.
+Its unramified projection has a power of finite order.  Torsion-freeness of
+the residue absolute Galois group makes that projection trivial, so the root
+lies in inertia.  The units--inertia equivalence supplies a local-unit
+preimage, and injectivity of reciprocity reflects the remaining torsion
+relation back to the unit group.  Thus the unit mod-power quotient injects
+into the abelianized one.
+
+The unramified projection is surjective on mod-$`p_K` quotients because the
+uniformizer maps to Frobenius, which generates the residue quotient of order
+$`p_K`.  Local units lie in its kernel.  That kernel has at least $`p_K`
+elements, while the image has exactly $`p_K`; the kernel--image cardinality
+formula gives the claimed $`p_K^2` lower bound.
+:::
+
+:::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "abelianization_prime_to_p_rank, abelianization_residue_characteristic_rank")
 %%%
 source := {
   document := "hoshi"
