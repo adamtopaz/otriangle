@@ -6,7 +6,9 @@ set -euo pipefail
 # https://github.com/leanprover/comparator.
 #
 # Requires `landrun` and `lean4export` in PATH (or COMPARATOR_LANDRUN / COMPARATOR_LEAN4EXPORT),
-# and the comparator binary itself, located via COMPARATOR_BIN or PATH.
+# and the comparator binary itself, located via COMPARATOR_BIN or PATH.  COMPARATOR_NANODA is
+# optional and only consulted when `enable_nanoda` is set in the config.  All three COMPARATOR_*
+# overrides are forwarded into the transient systemd service below.
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
@@ -30,7 +32,17 @@ done
 # comparator to build inside the sandbox.
 lake build Otriangle.Comparator.Challenge
 
+# `systemd-run` starts the transient service with a clean environment, so every variable comparator
+# needs has to be forwarded explicitly. Without this the COMPARATOR_* overrides are dropped and
+# comparator falls back to searching PATH, failing with "could not execute external process".
+env_args=(-E "PATH=$PATH")
+for var in COMPARATOR_LANDRUN COMPARATOR_LEAN4EXPORT COMPARATOR_NANODA; do
+  if [[ -n "${!var:-}" ]]; then
+    env_args+=(-E "${var}=${!var}")
+  fi
+done
+
 # The systemd-run wrapper guards against a landrun sandbox escape; see comparator's README.
 systemd-run --property=RestrictAddressFamilies=~AF_UNIX --user --pty \
-  -E PATH="$PATH" --working-directory "$PWD" -- \
+  "${env_args[@]}" --working-directory "$PWD" -- \
   bash -c "lake env '${COMPARATOR_BIN}' '${CONFIG}'"
