@@ -474,6 +474,48 @@ theorem finiteBaseGalois_commutes
   have h := DFunLike.congr_fun hcomm (⟨x, hx⟩ : M)
   simpa [σM, τM, AlgEquiv.restrictNormal_apply] using congrArg Subtype.val h
 
+/-- Restriction of algebra automorphisms to the spectral valuation ring is faithful.  An element
+or its inverse is integral, so agreement on integral elements determines an automorphism of the
+whole field. -/
+theorem integerMulSemiringAction_faithful
+    (K E A : Type*)
+    [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    [Field E] [Algebra K E] [Algebra.IsAlgebraic K E]
+    [Field A] [Algebra K A] [Algebra.IsAlgebraic K A]
+    [Algebra E A] [IsScalarTower K E A] :
+    letI := nontriviallyNormedField K E
+    letI := isUltrametricDist K E
+    letI := valuativeRel K E
+    letI := nontriviallyNormedField K A
+    letI := isUltrametricDist K A
+    letI := valuativeRel K A
+    letI := valuativeExtension K (E := E) (A := A)
+    letI := integerMulSemiringAction K E A
+    FaithfulSMul (A ≃ₐ[E] A) 𝒪[A] := by
+  letI := nontriviallyNormedField K E
+  letI := isUltrametricDist K E
+  letI : ValuativeRel E := valuativeRel K E
+  letI := nontriviallyNormedField K A
+  letI := isUltrametricDist K A
+  letI : ValuativeRel A := valuativeRel K A
+  letI : ValuativeExtension E A := valuativeExtension K (E := E) (A := A)
+  letI : MulSemiringAction (A ≃ₐ[E] A) 𝒪[A] := integerMulSemiringAction K E A
+  constructor
+  intro σ τ h
+  apply AlgEquiv.ext
+  intro x
+  rcases (ValuationSubring.mem_or_inv_mem (valuation A).valuationSubring x) with hx | hx
+  · let y : 𝒪[A] := ⟨x, hx⟩
+    exact congrArg Subtype.val (h y)
+  · by_cases hx0 : x = 0
+    · subst x
+      simp
+    · let y : 𝒪[A] := ⟨x⁻¹, hx⟩
+      have hy := congrArg Subtype.val (h y)
+      change σ x⁻¹ = τ x⁻¹ at hy
+      rw [map_inv₀ σ x, map_inv₀ τ x] at hy
+      exact inv_injective hy
+
 end SpectralLocalField
 end OTriangle
 end Anabelian

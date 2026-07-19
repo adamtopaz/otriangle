@@ -22,6 +22,8 @@ import Otriangle.MonoAnabelian.FiniteGaloisRamification
 import Otriangle.MonoAnabelian.SpectralPointing
 import Otriangle.MonoAnabelian.SpectralInertiaComparison
 import Otriangle.MonoAnabelian.FiniteInertiaRestriction
+import Otriangle.MonoAnabelian.FiniteTameRamification
+import Otriangle.MonoAnabelian.FiniteTameFixedField
 import Otriangle.MonoAnabelian.InertiaComparison
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
@@ -919,7 +921,61 @@ supergroup of inertia that still excludes the element.  Thus intrinsic inertia
 is exactly classical inertia.
 :::
 
-:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
+:::theorem "finite_tame_character" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia") (lean := "Anabelian.OTriangle.FiniteTameRamification.tameCharacter, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_injective_of_coprime_card, Anabelian.OTriangle.FiniteTameRamification.tameCharacter_conjugate, Anabelian.OTriangle.FiniteTameRamification.conjugate_eq_pow_of_residue_frobenius, Anabelian.OTriangle.SpectralLocalField.integerMulSemiringAction_faithful, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteTameCharacter_injective")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "13--14"
+    text := some { path := "source/hoshi.txt", startLine := 527, endLine := 559 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-12.png" }
+  }]
+}
+%%%
+
+Let a finite group act faithfully on a discrete valuation ring $`R`, and let
+$`I` be the subgroup acting trivially on its residue field.  Choosing a
+uniformizer $`\pi`, reduction of the multiplier
+$`\tau(\pi)/\pi` defines the tame character
+$$`
+  \theta_\pi:I\longrightarrow \kappa_R^\times.
+`
+If the order of $`I` is prime to the residue characteristic $`p`, then
+$`\theta_\pi` is injective.  It is equivariant for conjugation and the
+residue action.  Hence an element acting on the residue field by the
+$`q`-power Frobenius conjugates every $`\tau\in I` to $`\tau^q`.
+
+For a normal finite fixed field $`L/K` in the spectral algebraic closure,
+restriction to $`\mathcal O_L` is faithful and the order of finite inertia is
+$`e(L/K)`.  Therefore Hoshi's prime-to-$`p` relative-index condition makes
+the finite fixed-field tame character injective and yields the finite tame
+conjugation relation required by Lemma 1.5.
+:::
+
+:::proof "finite_tame_character" (uses := "fixed_field_ramification_indices, finite_fixed_field_inertia")
+Write $`\tau(\pi)=\pi u_\tau`.  Multiplication of automorphisms gives
+$`u_{\tau\upsilon}=u_\tau\tau(u_\upsilon)`, and inertia acts trivially after
+reduction, so $`\tau\mapsto\overline{u_\tau}` is a homomorphism.  If
+$`\overline{u_\tau}=1`, then
+$`\tau(x)-x\in\mathfrak m^{n+1}` whenever
+$`x\in\mathfrak m^n`.  For $`r=\operatorname{ord}(\tau)` the telescoping sum
+$$`
+  \sum_{i=0}^{r-1}\tau^i(\tau(x)-x)=\tau^r(x)-x=0
+`
+and invertibility of $`r` in $`R` improve
+$`\tau(x)-x\in\mathfrak m^n` to membership in
+$`\mathfrak m^{n+1}`.  Krull intersection then gives $`\tau(x)=x` for every
+$`x`, and faithfulness gives $`\tau=1`.
+
+For arbitrary $`\sigma`, comparison of the uniformizer multipliers for
+$`\sigma\tau\sigma^{-1}` shows
+$`\theta(\sigma\tau\sigma^{-1})=\overline\sigma(\theta(\tau))`.
+If $`\overline\sigma(z)=z^q`, injectivity identifies the conjugate with
+$`\tau^q`.  At a finite fixed field the finite inertia cardinality theorem
+replaces $`|I|` by $`e(L/K)`, exactly matching the prime-to-$`p` hypothesis.
+:::
+
+:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
 %%%
 source := {
   document := "hoshi"
@@ -945,7 +1001,7 @@ Hoshi's Lemma 3.7: proving that a local absolute Galois group actually has the
 unique characterized class remains an explicit later obligation.
 :::
 
-:::proof "intrinsic_frobenius_characterization" (uses := "intrinsic_ramification_intersections")
+:::proof "intrinsic_frobenius_characterization" (uses := "intrinsic_ramification_intersections, finite_tame_character")
 The congruence
 $$`gxg^{-1}\equiv x^{p^f}\pmod {P(G,p)}`
 is preserved by a group equivalence because multiplication, inversion, powers,
@@ -1029,9 +1085,12 @@ similarly recovers wild inertia.  The tame relation
 $`\varphi\tau\varphi^{-1}=\tau^q` then gives existence and uniqueness of the
 class acting by the $`p^f`-power map and identifies it with arithmetic
 Frobenius.  These are exactly Lemma 3.4, Proposition 3.6, Lemma 3.7, and
-Proposition 3.9.  The outstanding arithmetic implementation behind the named
-Lean proposition is now confined to the wild-inertia intersection and this
-tame conjugation relation.
+Proposition 3.9.  The finite tame relation is formalized at every
+prime-to-$`p` normal fixed field.  The outstanding arithmetic implementation
+behind the named Lean proposition is now confined to passing those finite
+characters to the full tame quotient, identifying the wild-inertia
+intersection, and proving that the resulting conjugation action distinguishes
+a unique unramified class.
 :::
 
 :::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "hoshi_ramification_identification") (lean := "Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")
