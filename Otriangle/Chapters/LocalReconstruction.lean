@@ -5,6 +5,7 @@ import Otriangle.LCFT
 import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.DeepUnits
+import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -198,6 +199,36 @@ $`v(p_K)\le v(\ell)\le v(x-1)`, contradicting the defining strict inequality.
 For an arbitrary nontrivial finite-order element, raise it to the quotient of
 its order by the least prime divisor; the result has prime order and yields the
 same contradiction.
+:::
+
+:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "11--12"
+    text := some { path := "source/hoshi.txt", startLine := 380, endLine := 417 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+  }]
+}
+%%%
+
+The torsion-free quotient of $`K^\times` is not $`p_K`-divisible.  Thus, in
+contrast to every prime $`\ell\ne p_K`, the local-unit factor contributes a
+nonzero class modulo $`p_K`th powers.  This will be the second direction,
+independent of the uniformizer, in the candidate-prime calculation.
+:::
+
+:::proof "residue_characteristic_unit_direction" (uses := "deep_principal_unit_torsion_freeness")
+The deep principal-unit subgroup is open in the compact unit group.  Since its
+intersection with torsion is trivial, all torsion in $`K^\times` injects into
+a finite quotient and is therefore finite.  If a principal unit is a
+$`p_K^n`th power, repeated use of the geometric-sum identity places its
+difference from $`1` in the $`(n+1)`st power of the maximal ideal.  Hence a
+class divisible by every $`p_K^n` modulo torsion becomes torsion after raising
+to the order of the finite torsion subgroup: Krull intersection forces that
+power to equal $`1`.  Surjectivity of the $`p_K`th-power map would make every
+class infinitely divisible, contradicting the nontorsion uniformizer class.
 :::
 
 :::theorem "local_multiplicative_prime_to_p_rank" (parent := "integral_mono_anabelian") (uses := "principal_unit_prime_to_p_divisibility") (lean := "Anabelian.LCFT.fieldUnitDiscreteValuation, Anabelian.LCFT.fieldUnitDiscreteValuation_uniformizer, Anabelian.LCFT.fieldUnitDiscreteValuation_eq_one_of_isOfFinOrder, Anabelian.LCFT.uniformizer_not_pow_mod_torsion, Anabelian.LCFT.fieldUnit_eq_uniformizer_zpow_mul_torsion_mul_pow, Anabelian.LCFT.FieldTorsionFreeQuotient, Anabelian.LCFT.FieldTorsionFreeModPowerQuotient, Anabelian.LCFT.fieldUniformizerModPower, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_card_eq_prime")

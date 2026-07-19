@@ -10,6 +10,7 @@ import Otriangle.MonoAnabelian.PrincipalUnits
 import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
+import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem
