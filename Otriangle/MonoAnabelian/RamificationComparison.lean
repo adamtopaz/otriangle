@@ -444,6 +444,37 @@ theorem fixedFieldReconstructedNodeEquiv_apply_coe
       G.fixedFieldAbelianizationEquiv f U x :=
   rfl
 
+/-- Nodewise Hoshi transport along the identity ambient morphism is heterogeneously the
+identity.  The heterogeneous statement records that the transported open-subgroup index is only
+propositionally, rather than definitionally, equal to the original index. -/
+theorem fixedFieldReconstructedNodeEquiv_id_apply_heq
+    (G : LocalGaloisGroup.{u}) (U : G.OpenSubgroupIndex)
+    (reciprocity : LCFT.LocalReciprocityFamily.{u})
+    (hoshi : HoshiRamificationComparisonFamily.{u})
+    (x : reciprocity.reconstructedBaseIntegerMonoid (G.fixedFieldPointed U)) :
+    HEq (fixedFieldReconstructedNodeEquiv (CategoryStruct.id G) U
+      reciprocity hoshi x) x := by
+  apply (Subtype.heq_iff_coe_heq
+    (by rw [G.openSubgroupIndexEquiv_id_apply])
+    (by rw [G.openSubgroupIndexEquiv_id_apply])).2
+  exact G.fixedFieldAbelianizationEquiv_id_apply_heq U x.1
+
+/-- Nodewise Hoshi transport respects composition of ambient group morphisms. -/
+theorem fixedFieldReconstructedNodeEquiv_comp_apply_heq
+    {G H I : LocalGaloisGroup.{u}} (f : G ⟶ H) (g : H ⟶ I)
+    (U : G.OpenSubgroupIndex)
+    (reciprocity : LCFT.LocalReciprocityFamily.{u})
+    (hoshi : HoshiRamificationComparisonFamily.{u})
+    (x : reciprocity.reconstructedBaseIntegerMonoid (G.fixedFieldPointed U)) :
+    HEq (fixedFieldReconstructedNodeEquiv (f ≫ g) U reciprocity hoshi x)
+      (fixedFieldReconstructedNodeEquiv g
+        (G.openSubgroupIndexEquiv f U) reciprocity hoshi
+        (fixedFieldReconstructedNodeEquiv f U reciprocity hoshi x)) := by
+  apply (Subtype.heq_iff_coe_heq
+    (by rw [G.openSubgroupIndexEquiv_comp_apply f g U])
+    (by rw [G.openSubgroupIndexEquiv_comp_apply f g U])).2
+  exact G.fixedFieldAbelianizationEquiv_comp_apply_heq f g U x.1
+
 @[simp]
 theorem classicalInertiaQuotientEquivOfHoshiComparison_mk
     {G H : LocalGaloisGroup.{u}} (f : G ⟶ H)

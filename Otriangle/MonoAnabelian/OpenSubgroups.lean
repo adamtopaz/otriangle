@@ -164,6 +164,17 @@ theorem openSubgroupEquiv_id_apply_heq (G : LocalGaloisGroup.{u})
   apply (Subtype.heq_iff_coe_eq (fun y ↦ by rfl)).2
   rfl
 
+/-- Restriction of an ambient equivalence to open subgroups respects composition, up to the
+propositional equality between the two transported subgroup indices. -/
+theorem openSubgroupEquiv_comp_apply_heq {G H I : LocalGaloisGroup.{u}}
+    (f : G ⟶ H) (g : H ⟶ I) (U : G.OpenSubgroupIndex)
+    (x : (OrderDual.ofDual U).toSubgroup) :
+    HEq (G.openSubgroupEquiv (f ≫ g) U x)
+      (H.openSubgroupEquiv g (G.openSubgroupIndexEquiv f U)
+        (G.openSubgroupEquiv f U x)) := by
+  apply (Subtype.heq_iff_coe_eq (fun y ↦ by rfl)).2
+  rfl
+
 end LocalGaloisGroup
 end OTriangle
 end Anabelian

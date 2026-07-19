@@ -180,16 +180,110 @@ noncomputable def abelianizationEquiv {G H : LocalGaloisGroup.{u}} (f : G ⟶ H)
       LCFT.AbelianizedAbsoluteGaloisGroup H.presentation :=
   TopologicalAbelianization.congr f.equiv
 
+/-- An equivalence between two open subgroups induces an equivalence between the absolute Galois
+groups of their fixed fields.  Keeping the subgroup equivalence explicit is useful for coherence
+calculations in which the two indices are only propositionally equal. -/
+noncomputable def fixedFieldGroupHomOfSubgroupEquiv
+    (G H : LocalGaloisGroup.{u}) (U : G.OpenSubgroupIndex)
+    (V : H.OpenSubgroupIndex)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup) :
+    LocalGaloisGroup.mk (G.fixedFieldPointed U) ⟶
+      LocalGaloisGroup.mk (H.fixedFieldPointed V) where
+  equiv := (G.fixedFieldGaloisContinuousEquiv U).symm.trans
+    (e.trans (H.fixedFieldGaloisContinuousEquiv V))
+
 /-- At every open subgroup, a morphism restricts to a morphism between the local Galois groups of
 the corresponding fixed fields. -/
 noncomputable def fixedFieldGroupHom
     {G H : LocalGaloisGroup.{u}} (f : G ⟶ H) (U : G.OpenSubgroupIndex) :
     LocalGaloisGroup.mk (G.fixedFieldPointed U) ⟶
       LocalGaloisGroup.mk
-        (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)) where
-  equiv := (G.fixedFieldGaloisContinuousEquiv U).symm.trans
-    ((G.openSubgroupEquiv f U).trans
-      (H.fixedFieldGaloisContinuousEquiv (G.openSubgroupIndexEquiv f U)))
+        (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)) :=
+  fixedFieldGroupHomOfSubgroupEquiv G H U (G.openSubgroupIndexEquiv f U)
+    (G.openSubgroupEquiv f U)
+
+/-- If two indices in the same ambient group are equal and an explicit subgroup equivalence is
+the identity on ambient elements, then the induced fixed-field Galois equivalence is
+heterogeneously the identity on every element. -/
+theorem fixedFieldGroupHomOfSubgroupEquiv_apply_heq_of_eq
+    (G : LocalGaloisGroup.{u}) (U V : G.OpenSubgroupIndex) (hVU : V = U)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup)
+    (he : ∀ x : (OrderDual.ofDual U).toSubgroup, HEq (e x) x)
+    (σ : LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq ((fixedFieldGroupHomOfSubgroupEquiv G G U V e).equiv σ) σ := by
+  subst V
+  have he' : e = ContinuousMulEquiv.refl (OrderDual.ofDual U).toSubgroup := by
+    apply ContinuousMulEquiv.ext
+    intro x
+    exact eq_of_heq (he x)
+  subst e
+  apply heq_of_eq
+  change G.fixedFieldGaloisContinuousEquiv U
+      ((G.fixedFieldGaloisContinuousEquiv U).symm σ) = σ
+  exact (G.fixedFieldGaloisContinuousEquiv U).apply_symm_apply σ
+
+/-- The fixed-field restriction of the identity ambient morphism is heterogeneously the identity
+on elements. -/
+theorem fixedFieldGroupHom_id_apply_heq (G : LocalGaloisGroup.{u})
+    (U : G.OpenSubgroupIndex)
+    (σ : LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq ((G.fixedFieldGroupHom (𝟙 G) U).equiv σ) σ :=
+  fixedFieldGroupHomOfSubgroupEquiv_apply_heq_of_eq G U
+    (G.openSubgroupIndexEquiv (𝟙 G) U)
+    (G.openSubgroupIndexEquiv_id_apply U)
+    (G.openSubgroupEquiv (𝟙 G) U)
+    (G.openSubgroupEquiv_id_apply_heq U) σ
+
+/-- Composition for fixed-field Galois transport attached to three explicit open-subgroup
+equivalences.  The direct and composite target indices may be propositionally equal. -/
+theorem fixedFieldGroupHomOfSubgroupEquiv_comp_apply_heq_of_eq
+    (G H I : LocalGaloisGroup.{u})
+    (U : G.OpenSubgroupIndex) (V : H.OpenSubgroupIndex)
+    (W Z : I.OpenSubgroupIndex) (hZW : Z = W)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup)
+    (d : (OrderDual.ofDual V).toSubgroup ≃ₜ*
+      (OrderDual.ofDual W).toSubgroup)
+    (c : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual Z).toSubgroup)
+    (hc : ∀ x : (OrderDual.ofDual U).toSubgroup,
+      HEq (c x) (d (e x)))
+    (σ : LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq ((fixedFieldGroupHomOfSubgroupEquiv G I U Z c).equiv σ)
+      ((fixedFieldGroupHomOfSubgroupEquiv H I V W d).equiv
+        ((fixedFieldGroupHomOfSubgroupEquiv G H U V e).equiv σ)) := by
+  subst Z
+  apply heq_of_eq
+  change I.fixedFieldGaloisContinuousEquiv W
+      (c ((G.fixedFieldGaloisContinuousEquiv U).symm σ)) =
+    I.fixedFieldGaloisContinuousEquiv W
+      (d ((H.fixedFieldGaloisContinuousEquiv V).symm
+        (H.fixedFieldGaloisContinuousEquiv V
+          (e ((G.fixedFieldGaloisContinuousEquiv U).symm σ)))))
+  rw [(H.fixedFieldGaloisContinuousEquiv V).symm_apply_apply]
+  congr 1
+  exact eq_of_heq (hc ((G.fixedFieldGaloisContinuousEquiv U).symm σ))
+
+/-- Fixed-field Galois transport respects composition, with heterogeneous equality accounting for
+the propositionally equal target open-subgroup indices. -/
+theorem fixedFieldGroupHom_comp_apply_heq
+    {G H I : LocalGaloisGroup.{u}} (f : G ⟶ H) (g : H ⟶ I)
+    (U : G.OpenSubgroupIndex)
+    (σ : LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq ((G.fixedFieldGroupHom (f ≫ g) U).equiv σ)
+      ((H.fixedFieldGroupHom g (G.openSubgroupIndexEquiv f U)).equiv
+        ((G.fixedFieldGroupHom f U).equiv σ)) :=
+  fixedFieldGroupHomOfSubgroupEquiv_comp_apply_heq_of_eq G H I U
+    (G.openSubgroupIndexEquiv f U)
+    (H.openSubgroupIndexEquiv g (G.openSubgroupIndexEquiv f U))
+    (G.openSubgroupIndexEquiv (f ≫ g) U)
+    (G.openSubgroupIndexEquiv_comp_apply f g U)
+    (G.openSubgroupEquiv f U)
+    (H.openSubgroupEquiv g (G.openSubgroupIndexEquiv f U))
+    (G.openSubgroupEquiv (f ≫ g) U)
+    (G.openSubgroupEquiv_comp_apply_heq f g U) σ
 
 /-- At every open subgroup, a morphism induces an equivalence between the abelianized absolute
 Galois groups of the corresponding fixed fields. -/
@@ -199,6 +293,115 @@ noncomputable def fixedFieldAbelianizationEquiv
       LCFT.AbelianizedAbsoluteGaloisGroup
         (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)) :=
   abelianizationEquiv (G.fixedFieldGroupHom f U)
+
+/-- The abelianized fixed-field transport attached to an explicitly supplied equivalence of
+open subgroups. -/
+noncomputable def fixedFieldAbelianizationEquivOfSubgroupEquiv
+    (G H : LocalGaloisGroup.{u}) (U : G.OpenSubgroupIndex)
+    (V : H.OpenSubgroupIndex)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup) :
+    LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U) ≃*
+      LCFT.AbelianizedAbsoluteGaloisGroup (H.fixedFieldPointed V) :=
+  abelianizationEquiv (fixedFieldGroupHomOfSubgroupEquiv G H U V e)
+
+/-- If an explicit equivalence between equal open subgroups is pointwise the identity, its
+induced map on fixed-field abelianizations is heterogeneously the identity. -/
+theorem fixedFieldAbelianizationEquivOfSubgroupEquiv_apply_heq_of_eq
+    (G : LocalGaloisGroup.{u}) (U V : G.OpenSubgroupIndex) (hVU : V = U)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup)
+    (he : ∀ x : (OrderDual.ofDual U).toSubgroup, HEq (e x) x)
+    (x : LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq (fixedFieldAbelianizationEquivOfSubgroupEquiv G G U V e x) x := by
+  subst V
+  have he' : e = ContinuousMulEquiv.refl (OrderDual.ofDual U).toSubgroup := by
+    apply ContinuousMulEquiv.ext
+    intro y
+    exact eq_of_heq (he y)
+  subst e
+  have hgroup :
+      (fixedFieldGroupHomOfSubgroupEquiv G G U U
+        (ContinuousMulEquiv.refl (OrderDual.ofDual U).toSubgroup)).equiv =
+        ContinuousMulEquiv.refl
+          (LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) := by
+    apply ContinuousMulEquiv.ext
+    intro σ
+    exact (G.fixedFieldGaloisContinuousEquiv U).apply_symm_apply σ
+  apply heq_of_eq
+  change TopologicalAbelianization.congr
+      (fixedFieldGroupHomOfSubgroupEquiv G G U U
+        (ContinuousMulEquiv.refl (OrderDual.ofDual U).toSubgroup)).equiv x = x
+  rw [hgroup]
+  induction x using Quotient.inductionOn with
+  | _ σ => rfl
+
+/-- Composition for abelianized fixed-field transport attached to explicit open-subgroup
+equivalences. -/
+theorem fixedFieldAbelianizationEquivOfSubgroupEquiv_comp_apply_heq_of_eq
+    (G H I : LocalGaloisGroup.{u})
+    (U : G.OpenSubgroupIndex) (V : H.OpenSubgroupIndex)
+    (W Z : I.OpenSubgroupIndex) (hZW : Z = W)
+    (e : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual V).toSubgroup)
+    (d : (OrderDual.ofDual V).toSubgroup ≃ₜ*
+      (OrderDual.ofDual W).toSubgroup)
+    (c : (OrderDual.ofDual U).toSubgroup ≃ₜ*
+      (OrderDual.ofDual Z).toSubgroup)
+    (hc : ∀ y : (OrderDual.ofDual U).toSubgroup,
+      HEq (c y) (d (e y)))
+    (x : LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq (fixedFieldAbelianizationEquivOfSubgroupEquiv G I U Z c x)
+      (fixedFieldAbelianizationEquivOfSubgroupEquiv H I V W d
+        (fixedFieldAbelianizationEquivOfSubgroupEquiv G H U V e x)) := by
+  subst Z
+  induction x using Quotient.inductionOn with
+  | _ σ =>
+      apply heq_of_eq
+      change QuotientGroup.mk'
+          (Subgroup.topologicalClosure
+            (commutator (LCFT.AbsoluteGaloisGroup (I.fixedFieldPointed W))))
+          ((fixedFieldGroupHomOfSubgroupEquiv G I U W c).equiv σ) =
+        QuotientGroup.mk'
+          (Subgroup.topologicalClosure
+            (commutator (LCFT.AbsoluteGaloisGroup (I.fixedFieldPointed W))))
+          ((fixedFieldGroupHomOfSubgroupEquiv H I V W d).equiv
+            ((fixedFieldGroupHomOfSubgroupEquiv G H U V e).equiv σ))
+      congr 1
+      exact eq_of_heq
+        (fixedFieldGroupHomOfSubgroupEquiv_comp_apply_heq_of_eq
+          G H I U V W W rfl e d c hc σ)
+
+/-- Abelianized fixed-field transport along the identity is heterogeneously the identity. -/
+theorem fixedFieldAbelianizationEquiv_id_apply_heq
+    (G : LocalGaloisGroup.{u}) (U : G.OpenSubgroupIndex)
+    (x : LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq (G.fixedFieldAbelianizationEquiv (CategoryStruct.id G) U x) x :=
+  fixedFieldAbelianizationEquivOfSubgroupEquiv_apply_heq_of_eq G U
+    (G.openSubgroupIndexEquiv (CategoryStruct.id G) U)
+    (G.openSubgroupIndexEquiv_id_apply U)
+    (G.openSubgroupEquiv (CategoryStruct.id G) U)
+    (G.openSubgroupEquiv_id_apply_heq U) x
+
+/-- Abelianized fixed-field transport respects composition. -/
+theorem fixedFieldAbelianizationEquiv_comp_apply_heq
+    {G H I : LocalGaloisGroup.{u}} (f : G ⟶ H) (g : H ⟶ I)
+    (U : G.OpenSubgroupIndex)
+    (x : LCFT.AbelianizedAbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    HEq (G.fixedFieldAbelianizationEquiv (f ≫ g) U x)
+      (H.fixedFieldAbelianizationEquiv g
+        (G.openSubgroupIndexEquiv f U)
+        (G.fixedFieldAbelianizationEquiv f U x)) :=
+  fixedFieldAbelianizationEquivOfSubgroupEquiv_comp_apply_heq_of_eq
+    G H I U
+    (G.openSubgroupIndexEquiv f U)
+    (H.openSubgroupIndexEquiv g (G.openSubgroupIndexEquiv f U))
+    (G.openSubgroupIndexEquiv (f ≫ g) U)
+    (G.openSubgroupIndexEquiv_comp_apply f g U)
+    (G.openSubgroupEquiv f U)
+    (H.openSubgroupEquiv g (G.openSubgroupIndexEquiv f U))
+    (G.openSubgroupEquiv (f ≫ g) U)
+    (G.openSubgroupEquiv_comp_apply_heq f g U) x
 
 @[simp]
 theorem fixedFieldAbelianizationEquiv_mk

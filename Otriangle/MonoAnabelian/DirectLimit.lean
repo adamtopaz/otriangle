@@ -196,6 +196,26 @@ theorem mulEquivAlongOrderIso_mk (r : ι ≃o κ)
       (⟦⟨r i, e i x⟩⟧ : DirectLimit D fD) :=
   rfl
 
+/-- A change-of-index equivalence is the identity on the direct limit when its index map and all
+its node maps are pointwise (heterogeneously) the identity. -/
+theorem mulEquivAlongOrderIso_eq_refl
+    (r : ι ≃o ι)
+    (e : ∀ i, C i ≃* C (r i))
+    (natural : ∀ i j (h : i ≤ j),
+      (e j).toMonoidHom.comp (fC i j h) =
+        (fC (r i) (r j) (r.monotone h)).comp (e i).toMonoidHom)
+    (hr : ∀ i, r i = i)
+    (he : ∀ i (x : C i), HEq (e i x) x) :
+    mulEquivAlongOrderIso fC fC r e natural =
+      MulEquiv.refl (DirectLimit C fC) := by
+  apply MulEquiv.ext
+  intro z
+  induction z using DirectLimit.induction with
+  | _ i x =>
+      change (⟦⟨r i, e i x⟩⟧ : DirectLimit C fC) = ⟦⟨i, x⟩⟧
+      exact congrArg (fun y : Sigma C ↦ (⟦y⟧ : DirectLimit C fC))
+        (Sigma.ext (hr i) (he i x))
+
 end ChangeIndex
 
 end FilteredColimit
