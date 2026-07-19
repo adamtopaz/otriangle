@@ -201,6 +201,21 @@ noncomputable def fixedFieldAbelianizationEquiv
   abelianizationEquiv (G.fixedFieldGroupHom f U)
 
 @[simp]
+theorem fixedFieldAbelianizationEquiv_mk
+    {G H : LocalGaloisGroup.{u}} (f : G ⟶ H) (U : G.OpenSubgroupIndex)
+    (σ : LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)) :
+    G.fixedFieldAbelianizationEquiv f U
+        (QuotientGroup.mk'
+          (Subgroup.topologicalClosure
+            (commutator (LCFT.AbsoluteGaloisGroup (G.fixedFieldPointed U)))) σ) =
+      QuotientGroup.mk'
+        (Subgroup.topologicalClosure
+          (commutator (LCFT.AbsoluteGaloisGroup
+            (H.fixedFieldPointed (G.openSubgroupIndexEquiv f U)))))
+        ((G.fixedFieldGroupHom f U).equiv σ) :=
+  TopologicalAbelianization.congr_mk _ _
+
+@[simp]
 theorem abelianizationEquiv_id (G : LocalGaloisGroup.{u}) :
     abelianizationEquiv (𝟙 G) = MulEquiv.refl _ :=
   TopologicalAbelianization.congr_refl _

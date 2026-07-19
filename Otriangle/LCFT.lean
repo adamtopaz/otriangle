@@ -455,12 +455,10 @@ noncomputable def norm {K L : PointedMixedCharLocalField.{u}} (E : FiniteExtensi
   letI := E.finiteDimensional
   exact Units.map (Algebra.norm K)
 
-/-- The canonical map `Gal_L^ab → Gal_K^ab` induced by a finite extension `L/K`. At the level of
-absolute Galois groups this depends on a choice of compatible algebraic closures only up to inner
-conjugacy, so its abelianization is canonical. -/
-noncomputable def abelianizedGaloisMap {K L : PointedMixedCharLocalField.{u}}
-    (E : FiniteExtension K L) :
-    AbelianizedAbsoluteGaloisGroup L →* AbelianizedAbsoluteGaloisGroup K := by
+/-- A representative full-group map underlying restriction along `L/K`.  The choice of an
+equivalence between the two algebraic closures affects this map only by inner conjugacy. -/
+noncomputable def galoisMap {K L : PointedMixedCharLocalField.{u}}
+    (E : FiniteExtension K L) : AbsoluteGaloisGroup L →* AbsoluteGaloisGroup K := by
   letI : Algebra K L := E.algebra
   letI : FiniteDimensional K L := E.finiteDimensional
   letI : Algebra K L.algebraicClosure :=
@@ -470,10 +468,40 @@ noncomputable def abelianizedGaloisMap {K L : PointedMixedCharLocalField.{u}}
     IsAlgClosure.ofAlgebraic K L L.algebraicClosure
   let e : L.algebraicClosure ≃ₐ[K] K.algebraicClosure :=
     IsAlgClosure.equiv K L.algebraicClosure K.algebraicClosure
-  let f : AbsoluteGaloisGroup L →* AbsoluteGaloisGroup K :=
-    (AlgEquiv.autCongr e).toMonoidHom.comp (AlgEquiv.restrictScalarsHom K)
-  exact topologicalAbelianizationMap f
-    ((continuous_autCongr e).comp continuous_restrictScalars)
+  exact (AlgEquiv.autCongr e).toMonoidHom.comp (AlgEquiv.restrictScalarsHom K)
+
+/-- The representative full-group restriction map is continuous for the Krull topologies. -/
+theorem galoisMap_continuous {K L : PointedMixedCharLocalField.{u}}
+    (E : FiniteExtension K L) : Continuous E.galoisMap := by
+  letI : Algebra K L := E.algebra
+  letI : FiniteDimensional K L := E.finiteDimensional
+  letI : Algebra K L.algebraicClosure :=
+    ((algebraMap L L.algebraicClosure).comp (algebraMap K L)).toAlgebra
+  letI : IsScalarTower K L L.algebraicClosure := IsScalarTower.of_algebraMap_eq' rfl
+  letI : IsAlgClosure K L.algebraicClosure :=
+    IsAlgClosure.ofAlgebraic K L L.algebraicClosure
+  let e : L.algebraicClosure ≃ₐ[K] K.algebraicClosure :=
+    IsAlgClosure.equiv K L.algebraicClosure K.algebraicClosure
+  exact (continuous_autCongr e).comp continuous_restrictScalars
+
+/-- The canonical map `Gal_L^ab → Gal_K^ab` induced by a finite extension `L/K`. At the level of
+absolute Galois groups this depends on a choice of compatible algebraic closures only up to inner
+conjugacy, so its abelianization is canonical. -/
+noncomputable def abelianizedGaloisMap {K L : PointedMixedCharLocalField.{u}}
+    (E : FiniteExtension K L) :
+    AbelianizedAbsoluteGaloisGroup L →* AbelianizedAbsoluteGaloisGroup K :=
+  topologicalAbelianizationMap E.galoisMap E.galoisMap_continuous
+
+@[simp]
+theorem abelianizedGaloisMap_mk {K L : PointedMixedCharLocalField.{u}}
+    (E : FiniteExtension K L) (σ : AbsoluteGaloisGroup L) :
+    E.abelianizedGaloisMap
+        (QuotientGroup.mk'
+          (Subgroup.topologicalClosure (commutator (AbsoluteGaloisGroup L))) σ) =
+      QuotientGroup.mk'
+        (Subgroup.topologicalClosure (commutator (AbsoluteGaloisGroup K)))
+          (E.galoisMap σ) :=
+  rfl
 
 end FiniteExtension
 
@@ -496,6 +524,20 @@ structure LocalReciprocityFamily where
   transfer_naturality : ∀ (K L : PointedMixedCharLocalField.{u}) (E : FiniteExtension K L),
     (transferMap K L E).comp (map K).toMonoidHom =
       (map L).toMonoidHom.comp E.fieldUnitsMap
+  /-- Naturality of group-theoretic transfer under an isomorphism of finite-extension diagrams.
+  It is enough to require commutativity of the corresponding restriction square after
+  abelianization. -/
+  transfer_equiv_naturality :
+    ∀ (K L K' L' : PointedMixedCharLocalField.{u})
+      (E : FiniteExtension K L) (E' : FiniteExtension K' L')
+      (eK : AbelianizedAbsoluteGaloisGroup K ≃*
+        AbelianizedAbsoluteGaloisGroup K')
+      (eL : AbelianizedAbsoluteGaloisGroup L ≃*
+        AbelianizedAbsoluteGaloisGroup L'),
+      eK.toMonoidHom.comp E.abelianizedGaloisMap =
+          E'.abelianizedGaloisMap.comp eL.toMonoidHom →
+        eL.toMonoidHom.comp (transferMap K L E) =
+          (transferMap K' L' E').comp eK.toMonoidHom
 
 /-- Existence of the family of local reciprocity maps.  This is the sole existence statement that
 is allowed to remain as an arithmetic interface assumption. -/

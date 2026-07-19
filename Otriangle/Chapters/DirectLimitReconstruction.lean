@@ -16,6 +16,7 @@ import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.FixedFieldSystem
 import Otriangle.MonoAnabelian.FixedFieldComparison
 import Otriangle.MonoAnabelian.ConjugationSystem
+import Otriangle.MonoAnabelian.DiagramTransport
 import Otriangle.MonoAnabelian.ReconstructedObject
 
 set_option linter.hashCommand false
@@ -60,7 +61,7 @@ gives the asserted monoid equivalence, and the intrinsic definitions make it
 functorial under group isomorphisms.
 :::
 
-:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap_coe, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_surjective, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_continuous, Anabelian.OTriangle.SpectralLocalField.finiteBaseGalois_commutes, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegral, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegralAlgebra, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtensionFromPresentation, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldPointed, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtensionSystem")
+:::theorem "transfer_direct_system" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.FiniteExtension.galoisMap, Anabelian.LCFT.FiniteExtension.galoisMap_continuous, Anabelian.LCFT.FiniteExtension.abelianizedGaloisMap_mk, Anabelian.LCFT.LocalReciprocityFamily.transfer_equiv_naturality, Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap, Anabelian.LCFT.LocalReciprocityFamily.reconstructedBaseIntegerMonoidMap_coe, Anabelian.LCFT.LocalReciprocityFamily.baseIntegerMonoidEquiv_natural, Anabelian.LCFT.FiniteExtensionSystem.reconstructedDirectedSystem, Anabelian.OTriangle.LocalGaloisGroup.openSubgroupIndexEquiv, Anabelian.OTriangle.LocalGaloisGroup.fixedField_finiteDimensional, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGaloisEquiv, Anabelian.OTriangle.SpectralLocalField.isNonarchimedeanLocalField, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_surjective, Anabelian.OTriangle.SpectralLocalField.residueGaloisMap_continuous, Anabelian.OTriangle.SpectralLocalField.finiteBaseGalois_commutes, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegral, Anabelian.OTriangle.PointedMixedCharLocalField.spectralInteger_isIntegralAlgebra, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsNonarchimedeanLocalField, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldValuativeExtensionFromPresentation, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIsAlgClosure, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldPointed, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtension, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteExtensionSystem, Anabelian.OTriangle.topologicalAbelianization_mk_autCongr, Anabelian.OTriangle.LocalGaloisGroup.fixedField_abelianizedGaloisMap_mk, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldAbelianizationEquiv_abelianizedGaloisMap, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldAbelianizationEquiv_transferMap, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv_natural")
 %%%
 source := {
   document := "hoshi"
@@ -94,6 +95,14 @@ finite extensions' multiplicative groups.  It therefore preserves their
 nonnegative-valuation submonoids.  The identity and composition laws for field
 inclusions transport through the nodewise reciprocity equivalences to give the
 direct-system laws; naturality under group isomorphisms supplies functoriality.
+
+For the latter naturality, the canonical restriction map between absolute
+Galois groups of two fixed fields becomes literal subgroup inclusion after the
+fixed-field Galois identifications.  Its definition contains an arbitrary
+comparison of algebraic closures, but this contributes only inner conjugation,
+which vanishes in the topological abelianization.  The transfer naturality
+square from local reciprocity then shows that the node equivalences constructed
+from the intrinsic inertia and Frobenius data commute with every transition.
 
 Formally, a finite fixed field is equipped with the spectral norm over the
 presented local field.  The spectral norm is nonarchimedean, its norm topology
