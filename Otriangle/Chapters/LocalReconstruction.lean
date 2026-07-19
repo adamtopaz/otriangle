@@ -19,6 +19,10 @@ import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.LocalExtensionRamification
 import Otriangle.MonoAnabelian.FixedFieldRamification
 import Otriangle.MonoAnabelian.FiniteGaloisRamification
+import Otriangle.MonoAnabelian.SpectralPointing
+import Otriangle.MonoAnabelian.SpectralInertiaComparison
+import Otriangle.MonoAnabelian.FiniteInertiaRestriction
+import Otriangle.MonoAnabelian.InertiaComparison
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
 import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.ResidueUnitRank
@@ -825,7 +829,7 @@ Substitution of the tower law and cancellation by the positive integer $`e_K`
 give the two neighborhood characterizations.
 :::
 
-:::theorem "finite_fixed_field_inertia_order" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices") (lean := "Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteInertia_card")
+:::theorem "finite_fixed_field_inertia_order" (parent := "integral_mono_anabelian") (uses := "fixed_field_ramification_indices") (lean := "Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteInertia_card, Anabelian.OTriangle.PointedMixedCharLocalField.spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.spectralInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_spectralInertiaSubgroup_restrictNormalHom, Anabelian.OTriangle.LocalGaloisGroup.spectralInertiaSubgroup_le_iff_relativeRamificationIndex_eq_one")
 %%%
 source := {
   document := "hoshi"
@@ -855,9 +859,20 @@ theory therefore identifies the cardinality of the kernel of the residue
 action with Mathlib's ramification index of $`\mathfrak m_L` over
 $`\mathcal O_K`.  The maximal-ideal factorization theorem identifies that
 index with the previously constructed integer $`e(L/K)`.
+
+To compare the finite kernel with full inertia, equip the common algebraic
+closure with its spectral valuation while retaining the given valuation on
+$`K`.  Restriction sends full spectral inertia into finite inertia.  Conversely,
+lift a finite-inertia automorphism to the algebraic closure.  Its residue
+action fixes $`\kappa_L`; surjectivity of the residue action over $`L`
+supplies a correcting automorphism with the same action.  Dividing by that
+correction gives an inertial lift with the prescribed restriction.  Hence
+restriction maps full inertia onto finite inertia, while infinite Galois
+theory identifies its kernel with $`U`.  The cardinality formula therefore
+gives $`I_K\subseteq U\iff e(L/K)=1`.
 :::
 
-:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
+:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.inertiaSubgroup_eq_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.classicalInertiaSubgroup_le_iff_isInertiaNeighborhood, Anabelian.OTriangle.LocalGaloisGroup.intrinsicInertiaSubgroup_eq_classicalInertiaSubgroup")
 %%%
 source := {
   document := "hoshi"
@@ -891,6 +906,17 @@ in either intersection is preserved in both directions.  Normality follows
 because intersections of normal subgroups are normal.  Finally every
 equal-index neighborhood is a prime-to-$`p` neighborhood with relative
 factor one, proving $`P(G,p)\subseteq I(G,p)`.
+
+For the presented local group, reciprocity applied to the identity extension
+between the recorded pointing and the canonical spectral pointing identifies
+their abelianized inertia groups.  Full inertia is the inverse image of
+abelianized inertia, so the full kernels agree.  The finite restriction
+criterion above now says that intrinsic inertia neighborhoods are exactly the
+normal open subgroups containing classical inertia.  One inclusion of the
+intersections is immediate.  For the other, profinite separation supplies,
+for any element outside the closed classical inertia subgroup, an open normal
+supergroup of inertia that still excludes the element.  Thus intrinsic inertia
+is exactly classical inertia.
 :::
 
 :::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff")
@@ -996,15 +1022,16 @@ its rank and prime-to-$`p` torsion give the absolute and residue degrees.
 
 For a normal open subgroup $`N=G_L`, multiplicativity of ramification degree
 in $`L/K` shows that equality of the reconstructed ramification indices is
-equivalent to $`L/K` being unramified.  Intersecting all such $`N` recovers
-inertia.  Requiring a positive prime-to-$`p` relative factor similarly
-recovers wild inertia.  The tame relation
+equivalent to $`L/K` being unramified.  The finite-restriction and
+profinite-separation arguments now prove formally that intersecting all such
+$`N` recovers inertia.  Requiring a positive prime-to-$`p` relative factor
+similarly recovers wild inertia.  The tame relation
 $`\varphi\tau\varphi^{-1}=\tau^q` then gives existence and uniqueness of the
 class acting by the $`p^f`-power map and identifies it with arithmetic
 Frobenius.  These are exactly Lemma 3.4, Proposition 3.6, Lemma 3.7, and
-Proposition 3.9; formalizing the displayed local-unit structure and tame
-relation is the outstanding arithmetic implementation behind the named Lean
-proposition.
+Proposition 3.9.  The outstanding arithmetic implementation behind the named
+Lean proposition is now confined to the wild-inertia intersection and this
+tame conjugation relation.
 :::
 
 :::theorem "ramification_comparison_transport" (parent := "integral_mono_anabelian") (uses := "hoshi_ramification_identification") (lean := "Anabelian.OTriangle.LocalGaloisGroup.residueChar_eq_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_classicalInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.classicalFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.map_abelianizedInertiaSubgroup_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.abelianizedFrobeniusClass_map_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.mem_intrinsicBaseIntegerMonoid_iff, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicBaseIntegerMonoid_of_hoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.intrinsicBaseIntegerMonoidEquivOfHoshiComparison, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldGroupHom, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldReconstructedNodeEquiv")

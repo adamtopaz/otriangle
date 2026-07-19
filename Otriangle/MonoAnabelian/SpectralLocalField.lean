@@ -238,6 +238,25 @@ theorem spectralValuativeExtension (K : PointedMixedCharLocalField.{u})
   rw [spectralNorm_extends, spectralNorm_extends]
   exact K.norm_le_norm_iff_vle x y
 
+/-- Reconstructing the spectral valuative relation on the base field itself returns the original
+valuative relation. -/
+theorem spectralValuativeRel_self (K : PointedMixedCharLocalField.{u}) :
+    letI := K.nontriviallyNormedField
+    letI := K.isUltrametricDist
+    letI := K.completeSpace
+    SpectralLocalField.valuativeRel K K = K.valuativeRel := by
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  letI := K.completeSpace
+  let hs : ValuativeRel K := SpectralLocalField.valuativeRel K K
+  apply ValuativeRel.ext
+  funext x y
+  letI : ValuativeRel K := hs
+  have hE : @ValuativeExtension K K _ _ K.valuativeRel hs
+      (RingHom.id K).toAlgebra := by
+    exact K.spectralValuativeExtension K
+  exact propext (by simpa using hE.vle_iff_vle x y)
+
 end PointedMixedCharLocalField
 end OTriangle
 end Anabelian

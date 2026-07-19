@@ -37,12 +37,17 @@ import Otriangle.MonoAnabelian.OpenSubgroups
 import Otriangle.MonoAnabelian.FixedFields
 import Otriangle.MonoAnabelian.FieldColimit
 import Otriangle.MonoAnabelian.SpectralLocalField
+import Otriangle.MonoAnabelian.SpectralResidue
+import Otriangle.MonoAnabelian.SpectralPointing
 import Otriangle.MonoAnabelian.FixedFieldLocal
 import Otriangle.MonoAnabelian.ConjugationSystem
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
 import Otriangle.MonoAnabelian.ClassicalRamification
+import Otriangle.MonoAnabelian.SpectralInertiaComparison
+import Otriangle.MonoAnabelian.FiniteInertiaRestriction
+import Otriangle.MonoAnabelian.InertiaComparison
 import Otriangle.MonoAnabelian.RamificationComparison
 import Otriangle.MonoAnabelian.DiagramTransport
 import Otriangle.MonoAnabelian.ReconstructedObject

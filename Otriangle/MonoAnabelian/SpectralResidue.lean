@@ -142,6 +142,54 @@ noncomputable def integerMulSemiringAction :
         rfl }
   exact MulSemiringAction.compHom 𝒪[A] h
 
+/-- The kernel of the spectral residue action is the usual inertia subgroup defined by trivial
+action modulo the maximal ideal. -/
+theorem ker_residueGaloisMap_eq_inertia :
+    letI := nontriviallyNormedField K E
+    letI := isUltrametricDist K E
+    letI := valuativeRel K E
+    letI := nontriviallyNormedField K A
+    letI := isUltrametricDist K A
+    letI := valuativeRel K A
+    letI := valuativeExtension K (E := E) (A := A)
+    letI := integerMulSemiringAction K E A
+    (residueGaloisMap K E A).ker =
+      (IsLocalRing.maximalIdeal 𝒪[A]).inertia (A ≃ₐ[E] A) := by
+  letI := nontriviallyNormedField K E
+  letI := isUltrametricDist K E
+  letI : ValuativeRel E := valuativeRel K E
+  letI := nontriviallyNormedField K A
+  letI := isUltrametricDist K A
+  letI : ValuativeRel A := valuativeRel K A
+  letI : ValuativeExtension E A := valuativeExtension K (E := E) (A := A)
+  letI : MulSemiringAction (A ≃ₐ[E] A) 𝒪[A] :=
+    integerMulSemiringAction K E A
+  ext σ
+  constructor
+  · intro hσ x
+    change σ • x - x ∈ IsLocalRing.maximalIdeal 𝒪[A]
+    rw [← IsLocalRing.residue_eq_zero_iff]
+    rw [map_sub, sub_eq_zero]
+    have hmap := DFunLike.congr_fun hσ (IsLocalRing.residue 𝒪[A] x)
+    change (IsLocalRing.ResidueField.mapAlgEquiv'
+      (automorphismIntegerAlgEquiv K E A σ))
+        (IsLocalRing.residue 𝒪[A] x) = _ at hmap
+    rw [IsLocalRing.ResidueField.mapAlgEquiv'_residue] at hmap
+    exact hmap
+  · intro hσ
+    apply AlgEquiv.ext
+    intro y
+    obtain ⟨x, rfl⟩ := IsLocalRing.residue_surjective y
+    change (IsLocalRing.ResidueField.mapAlgEquiv'
+      (automorphismIntegerAlgEquiv K E A σ))
+        (IsLocalRing.residue 𝒪[A] x) = _
+    rw [IsLocalRing.ResidueField.mapAlgEquiv'_residue]
+    have hxmem := hσ x
+    change σ • x - x ∈ IsLocalRing.maximalIdeal 𝒪[A] at hxmem
+    have hz := (IsLocalRing.residue_eq_zero_iff (σ • x - x)).mpr hxmem
+    rw [map_sub, sub_eq_zero] at hz
+    exact hz
+
 /-- The action on the spectral valuation ring fixes the base valuation ring. -/
 theorem integerSMulCommClass :
     letI := nontriviallyNormedField K E

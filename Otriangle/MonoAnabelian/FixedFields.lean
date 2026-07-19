@@ -40,6 +40,32 @@ theorem fixedField_finiteDimensional (U : G.OpenSubgroupIndex) :
   rw [hfix]
   exact U'.isOpen
 
+/-- The fixed field of a normal open subgroup is Galois over the presented field. -/
+theorem fixedField_isGalois_of_normal
+    (U : OpenSubgroup G.toProfiniteGrp) (hN : U.toSubgroup.Normal) :
+    IsGalois G.presentation (G.fixedField (OrderDual.toDual U)) := by
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  let e : G.toProfiniteGrp ≃* LCFT.AbsoluteGaloisGroup G.presentation :=
+    { toFun := fun x => x
+      invFun := fun x => x
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl
+      map_mul' := fun _ _ => rfl }
+  let H : Subgroup (LCFT.AbsoluteGaloisGroup G.presentation) :=
+    U.toSubgroup.map e.toMonoidHom
+  letI : H.Normal := hN.map e.toMonoidHom e.surjective
+  have hfield : IntermediateField.fixedField H = G.fixedField V := by
+    ext x
+    simp only [IntermediateField.mem_fixedField_iff]
+    constructor
+    · intro hx f hf
+      exact hx f ⟨f, hf, rfl⟩
+    · intro hx f hf
+      obtain ⟨g, hg, rfl⟩ := hf
+      exact hx g hg
+  exact hfield ▸
+    (inferInstance : IsGalois G.presentation (IntermediateField.fixedField H))
+
 /-- An open subgroup is multiplicatively equivalent to the absolute Galois group of its fixed
 field inside the chosen algebraic closure. -/
 noncomputable def fixedFieldGaloisEquiv (U : G.OpenSubgroupIndex) :

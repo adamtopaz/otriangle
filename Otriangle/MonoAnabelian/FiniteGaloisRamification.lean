@@ -60,27 +60,8 @@ theorem fixedFieldFiniteInertia_card
   letI : FiniteDimensional G.presentation (G.fixedField V) :=
     G.fixedField_finiteDimensional V
   letI : Algebra.IsAlgebraic G.presentation (G.fixedField V) := by infer_instance
-  letI : IsGalois G.presentation (G.fixedField V) := by
-    let e : G.toProfiniteGrp ≃* LCFT.AbsoluteGaloisGroup G.presentation :=
-      { toFun := fun x => x
-        invFun := fun x => x
-        left_inv := fun _ => rfl
-        right_inv := fun _ => rfl
-        map_mul' := fun _ _ => rfl }
-    let H : Subgroup (LCFT.AbsoluteGaloisGroup G.presentation) :=
-      U.toSubgroup.map e.toMonoidHom
-    letI : H.Normal := hN.map e.toMonoidHom e.surjective
-    have hfield : IntermediateField.fixedField H = G.fixedField V := by
-      ext x
-      simp only [IntermediateField.mem_fixedField_iff]
-      constructor
-      · intro hx f hf
-        exact hx f ⟨f, hf, rfl⟩
-      · intro hx f hf
-        obtain ⟨g, hg, rfl⟩ := hf
-        exact hx g hg
-    exact hfield ▸
-      (inferInstance : IsGalois G.presentation (IntermediateField.fixedField H))
+  letI : IsGalois G.presentation (G.fixedField V) :=
+    G.fixedField_isGalois_of_normal U hN
   letI : IsScalarTower G.presentation G.presentation (G.fixedField V) :=
     IsScalarTower.of_algebraMap_eq' rfl
   letI : Fintype ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V)) :=
