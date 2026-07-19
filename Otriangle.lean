@@ -12,6 +12,7 @@ import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
+import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.TransferSystem
 import Otriangle.MonoAnabelian.DirectLimit
 import Otriangle.MonoAnabelian.FiniteExtensionSystem

@@ -7,6 +7,7 @@ import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.DeepPowerRoots
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank
+import Otriangle.MonoAnabelian.ResiduePowerQuotientFinite
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -231,7 +232,7 @@ fixed point solves $`y+H(y)=a`, and substitution into the expansion gives
 $`1+p^3a=(1+p^2y)^p`.
 :::
 
-:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial")
+:::theorem "residue_characteristic_unit_direction" (parent := "integral_mono_anabelian") (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots") (lean := "Anabelian.LCFT.deepIntegerUnitGroup, Anabelian.LCFT.deepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.fieldTorsion_finite, Anabelian.LCFT.principalUnit_pow_residueChar_pow_sub_one_mem, Anabelian.LCFT.isOfFinOrder_of_all_residueChar_power_factorizations, Anabelian.LCFT.fieldTorsionFree_pow_not_surjective_residueChar, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_nontrivial, Anabelian.LCFT.cubeDeepPrincipalUnitGroup, Anabelian.LCFT.cubeDeepIntegerUnitGroup_quotient_finite, Anabelian.LCFT.cubeDeepIntegerUnitGroup_le_powRange, Anabelian.LCFT.integerUnitsModPower_finite, Anabelian.LCFT.fieldModPowerParam_surjective, Anabelian.LCFT.fieldModPowerQuotient_finite, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_residueChar_finite")
 %%%
 source := {
   document := "hoshi"
@@ -250,7 +251,7 @@ independent of the uniformizer, in the candidate-prime calculation.
 :::
 
 :::proof "residue_characteristic_unit_direction" (uses := "deep_principal_unit_torsion_freeness, deep_residue_characteristic_power_roots")
-The deep principal-unit subgroup is open in the compact unit group.  Since its
+The torsion-free deep principal-unit subgroup is open in the compact unit group.  Since its
 intersection with torsion is trivial, all torsion in $`K^\times` injects into
 a finite quotient and is therefore finite.  If a principal unit is a
 $`p_K^n`th power, repeated use of the geometric-sum identity places its
@@ -259,6 +260,16 @@ class divisible by every $`p_K^n` modulo torsion becomes torsion after raising
 to the order of the finite torsion subgroup: Krull intersection forces that
 power to equal $`1`.  Surjectivity of the $`p_K`th-power map would make every
 class infinitely divisible, contradicting the nontorsion uniformizer class.
+
+For finiteness, use the still deeper open subgroup cut out by
+$`v(u-1)<v(p_K^3)`.  Division by $`p_K^3` followed by the contraction result
+shows that this subgroup lies in $`(\mathcal O_K^\times)^{p_K}`.  Its quotient
+in the compact unit group is finite.  Finally, a field element is a
+uniformizer power times a unit; reducing the exponent modulo $`p_K` gives a
+surjection from
+$$`\operatorname{Fin}(p_K)\times
+  \mathcal O_K^\times/(\mathcal O_K^\times)^{p_K}`
+onto $`K^\times/(K^\times)^{p_K}`, and hence onto the torsion-free quotient.
 :::
 
 :::theorem "local_multiplicative_prime_to_p_rank" (parent := "integral_mono_anabelian") (uses := "principal_unit_prime_to_p_divisibility") (lean := "Anabelian.LCFT.fieldUnitDiscreteValuation, Anabelian.LCFT.fieldUnitDiscreteValuation_uniformizer, Anabelian.LCFT.fieldUnitDiscreteValuation_eq_one_of_isOfFinOrder, Anabelian.LCFT.uniformizer_not_pow_mod_torsion, Anabelian.LCFT.fieldUnit_eq_uniformizer_zpow_mul_torsion_mul_pow, Anabelian.LCFT.FieldTorsionFreeQuotient, Anabelian.LCFT.FieldTorsionFreeModPowerQuotient, Anabelian.LCFT.fieldUniformizerModPower, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_card_eq_prime")
