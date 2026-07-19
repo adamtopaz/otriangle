@@ -19,6 +19,7 @@ import Otriangle.MonoAnabelian.ExactGroupInvariants
 import Otriangle.MonoAnabelian.LocalExtensionRamification
 import Otriangle.MonoAnabelian.FixedFieldRamification
 import Otriangle.MonoAnabelian.FiniteGaloisRamification
+import Otriangle.MonoAnabelian.UnramifiedFixedFields
 import Otriangle.MonoAnabelian.SpectralPointing
 import Otriangle.MonoAnabelian.SpectralInertiaComparison
 import Otriangle.MonoAnabelian.FiniteInertiaRestriction
@@ -877,6 +878,56 @@ theory identifies its kernel with $`U`.  The cardinality formula therefore
 gives $`I_K\subseteq U\iff e(L/K)=1`.
 :::
 
+:::theorem "canonical_unramified_fixed_fields" (parent := "integral_mono_anabelian") (uses := "finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.LocalGaloisGroup.fixedFieldIntegerIsGaloisGroup, Anabelian.OTriangle.LocalGaloisGroup.fixedFieldFiniteInertia_card_mul_residueField_finrank, Anabelian.OTriangle.LocalGaloisGroup.residueUnramifiedOpenSubgroup, Anabelian.OTriangle.LocalGaloisGroup.residueUnramifiedOpenSubgroup_normal, Anabelian.OTriangle.LocalGaloisGroup.spectralInertiaSubgroup_le_residueUnramifiedOpenSubgroup, Anabelian.OTriangle.LocalGaloisGroup.residueUnramified_relativeRamificationIndex_eq_one, Anabelian.OTriangle.LocalGaloisGroup.residueUnramified_fixedField_finrank, Anabelian.OTriangle.LocalGaloisGroup.residueUnramified_residueField_finrank, Anabelian.OTriangle.LocalGaloisGroup.residueUnramifiedResidueEmbedding, Anabelian.OTriangle.LocalGaloisGroup.residueUnramifiedResidueEmbedding_fieldRange")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 900, endLine := 976 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-19.png" }
+  }]
+}
+%%%
+
+For every $`n>0`, let $`k_n` be the unique degree-$`n` subfield of the
+chosen algebraic closure $`\overline{k_K}` of the residue field.  The inverse
+image of $`\operatorname{Gal}(\overline{k_K}/k_n)` under the spectral residue
+action is an open normal subgroup $`U_n\triangleleft G_K`.  Its fixed field
+$`K_n=\overline K^{U_n}` is unramified of degree $`n`, and reduction identifies
+its residue field with the selected subfield:
+$$`
+ [K_n:K]=[k_{K_n}:k_K]=n,
+ \qquad \operatorname{im}(k_{K_n}\hookrightarrow\overline{k_K})=k_n.
+`
+:::
+
+:::proof "canonical_unramified_fixed_fields" (uses := "finite_fixed_field_inertia_order")
+Finite-field theory embeds the standard degree-$`n` extension into
+$`\overline{k_K}`; its field range is finite Galois and has degree $`n`.
+Continuity and surjectivity of the spectral residue action show that the
+inverse image of its fixing subgroup is open and has index $`n`; normality is
+preserved by inverse image.  Since the kernel of the residue action is
+spectral inertia, that inertia lies in $`U_n`, and the finite fixed-field
+criterion gives $`e(K_n/K)=1`.
+
+For later use, the integral Galois action on every normal fixed field is
+packaged independently: its invariant subring is $`\mathcal O_K` and it is
+faithful on $`\mathcal O_L`.  The finite inertia--residue identity then gives
+$$`
+  [L:K]=\#I(L/K)[k_L:k_K].
+`
+Applying it to $`K_n`, where inertia has order one, proves that the residue
+degree is $`n`.
+
+Finally, reduction along $`K_n\hookrightarrow\overline K` gives an embedding
+$`k_{K_n}\hookrightarrow\overline{k_K}`.  Every element in its range is fixed
+by $`\operatorname{Gal}(\overline{k_K}/k_n)`: lift such a residue automorphism
+to $`G_K`, observe that the lift lies in $`U_n`, and reduce the fact that it
+fixes $`K_n`.  Thus the range is contained in $`k_n`; both fields have degree
+$`n`, so finite-dimensionality upgrades containment to equality.
+:::
+
 :::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate, finite_fixed_field_inertia_order") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup, Anabelian.OTriangle.ClassicalRamification.inertiaSubgroup_eq_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.classicalInertiaSubgroup_le_iff_isInertiaNeighborhood, Anabelian.OTriangle.LocalGaloisGroup.intrinsicInertiaSubgroup_eq_classicalInertiaSubgroup")
 %%%
 source := {
@@ -1043,7 +1094,7 @@ trivial by the geometric-sum factorization of $`X^n-1`.  Hence
 $`\theta(\tau_n)` is itself a primitive $`n`th root.
 :::
 
-:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character, explicit_tame_kummer_extensions") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff, Anabelian.LCFT.LocalReciprocityFamily.map_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.exists_commonFrobeniusLift, Anabelian.OTriangle.LocalGaloisGroup.TameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.inverse_mul_tameConjugation_trivial_of_frobeniusRepresentatives, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.intrinsicFrobeniusClass_classicalImage_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_tameConjugationFaithful")
+:::theorem "intrinsic_frobenius_characterization" (parent := "integral_mono_anabelian") (uses := "intrinsic_ramification_intersections, finite_tame_character, canonical_unramified_fixed_fields, explicit_tame_kummer_extensions") (lean := "Anabelian.OTriangle.IntrinsicRamification.inertiaQuotient, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusRepresentative, Anabelian.OTriangle.IntrinsicRamification.IsFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.HasUniqueFrobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_spec, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusRepresentative_map_iff, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv, Anabelian.OTriangle.IntrinsicRamification.inertiaQuotientEquiv_mk, Anabelian.OTriangle.IntrinsicRamification.isFrobeniusClass_map_iff, Anabelian.OTriangle.IntrinsicRamification.hasUniqueFrobeniusClass_congr, Anabelian.OTriangle.IntrinsicRamification.frobeniusClass_map, Anabelian.OTriangle.LocalGaloisGroup.HasUniqueIntrinsicFrobeniusClass, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_iff, Anabelian.LCFT.LocalReciprocityFamily.map_spectralPointing, Anabelian.OTriangle.LocalGaloisGroup.exists_commonFrobeniusLift, Anabelian.OTriangle.LocalGaloisGroup.TameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.inverse_mul_tameConjugation_trivial_of_frobeniusRepresentatives, Anabelian.OTriangle.LocalGaloisGroup.hasUniqueIntrinsicFrobeniusClass_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.intrinsicFrobeniusClass_classicalImage_of_tameConjugationFaithful, Anabelian.OTriangle.LocalGaloisGroup.hoshiRamificationComparison_of_tameConjugationFaithful")
 %%%
 source := {
   document := "hoshi"

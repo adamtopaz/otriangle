@@ -15,8 +15,103 @@ noncomputable section
 namespace Anabelian.OTriangle.LocalGaloisGroup
 
 open LCFT ValuativeRel
+open scoped Pointwise
 
 universe u
+
+/-- The finite Galois group of a normal fixed field acts faithfully on its spectral integer ring,
+with the base integer ring as invariants. -/
+theorem fixedFieldIntegerIsGaloisGroup
+    (G : LocalGaloisGroup.{u}) (U : OpenSubgroup G.toProfiniteGrp)
+    (hN : U.toSubgroup.Normal) :
+    let V : G.OpenSubgroupIndex := OrderDual.toDual U
+    letI := G.presentation.nontriviallyNormedField
+    letI := G.presentation.isUltrametricDist
+    letI := G.presentation.completeSpace
+    letI := G.fixedFieldNontriviallyNormedField V
+    letI := G.fixedFieldIsUltrametricDist V
+    letI : ValuativeRel (G.fixedField V) := G.fixedFieldValuativeRel V
+    letI : ValuativeExtension G.presentation (G.fixedField V) :=
+      G.fixedFieldValuativeExtensionFromPresentation V
+    letI : FiniteDimensional G.presentation (G.fixedField V) :=
+      G.fixedField_finiteDimensional V
+    letI : Algebra.IsAlgebraic G.presentation (G.fixedField V) := by infer_instance
+    letI : IsGalois G.presentation (G.fixedField V) :=
+      G.fixedField_isGalois_of_normal U hN
+    letI : IsScalarTower G.presentation G.presentation (G.fixedField V) :=
+      IsScalarTower.of_algebraMap_eq' rfl
+    letI : MulSemiringAction ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
+        𝒪[G.fixedField V] :=
+      SpectralLocalField.integerMulSemiringAction
+        G.presentation G.presentation (G.fixedField V)
+    IsGaloisGroup ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
+      (LocalIntegerRing G.presentation) 𝒪[G.fixedField V] := by
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  letI := G.presentation.nontriviallyNormedField
+  letI := G.presentation.isUltrametricDist
+  letI := G.presentation.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField V
+  letI := G.fixedFieldIsUltrametricDist V
+  letI : ValuativeRel (G.fixedField V) := G.fixedFieldValuativeRel V
+  letI : TopologicalSpace (G.fixedField V) := G.fixedFieldTopologicalSpace V
+  letI : IsNonarchimedeanLocalField (G.fixedField V) :=
+    G.fixedFieldIsNonarchimedeanLocalField V
+  letI : ValuativeExtension G.presentation (G.fixedField V) :=
+    G.fixedFieldValuativeExtensionFromPresentation V
+  letI : FiniteDimensional G.presentation (G.fixedField V) :=
+    G.fixedField_finiteDimensional V
+  letI : Algebra.IsAlgebraic G.presentation (G.fixedField V) := by infer_instance
+  letI : IsGalois G.presentation (G.fixedField V) :=
+    G.fixedField_isGalois_of_normal U hN
+  letI : IsScalarTower G.presentation G.presentation (G.fixedField V) :=
+    IsScalarTower.of_algebraMap_eq' rfl
+  letI : MulSemiringAction ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
+      𝒪[G.fixedField V] :=
+    SpectralLocalField.integerMulSemiringAction
+      G.presentation G.presentation (G.fixedField V)
+  refine { faithful := ?_, commutes := ?_, isInvariant := ?_ }
+  · constructor
+    intro sigma tau h
+    apply (inferInstance : FaithfulSMul
+      ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
+      (G.fixedField V)).eq_of_smul_eq_smul
+    intro x
+    obtain ⟨a, b, hb, hx⟩ := IsFractionRing.div_surjective 𝒪[G.fixedField V] x
+    change sigma x = tau x
+    rw [← hx, map_div₀, map_div₀]
+    change sigma (a : G.fixedField V) / sigma (b : G.fixedField V) =
+      tau (a : G.fixedField V) / tau (b : G.fixedField V)
+    have ha := congrArg Subtype.val (h a)
+    have hb' := congrArg Subtype.val (h b)
+    change sigma (a : G.fixedField V) = tau (a : G.fixedField V) at ha
+    change sigma (b : G.fixedField V) = tau (b : G.fixedField V) at hb'
+    rw [ha, hb']
+  · constructor
+    intro sigma a b
+    apply Subtype.ext
+    change sigma (((a • b : 𝒪[G.fixedField V]) : G.fixedField V)) =
+      ((a • (sigma • b) : 𝒪[G.fixedField V]) : G.fixedField V)
+    simp only [Algebra.smul_def]
+    change sigma (algebraMap G.presentation (G.fixedField V) (a : G.presentation) *
+        (b : G.fixedField V)) =
+      algebraMap G.presentation (G.fixedField V) (a : G.presentation) *
+        sigma (b : G.fixedField V)
+    rw [map_mul, sigma.commutes]
+  · constructor
+    intro b hb
+    have hbfield : ∀ sigma : (G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V),
+        sigma (b : G.fixedField V) = b := fun sigma => congrArg Subtype.val (hb sigma)
+    obtain ⟨a, ha⟩ := Algebra.IsInvariant.isInvariant
+      (A := G.presentation) (B := G.fixedField V) (b : G.fixedField V) hbfield
+    have haint : valuation G.presentation a ≤ 1 := by
+      rw [← (valuation G.presentation).vle_one_iff]
+      rw [← ValuativeExtension.vle_iff_vle
+        (A := G.presentation) (B := G.fixedField V), map_one]
+      rw [(valuation (G.fixedField V)).vle_one_iff, ha]
+      exact b.property
+    refine ⟨⟨a, haint⟩, ?_⟩
+    apply Subtype.ext
+    exact ha
 
 /-- The order of the inertia group of a normal finite fixed field is its relative ramification
 index.  The Galois action and both valuation rings here are the canonical spectral ones built
@@ -163,5 +258,80 @@ theorem fixedFieldFiniteInertia_card
           ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
     _ = E.relativeRamificationIndex :=
       E.relativeRamificationIndex_eq_ramificationIdx
+
+/-- For a normal finite fixed field, the extension degree is the product of inertia order and
+residue degree. -/
+theorem fixedFieldFiniteInertia_card_mul_residueField_finrank
+    (G : LocalGaloisGroup.{u}) (U : OpenSubgroup G.toProfiniteGrp)
+    (hN : U.toSubgroup.Normal) :
+    let V : G.OpenSubgroupIndex := OrderDual.toDual U
+    letI := G.presentation.nontriviallyNormedField
+    letI := G.presentation.isUltrametricDist
+    letI := G.presentation.completeSpace
+    letI := G.fixedFieldNontriviallyNormedField V
+    letI := G.fixedFieldIsUltrametricDist V
+    letI : ValuativeRel (G.fixedField V) := G.fixedFieldValuativeRel V
+    letI : ValuativeExtension G.presentation (G.fixedField V) :=
+      G.fixedFieldValuativeExtensionFromPresentation V
+    letI : FiniteDimensional G.presentation (G.fixedField V) :=
+      G.fixedField_finiteDimensional V
+    letI : Algebra.IsAlgebraic G.presentation (G.fixedField V) := by infer_instance
+    letI : IsGalois G.presentation (G.fixedField V) :=
+      G.fixedField_isGalois_of_normal U hN
+    letI : IsScalarTower G.presentation G.presentation (G.fixedField V) :=
+      IsScalarTower.of_algebraMap_eq' rfl
+    letI : MulSemiringAction ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))
+        𝒪[G.fixedField V] :=
+      SpectralLocalField.integerMulSemiringAction
+        G.presentation G.presentation (G.fixedField V)
+    Nat.card ((IsLocalRing.maximalIdeal 𝒪[G.fixedField V]).inertia
+        ((G.fixedField V) ≃ₐ[G.presentation] (G.fixedField V))) *
+      Module.finrank (LocalResidueField G.presentation)
+        (IsLocalRing.ResidueField 𝒪[G.fixedField V]) =
+      Module.finrank G.presentation (G.fixedField V) := by
+  let V : G.OpenSubgroupIndex := OrderDual.toDual U
+  let K := G.presentation
+  let L := G.fixedField V
+  letI := K.nontriviallyNormedField
+  letI := K.isUltrametricDist
+  letI := K.completeSpace
+  letI := G.fixedFieldNontriviallyNormedField V
+  letI := G.fixedFieldIsUltrametricDist V
+  letI : ValuativeRel L := G.fixedFieldValuativeRel V
+  letI : TopologicalSpace L := G.fixedFieldTopologicalSpace V
+  letI : IsNonarchimedeanLocalField L := G.fixedFieldIsNonarchimedeanLocalField V
+  letI : ValuativeExtension K L := G.fixedFieldValuativeExtensionFromPresentation V
+  letI : FiniteDimensional K L := G.fixedField_finiteDimensional V
+  letI : Algebra.IsAlgebraic K L := by infer_instance
+  letI : IsGalois K L := G.fixedField_isGalois_of_normal U hN
+  letI : IsScalarTower K K L := IsScalarTower.of_algebraMap_eq' rfl
+  letI : Fintype (L ≃ₐ[K] L) := AlgEquiv.fintype K L
+  letI : MulSemiringAction (L ≃ₐ[K] L) 𝒪[L] :=
+    SpectralLocalField.integerMulSemiringAction K K L
+  letI : IsGaloisGroup (L ≃ₐ[K] L) (LocalIntegerRing K) 𝒪[L] :=
+    G.fixedFieldIntegerIsGaloisGroup U hN
+  let p := localMaximalIdeal K
+  let P := IsLocalRing.maximalIdeal 𝒪[L]
+  let I := P.inertia (L ≃ₐ[K] L)
+  letI : P.LiesOver p :=
+    ⟨(IsLocalRing.maximalIdeal_comap
+      (algebraMap (LocalIntegerRing K) 𝒪[L])).symm⟩
+  letI : Finite (LocalIntegerRing K ⧸ p) := by
+    change Finite (LocalResidueField K)
+    infer_instance
+  letI : Finite p.ResidueField := inferInstance
+  letI : PerfectField p.ResidueField := inferInstance
+  have hstab : MulAction.stabilizer (L ≃ₐ[K] L) P = ⊤ := by
+    apply (Subgroup.eq_top_iff' _).mpr
+    intro sigma
+    change sigma • P = P
+    apply IsLocalRing.eq_maximalIdeal
+    exact Ideal.map_isMaximal_of_equiv
+      (MulSemiringAction.toRingEquiv (L ≃ₐ[K] L) 𝒪[L] sigma)
+  have hfund := Ideal.card_stabilizer_eq_card_inertia_mul_finrank
+    (G := L ≃ₐ[K] L) p P
+  rw [hstab, Subgroup.card_top, Ideal.inertiaDeg_eq_of_isMaximal p P,
+    IsGalois.card_aut_eq_finrank K L] at hfund
+  exact hfund.symm
 
 end Anabelian.OTriangle.LocalGaloisGroup
