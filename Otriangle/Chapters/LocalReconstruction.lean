@@ -134,7 +134,7 @@ a contradiction.  The surviving Frobenius class has order $`\ell` and
 generates the quotient.
 :::
 
-:::theorem "principal_unit_prime_to_p_divisibility" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.principalUnit_pow_surjective_of_ne_residueChar")
+:::theorem "principal_unit_prime_to_p_divisibility" (parent := "integral_mono_anabelian") (lean := "Anabelian.LCFT.principalUnit_pow_surjective_of_ne_residueChar, Anabelian.LCFT.residueUnit_has_torsion_lift, Anabelian.LCFT.integerUnit_eq_torsion_mul_pow, Anabelian.LCFT.IntegerUnitTorsionFreeQuotient, Anabelian.LCFT.integerUnitTorsionFree_pow_surjective_of_ne_residueChar")
 %%%
 source := {
   document := "hoshi"
@@ -149,7 +149,10 @@ source := {
 For every prime $`\ell\ne p_K`, the $`\ell`th-power endomorphism of the
 principal-unit group $`U_K^1` is surjective.  This supplies the
 prime-to-$`p_K` divisibility input in the decomposition of $`K^\times` from
-Hoshi's Lemma 1.2: no prime-to-$`p_K` rank can arise from principal units.
+Hoshi's Lemma 1.2.  Hensel lifting also supplies a torsion lift of every
+nonzero residue class.  Consequently every local unit is a torsion unit times
+an $`\ell`th power, and the torsion-free unit quotient is
+$`\ell`-divisible: no prime-to-$`p_K` rank arises from local units.
 :::
 
 :::proof "principal_unit_prime_to_p_divisibility"
@@ -158,7 +161,9 @@ $`X^\ell-u` at $`X=1`.  Its value at $`1` lies in the maximal ideal, while
 its derivative there is $`\ell`, which is a unit because
 $`\ell\ne p_K`.  The lifted root remains congruent to $`1` modulo the
 maximal ideal, so it is itself a principal unit and its $`\ell`th power is
-$`u`.
+$`u`.  Applying the same argument to $`X^{q_K-1}-1` lifts each residue-field
+unit to a root of unity.  Divide an arbitrary local unit by that torsion lift;
+the quotient is principal and hence an $`\ell`th power by the first step.
 :::
 
 :::theorem "group_theoretic_local_invariants" (parent := "integral_mono_anabelian") (uses := "unramified_torsion_free_rank, principal_unit_prime_to_p_divisibility")
