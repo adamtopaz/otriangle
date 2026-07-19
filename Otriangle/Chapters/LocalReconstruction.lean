@@ -4,6 +4,7 @@ import VersoBlueprint
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
+import Otriangle.MonoAnabelian.IntrinsicRamification
 
 set_option linter.hashCommand false
 set_option linter.style.emptyLine false
@@ -160,4 +161,40 @@ quotient and the formulas for absolute degree, residue degree, and
 ramification index.  The remaining local-field calculation of
 existence and uniqueness is precisely the arithmetic content of Hoshi's
 Lemma 3.4 and Proposition 3.6.
+:::
+
+:::theorem "intrinsic_ramification_intersections" (parent := "integral_mono_anabelian") (uses := "residue_characteristic_predicate") (lean := "Anabelian.OTriangle.IntrinsicRamification.ramificationIndex, Anabelian.OTriangle.IntrinsicRamification.ramificationIndex_congr, Anabelian.OTriangle.IntrinsicRamification.IsInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.IsWildInertiaNeighborhood, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.inertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_normal, Anabelian.OTriangle.IntrinsicRamification.wildInertiaSubgroup_le_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.isInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.isWildInertiaNeighborhood_map_iff, Anabelian.OTriangle.IntrinsicRamification.map_inertiaSubgroup, Anabelian.OTriangle.IntrinsicRamification.map_wildInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicInertiaSubgroup, Anabelian.OTriangle.LocalGaloisGroup.map_intrinsicWildInertiaSubgroup")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "20--21"
+    text := some { path := "source/hoshi.txt", startLine := 900, endLine := 949 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-18.png" }
+  }]
+}
+%%%
+
+At a prime candidate $`p`, define $`I(G,p)` as the intersection of the
+normal open subgroups $`N` with $`e(N,p)=e(G,p)`.  Define $`P(G,p)` as the
+intersection of the normal open subgroups for which
+$`e(N,p)=e(G,p)q` for a positive integer $`q` prime to $`p`.  Both
+intersections are normal, and $`P(G,p)\subseteq I(G,p)`.
+
+Every continuous group equivalence $`G\simeq H` carries these subgroups
+exactly onto $`I(H,p)` and $`P(H,p)`.  This is the fully intrinsic,
+presentation-independent part of Definition 3.5(iii).  The later arithmetic
+identification with classical inertia and wild inertia is kept separate.
+:::
+
+:::proof "intrinsic_ramification_intersections" (uses := "residue_characteristic_predicate")
+Transport an open subgroup along a continuous equivalence and restrict the
+equivalence to that subgroup.  Functoriality of topological abelianization
+and invariance of $`e(-,p)` show that the equal-index and prime-to-$`p`
+conditions are each preserved and reflected.  Transport therefore gives a
+bijection between the respective families being intersected, so membership
+in either intersection is preserved in both directions.  Normality follows
+because intersections of normal subgroups are normal.  Finally every
+equal-index neighborhood is a prime-to-$`p` neighborhood with relative
+factor one, proving $`P(G,p)\subseteq I(G,p)`.
 :::
