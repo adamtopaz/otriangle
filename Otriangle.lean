@@ -10,6 +10,8 @@ import Otriangle.MonoAnabelian.UnramifiedTorsionFree
 import Otriangle.MonoAnabelian.PrincipalUnits
 import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.DeepPowerRoots
+import Otriangle.MonoAnabelian.LocalArithmeticInvariants
+import Otriangle.MonoAnabelian.PrincipalCongruence
 import Otriangle.MonoAnabelian.MultiplicativeRank
 import Otriangle.MonoAnabelian.ReciprocityRank
 import Otriangle.MonoAnabelian.ResidueCharacteristicRank

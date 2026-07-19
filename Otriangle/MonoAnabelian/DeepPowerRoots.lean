@@ -228,4 +228,16 @@ theorem one_add_residueChar_cube_is_pow
   rw [deepRootCorrection_identity]
   rw [hy]
 
+/-- A strengthened form of `one_add_residueChar_cube_is_pow` which records that the chosen root
+is itself congruent to one modulo `p²`. -/
+theorem one_add_residueChar_cube_is_pow_of_one_add_square
+    (K : PointedMixedCharLocalField.{u})
+    (a : (valuation K).integer) :
+    ∃ y : (valuation K).integer,
+      (1 + (K.residueChar : (valuation K).integer) ^ 2 * y) ^ K.residueChar =
+        1 + (K.residueChar : (valuation K).integer) ^ 3 * a := by
+  obtain ⟨y, hy⟩ := exists_deepRootSolution K a
+  refine ⟨y, ?_⟩
+  rw [deepRootCorrection_identity, hy]
+
 end Anabelian.LCFT
