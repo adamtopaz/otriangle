@@ -4,6 +4,7 @@ import VersoBlueprint
 import Otriangle.LCFT
 import Otriangle.MonoAnabelian.ResidueProcyclic
 import Otriangle.MonoAnabelian.UnramifiedTorsionFree
+import Otriangle.MonoAnabelian.DeepUnits
 import Otriangle.MonoAnabelian.GroupTransport
 import Otriangle.MonoAnabelian.GroupInvariants
 import Otriangle.MonoAnabelian.IntrinsicRamification
@@ -164,6 +165,39 @@ maximal ideal, so it is itself a principal unit and its $`\ell`th power is
 $`u`.  Applying the same argument to $`X^{q_K-1}-1` lifts each residue-field
 unit to a root of unity.  Divide an arbitrary local unit by that torsion lift;
 the quotient is principal and hence an $`\ell`th power by the first step.
+:::
+
+:::theorem "deep_principal_unit_torsion_freeness" (parent := "integral_mono_anabelian") (uses := "principal_unit_prime_to_p_divisibility") (lean := "Anabelian.LCFT.valuation_natCast_le_one, Anabelian.LCFT.residueChar_cast_valuation_lt_one, Anabelian.LCFT.residueCharValuation_le_primeCastValuation, Anabelian.LCFT.deepPrincipalUnitGroup, Anabelian.LCFT.deepPrincipalUnit_prime_pow_eq_one, Anabelian.LCFT.deepPrincipalUnit_eq_one_of_isOfFinOrder, Anabelian.LCFT.deepPrincipalUnitGroup_isMulTorsionFree")
+%%%
+source := {
+  document := "hoshi"
+  spans := #[{
+    page := "11--12"
+    text := some { path := "source/hoshi.txt", startLine := 380, endLine := 417 }
+    pdf := some { path := "source/hoshi.pdf", image := "source/hoshi-page-09.png" }
+  }]
+}
+%%%
+
+The sufficiently deep principal units
+$$`U_K^{>p}=\{x\in K^\times\mid v(x-1)<v(p_K)\}`
+form a torsion-free subgroup.  This isolates a neighborhood of $`1` on which
+passing from $`K^\times` to its quotient by torsion loses no information.  It
+is the torsion-control input for the residue-characteristic direction of
+Hoshi's mod-power rank calculation.
+:::
+
+:::proof "deep_principal_unit_torsion_freeness"
+Suppose $`x\in U_K^{>p}` has prime order $`\ell`.  In the valuation ring, the
+geometric sum $`S=1+x+\cdots+x^{\ell-1}` vanishes, since
+$`S(x-1)=x^\ell-1=0` and $`x\ne1`.  Reducing modulo the principal ideal
+$`(x-1)` shows that $`\ell\in(x-1)`, hence
+$`v(\ell)\le v(x-1)`.  But the residue characteristic has the least valuation
+among prime casts, so
+$`v(p_K)\le v(\ell)\le v(x-1)`, contradicting the defining strict inequality.
+For an arbitrary nontrivial finite-order element, raise it to the quotient of
+its order by the least prime divisor; the result has prime order and yields the
+same contradiction.
 :::
 
 :::theorem "local_multiplicative_prime_to_p_rank" (parent := "integral_mono_anabelian") (uses := "principal_unit_prime_to_p_divisibility") (lean := "Anabelian.LCFT.fieldUnitDiscreteValuation, Anabelian.LCFT.fieldUnitDiscreteValuation_uniformizer, Anabelian.LCFT.fieldUnitDiscreteValuation_eq_one_of_isOfFinOrder, Anabelian.LCFT.uniformizer_not_pow_mod_torsion, Anabelian.LCFT.fieldUnit_eq_uniformizer_zpow_mul_torsion_mul_pow, Anabelian.LCFT.FieldTorsionFreeQuotient, Anabelian.LCFT.FieldTorsionFreeModPowerQuotient, Anabelian.LCFT.fieldUniformizerModPower, Anabelian.LCFT.fieldTorsionFreeModPowerQuotient_card_eq_prime")
